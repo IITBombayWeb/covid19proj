@@ -26,16 +26,19 @@ var ilist = [
 
     
 ilen = ilist.length;
-ihtml = "<ul>";
+np = 100;
+ihtml = "Estimates for " + np + " persons. <ul>";
 
 for (i=0;i<ilen;i++) {
     ihtml += "<li>" +
 	ilist[i].name +
-	" = " + ilist[i].estimateFor((i+1)*20) +
+	" = " + ilist[i].estimateFor(np) +
 	" " + ilist[i].units +
 	"</li>";
 }
 
 ihtml += "</ol>";
+
+
 
 document.getElementById("inventory").innerHTML = ihtml;
