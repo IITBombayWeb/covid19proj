@@ -25,10 +25,10 @@ export class PredectionService {
     return forkJoin([response1, response2,response3]);
   }
 public getTableData(np:number,ilist){
-  let rVal =[];
-
+  let rVal:any= [];
+ 
   for (let i=0;i<ilist.length;i++) {
-   
+    rVal[i] = []
     for(let j=0;j<ilist[i].map.length;j++){
   
       ilist[i].map[j].estimate =   ilist[i].map[j].efun(np) ;
@@ -91,5 +91,14 @@ public ppe(){
      new TableData("Suction catheter",function(n){ return Math.ceil(n*fc);})
    ];
    
+ }
+
+ public Tdata(){
+   return [
+    {id:"ppe", name: 'Persons and Protective Equipment', type: '',map: this.ppe()} ,
+    {id:"med_eqt", name: 'Medical Equipment',  type: '',map:this.med_equ()},
+    {id:"med_consu", name: 'Medical Consumables',  type: '',map: this.med_con()},
+  ];
+
  }
 }

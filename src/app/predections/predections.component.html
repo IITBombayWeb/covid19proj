@@ -25,16 +25,16 @@
    
   </mat-card>
 </mat-grid-tile>
-<mat-grid-tile  class="tab-tile"style="margin-left: 10px;" *ngFor="let D of DataTBL;let i=index" colspan='2' id="table-{{D.id}}"> 
-
-
-
+<mat-grid-tile  class="tab-tile"style="margin-left: 10px;" *ngFor="let D1 of DataTBL[D.id];let i=index" colspan='2' id="table-{{D.id}}"> 
+  <mat-card  class="card-table" *ngIf="i==0 && Ndistrict[D.id] " >
+  <h3>{{Ndistrict[D.id]}}</h3>
+      <h3>{{Nstate[D.id]}}</h3>
+  </mat-card>
     <mat-card  class="card-table" >
-      <h3>{{D.name}}</h3>
-      <h3>{{Ndistrict.name}}</h3>
-      <h3>{{Nstate.name}}</h3>
+      <h3>{{D1.name}}</h3>
    
-            <table mat-table  [dataSource]="dataSource[i]" class="mat-elevation-z8">
+   
+            <table  mat-table  [dataSource]="dataSource[D.id][i]" class="mat-elevation-z8">
 
         
               <ng-container matColumnDef="name">

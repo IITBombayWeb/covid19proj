@@ -45,8 +45,8 @@ export class PredectionsComponent implements OnInit{
     district: 'NAME_2',
   };
   displayedColumns: string[] = ['name', 'estimate', 'units'];
-  Ndistrict:TableHead ={name:''};
-  Nstate:TableHead ={name:''};
+  Ndistrict:TableHead[] =[];
+  Nstate:TableHead[] =[];
   tiles: Tile[] = [
     {text: '0', cols: 1, rows: 1, color: ' rgb(246, 238, 234)'},
     {text: '1 - 10', cols: 1, rows: 1, color: 'rgb(253, 213, 195)'},
@@ -60,7 +60,7 @@ export class PredectionsComponent implements OnInit{
   dataSource = this.ELEMENT_DATA;
 
   DataMp: DataMap[];
-  DataTBL: DataMap[];
+  DataTBL:any[]=[];
   ctx:any;
   public responseData:any=[];
   public responseData1: any;
@@ -68,6 +68,7 @@ export class PredectionsComponent implements OnInit{
   breakpoint: number;
   def_list:number=100;
   max_number:any=[];
+  max_number2:any=[];
   constructor(private http: HttpClient,private ps: PredectionService) { }
   ngOnInit(): void {
     this.DataMp= [
@@ -76,22 +77,16 @@ export class PredectionsComponent implements OnInit{
       {id:"week_3", name: 'Week 3',  type: 'week3',map:this.getDate(14)},
     ];
 
-    this.DataTBL= [
-      {id:"ppe", name: 'Persons and Protective Equipment', type: '',map: this.ps.ppe()} ,
-      {id:"med_eqt", name: 'Medical Equipment',  type: '',map:this.ps.med_equ()},
-      {id:"med_consu", name: 'Medical Consumables',  type: '',map: this.ps.med_con()},
-    ];
-
-   
-    this.breakpoint = (window.innerWidth <= 900) ? 3 : this.DataTBL.length*2 + 3;
+  
+    
+    this.breakpoint = (window.innerWidth <= 900) ? 3 : this.ps.Tdata().length*2 + 3;
     
     this.ps.requestDataFromMultipleSources().subscribe(responseList => {
       this.responseData['data'] = responseList[0];
       this.getMAx()
       const data =  d3.json("assets/india-districts.json");
       const  data2 =   d3.json("assets/ne_10m_admin_0_Kashmir_Occupied.json");
-      this.dataSource =  this.ps.getTableData(this.def_list, this.DataTBL);
-      
+     
      this.renderView(data,data2);
  
   });
@@ -132,8 +127,12 @@ export class PredectionsComponent implements OnInit{
      } 
     return max;
   }
+
+  
   renderView(data,data2){
     for(let i=0 ; i< this.DataMp.length;i++){
+
+    
     let projection = d3.geoMercator().center([88, 18])
     .scale(1050)
     .translate([this.width / 2,this.height / 2]);;
@@ -174,17 +173,22 @@ export class PredectionsComponent implements OnInit{
   
     let aread = this.responseData['data'];
     const maxInterpolation = 0.8;
-    const maxConfirmed = this.max_number[this.DataMp[i].id]
-   
-    let m_list =  this.DataTBL
+    let maxConfirmed = 0;
+    this.DataTBL[this.DataMp[i].id] = this.ps.Tdata();
+    this.dataSource[this.DataMp[i].id] =  this.ps.getTableData(this.def_list,this.DataTBL[this.DataMp[i].id]);
+    const tData = this.DataTBL[this.DataMp[i].id]
     let pService =  this.ps
-    let dSource = this.dataSource
+    var dSource =[]
+    dSource=  this.dataSource[this.DataMp[i].id]
     let c_id = "main-"+this.DataMp[i].id
     let dist = this.Ndistrict
     let state = this.Nstate
     let Ddate = this.DataMp[i].map
-    console.log(dist)
+    let tab_id =  this.DataMp[i].id
+    const max_d =[680,3400,11900]
+    let index =i
     data.then(function (topology) {
+      
         g.selectAll('path')
        
           .data(t.feature(topology,topology.objects.IND_adm2).features)
@@ -192,32 +196,25 @@ export class PredectionsComponent implements OnInit{
           .enter()
           .append('path')
           .attr('stroke', '#ff073a20')
-          .attr('fill', function (d) {
-            const n1 = d.properties.NAME_1;
-            const n2 =  d.properties.NAME_2;
 
-      
-          
-            let n =  0;
+          .attr('fill', function (d) {
+            const n1 = d.properties.st_nm;
+            const n2 =  d.properties.district
             var numCritical = 0
-             if(aread[n1]){
-               if(aread[n1].districtData[n2]){
-               n = aread[n1].districtData[n2].confirmed
+             
                var model = new Covid19ModelIndia()
                const dist_id = n2+"."+n1
                var districtIndex = model.indexDistrictNameKey(dist_id);
               if(districtIndex)
                  numCritical = model.districtStat("carriers", districtIndex, model.lowParams, Ddate);
-               
-               }
-              
-             }
+                 if(numCritical >  maxConfirmed)
+                     maxConfirmed = numCritical
             
             const color =
             numCritical === 0
                 ? '#ffffff'
                 : d3.interpolateReds(
-                    (maxInterpolation * numCritical) / ( maxConfirmed|| 0.001)
+                    (maxInterpolation * numCritical) / ( max_d[index] || 0.001)
                   );
             return color;
           })
@@ -225,31 +222,25 @@ export class PredectionsComponent implements OnInit{
       
           .attr('stroke-width', 1)
           .attr('d', path)
-          .text((d)=>{
-           return "test"
-          })
           .on('mouseover', (d) => {
            
-            const n1 = d.properties.NAME_1;
-            const n2 =  d.properties.NAME_2;
+            const n1 = d.properties.st_nm;
+            const n2 =  d.properties.district;
             let cnf =0;
             var numCritical = 0
-            if(aread[n1]){
-              if(aread[n1].districtData[n2]){
-               cnf = aread[n1].districtData[n2].confirmed
-               var model = new Covid19ModelIndia()
-               const dist_id = n2+"."+n1
-               var districtIndex = model.indexDistrictNameKey(dist_id);
-              if(districtIndex)
-                 numCritical = model.districtStat("carriers", districtIndex, model.lowParams, Ddate);
-              }
-            }
-           dist.name = d.properties.NAME_2
-           state.name =  d.properties.NAME_1
-          
-           dSource = pService.getTableData(cnf, m_list);
+            var model = new Covid19ModelIndia()
+            const dist_id = n2+"."+n1
+            var districtIndex = model.indexDistrictNameKey(dist_id);
+           if(districtIndex)
+              numCritical = model.districtStat("carriers", districtIndex, model.lowParams, Ddate);
+             
+           
+           dist[tab_id] = d.properties.NAME_2
+           state[tab_id] =  d.properties.NAME_1
+         
+           dSource = pService.getTableData(numCritical,tData);
             tooltip
-            .html(d.properties.NAME_1 + "<br>" + "District: " + d.properties.NAME_2 + "<br>" + "Qty: " + numCritical)
+            .html(d.properties.st_nm + "<br>" + "District: " + d.properties.district + "<br>" + "Qty: " + numCritical)
             .style("left", (d3.event.pageX-document.getElementById(c_id).offsetLeft - 120 )+ "px")
             .style("top", (d3.event.pageY-document.getElementById(c_id).offsetTop - 80) + "px")
           }).on('mouseleave',(d)=>{
@@ -258,80 +249,81 @@ export class PredectionsComponent implements OnInit{
             .html("");
           })
     
-    
-    
- 
-  
-  });
-  this.renderData(this.DataMp[i].id,svg)
-    data2.then(function (topology) {
-        g.selectAll('path')
-       
-          .data(t.feature(topology,topology.objects.ne_10m_admin_0_Kashmir_Occupied).features)
-        
-          .enter()
-          .append('path')
-          .attr('stroke', '#ff073a20')
-          .attr('fill',"#ffffff")
+          const color = d3
+          .scaleSequential(d3.interpolateReds)
+          .domain([0, max_d[index] / 0.8 || 10]);
       
-          .attr('stroke-width', 1)
-          .attr('d', path)
+        let cells = null;
+        let label = null;
+      
+        label = ({i, genLength, generatedLabels, labelDelimiter}) => {
+          if (i === genLength - 1) {
+            const n = Math.floor(generatedLabels[i]);
+            return `${n}+`;
+          } else {
+            const n1 = 1 + Math.floor(generatedLabels[i]);
+            const n2 = Math.floor(generatedLabels[i + 1]);
+            return `${n1} - ${n2}`;
+          }
+        };
+      
+        const numCells = 6;
+        const delta = Math.floor(
+          (max_d[index] < numCells ? numCells : max_d[index]) /
+            (numCells - 1)
+        );
+      
+        cells = Array.from(Array(numCells).keys()).map((i) => i * delta);
+      
+        svg
+          .append('g')
+          .attr('class', 'legendLinear')
+          .attr('transform', 'translate(260, -200)');
+      
+        const legendLinear = legendColor()
+          .shapeWidth(70)
+          .cells(cells)
+          .titleWidth(4)
+          .labels(label)
+          .orient('vertical')
+          .scale(color);
+      
+        svg.select('.legendLinear').call(legendLinear);
+    
+        console.log(maxConfirmed)
+       
+  });
+  
+ 
+  //   data2.then(function (topology) {
+  //       g.selectAll('path')
+       
+  //         .data(t.feature(topology,topology.objects.ne_10m_admin_0_Kashmir_Occupied).features)
+        
+  //         .enter()
+  //         .append('path')
+  //         .attr('stroke', '#ff073a20')
+  //         .attr('fill',"#ffffff")
+      
+  //         .attr('stroke-width', 1)
+  //         .attr('d', path)
          
     
     
     
  
   
-  });
+  // });
     }
 }
  renderData(ids,svg) {
   
-console.log(this.max_number)
+  console.log(this.max_number2[ids])
 
-  const color = d3
-    .scaleSequential(d3.interpolateReds)
-    .domain([0, this.max_number[ids] / 0.8 || 10]);
-
-  let cells = null;
-  let label = null;
-
-  label = ({i, genLength, generatedLabels, labelDelimiter}) => {
-    if (i === genLength - 1) {
-      const n = Math.floor(generatedLabels[i]);
-      return `${n}+`;
-    } else {
-      const n1 = 1 + Math.floor(generatedLabels[i]);
-      const n2 = Math.floor(generatedLabels[i + 1]);
-      return `${n1} - ${n2}`;
-    }
-  };
-
-  const numCells = 6;
-  const delta = Math.floor(
-    (this.max_number[ids] < numCells ? numCells : this.max_number[ids]) /
-      (numCells - 1)
-  );
-
-  cells = Array.from(Array(numCells).keys()).map((i) => i * delta);
-
-  svg
-    .append('g')
-    .attr('class', 'legendLinear')
-    .attr('transform', 'translate(260, -200)');
-
-  const legendLinear = legendColor()
-    .shapeWidth(70)
-    .cells(cells)
-    .titleWidth(4)
-    .labels(label)
-    .orient('vertical')
-    .scale(color);
-
-  svg.select('.legendLinear').call(legendLinear);
+  
 };
 onResize(event) {
-  this.breakpoint = (event.target.innerWidth <= 784) ? 3 : this.DataTBL.length*2+3;
+  this.breakpoint = (event.target.innerWidth <= 784) ? 3 :this.ps.Tdata().length*2+3;
 }
 
 
