@@ -15,7 +15,7 @@ export class PredectionService {
   constructor(private http: HttpClient) { }
 
   public requestDataFromMultipleSources(): Observable<any[]> {
-    let response1 = this.http.get('assets/state_district_wise.json');
+    let response1 = this.http.get('https://api.covid19india.org/state_district_wise.json');
     let response2 = this.http.get('assets/masks_district.json');
     let response3 = this.http.get('assets/vent_district.json');
     return forkJoin([response1, response2,response3]);
