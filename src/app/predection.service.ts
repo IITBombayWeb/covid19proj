@@ -10,9 +10,13 @@ import { TableData } from './table-data';
 
 
 export class PredectionService {
-  
  
-  constructor(private http: HttpClient) { }
+ 
+  constructor(private http: HttpClient) { 
+
+
+
+}
 
   public requestDataFromMultipleSources(): Observable<any[]> {
     let response1 = this.http.get('assets/state_district_wise.json');
@@ -34,36 +38,57 @@ public getTableData(np:number,ilist){
     rVal[i] = ilist[i].map
   }
 
-  return rVal
+  return rVal;
 }
 
+
+
 public ppe(){
+
+  let fs = 0.15;
+  let fc = 0.05;
+  let fi = 0.4;
+  let ff = fc+fs+fi/1.5;
+
   return [
-   new TableData("Doctors", function(n){ return Math.ceil(n/10*4);},"per day"),
-   new TableData("Nurses", function(n){ return n;},"per day"),
-   new TableData("Gowns, Splash Guard", function(n){ return Math.ceil(n*14/5);},"per day"),
-   new TableData("Masks, Gloves", function(n){ return 70*n;}, "per day")
+   new TableData("Doctors", function(n){ return Math.ceil(2./5*n*ff);},"per day"),
+   new TableData("Nurses", function(n){ return Math.ceil(n*ff);},"per day"),
+   new TableData("Gowns, Masks, etc.", function(n){ return Math.ceil(14./5*n*ff);},"per day"),
+   new TableData("Gloves (sterile)", function(n){ return Math.ceil(n*(10*fc + 5*(fs+fi))) ;}, "per day"),
+   new TableData("Gloves (non-sterile)", function(n){ return Math.ceil(n*(5*fc + 2.5*(fs+fi))) ;}, "per day"),
+   new TableData("Towels, Needles, Bags", function(n){ return Math.ceil(n*(5*fc + 2.5*(fs+fi))) ;}, "per day")
  
    ];
  }
  public med_equ(){
+
+  let fs = 0.15;
+  let fc = 0.05;
+  let fi = 0.4;
+
    return [
-     new TableData("Ventilators", function(n){ return Math.ceil(n*0.05);}),
-     new TableData("ET Tube", function(n){ return n;}),
-     new TableData("Laryngoscopes", function(n){ return Math.ceil(n/20);}),
-     new TableData("Ambu Bags", function(n){ return n;}),
-     new TableData("Glass case", function(n){ return n;}),
-     new TableData("Infusion pump", function(n){ return n;})
+     new TableData("Ventilators", function(n){ return Math.ceil(n*fc);}),
+     new TableData("ET Tube", function(n){ return Math.ceil(n*fc/2);},"per day"),
+     new TableData("Laryngoscopes", function(n){ return Math.ceil(n*fc/20);}),
+     new TableData("Ambu Bags", function(n){ return Math.ceil(n*fc);}),
+     new TableData("Glass case", function(n){ return Math.ceil(n*fc);}),
+     new TableData("Bedside X-ray", function(n){ return Math.ceil(n*fc/20);}),
+     new TableData("Arterial blood gas line", function(n){ return Math.ceil(n*fc/30);}),
+     new TableData("Infusion pump", function(n){ return Math.ceil(n*fc);})
    ];
  
  }
  public med_con(){
+  let fs = 0.15;
+  let fc = 0.05;
+  let fi = 0.4;
+
    return [
      new TableData("Sanitizer", function(n){ return Math.ceil(n*14/10000);}, " lt / day"),
-     new TableData("Oxygen (medium)",function(n){ return n*4;}, "cylinders / day"),
-     new TableData("Central, Peripheral lines",function(n){ return Math.ceil(n/3);}, "per day"),
-     new TableData("IV sugar, saline",function(n){ return Math.ceil(n*2*500/1000);}, "l / day"),
-     new TableData("Suction catheter",function(n){ return n;})
+     new TableData("Oxygen (medium)",function(n){ return Math.ceil(n*fc*4);}, "cylinders / day"),
+     new TableData("Central, Peripheral lines",function(n){ return Math.ceil(n*fc/3);}, "per day"),
+     new TableData("IV sugar, saline",function(n){ return Math.ceil(n*fc*2*500/1000);}, "lt / day"),
+     new TableData("Suction catheter",function(n){ return Math.ceil(n*fc);})
    ];
    
  }
