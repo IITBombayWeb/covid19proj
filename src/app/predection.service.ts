@@ -48,7 +48,7 @@ public ppe(){
  }
  public med_equ(){
    return [
-     new TableData("Ventilators", function(n){ return n;}),
+     new TableData("Ventilators", function(n){ return Math.ceil(n*0.05);}),
      new TableData("ET Tube", function(n){ return n;}),
      new TableData("Laryngoscopes", function(n){ return Math.ceil(n/20);}),
      new TableData("Ambu Bags", function(n){ return n;}),
