@@ -1,0 +1,1490 @@
+{
+    "Kerala": {
+        "districtData": {
+            "Thrissur": {
+                "confirmed": 7,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 2100
+            },
+            "Alappuzha": {
+                "confirmed": 2,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 600
+            },
+            "Kasaragod": {
+                "confirmed": 90,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 27000
+            },
+            "Pathanamthitta": {
+                "confirmed": 12,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 3600
+            },
+            "Kannur": {
+                "confirmed": 33,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 9900
+            },
+            "Ernakulam": {
+                "confirmed": 20,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 6000
+            },
+            "Kottayam": {
+                "confirmed": 3,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 900
+            },
+            "Thiruvananthapuram": {
+                "confirmed": 8,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 2400
+            },
+            "Idukki": {
+                "confirmed": 3,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 900
+            },
+            "Malappuram": {
+                "confirmed": 10,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 3000
+            },
+            "Kozhikode": {
+                "confirmed": 6,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 1800
+            },
+            "Palakkad": {
+                "confirmed": 5,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 1500
+            },
+            "Wayanad": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Kollam": {
+                "confirmed": 2,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 600
+            }
+        }
+    },
+    "Delhi": {
+        "districtData": {
+            "East Delhi": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "South West Delhi": {
+                "confirmed": 3,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 900
+            },
+            "West Delhi": {
+                "confirmed": 2,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 600
+            },
+            "North Delhi": {
+                "confirmed": 3,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 900
+            },
+            "New Delhi": {
+                "confirmed": 3,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 900
+            },
+            "South Delhi": {
+                "confirmed": 2,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 600
+            },
+            "North East Delhi": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "North West Delhi": {
+                "confirmed": 3,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 900
+            },
+            "Unknown": {
+                "confirmed": 54,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 16200
+            }
+        }
+    },
+    "Telangana": {
+        "districtData": {
+            "Hyderabad": {
+                "confirmed": 36,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 10800
+            },
+            "Karimnagar": {
+                "confirmed": 3,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 900
+            },
+            "Bhadradri Kothagudem": {
+                "confirmed": 3,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 900
+            },
+            "Ranga Reddy": {
+                "confirmed": 2,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 600
+            },
+            "Medchal Malkajgiri": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Unknown": {
+                "confirmed": 25,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 7500
+            }
+        }
+    },
+    "Rajasthan": {
+        "districtData": {
+            "Jaipur": {
+                "confirmed": 13,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 2
+                },
+                "masks": 3900
+            },
+            "Jhunjhunu": {
+                "confirmed": 7,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 2100
+            },
+            "Bhilwara": {
+                "confirmed": 22,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 1
+                },
+                "masks": 6600
+            },
+            "Jodhpur": {
+                "confirmed": 11,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 7
+                },
+                "masks": 3300
+            },
+            "Unknown": {
+                "confirmed": 10,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 3000
+            },
+            "Pratapgarh": {
+                "confirmed": 2,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 600
+            },
+            "Ajmer": {
+                "confirmed": 4,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 1200
+            }
+        }
+    },
+    "Haryana": {
+        "districtData": {
+            "Gurugram": {
+                "confirmed": 24,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 7200
+            },
+            "Faridabad": {
+                "confirmed": 3,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 900
+            },
+            "Panipat": {
+                "confirmed": 4,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 1200
+            },
+            "Panchkula": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Sonipat": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Palwal": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Ambala": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            }
+        }
+    },
+    "Uttar Pradesh": {
+        "districtData": {
+            "Agra": {
+                "confirmed": 9,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 2700
+            },
+            "Unknown": {
+                "confirmed": 9,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 2700
+            },
+            "Ghaziabad": {
+                "confirmed": 3,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 900
+            },
+            "Lucknow": {
+                "confirmed": 8,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 2400
+            },
+            "Gautam Buddha Nagar": {
+                "confirmed": 30,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 9000
+            },
+            "Moradabad": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Varanasi": {
+                "confirmed": 2,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 600
+            },
+            "Kanpur Nagar": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Pilibhit": {
+                "confirmed": 2,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 600
+            },
+            "Jaunpur": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Baghpat": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Meerut": {
+                "confirmed": 5,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 1500
+            }
+        }
+    },
+    "Ladakh": {
+        "districtData": {
+            "Leh": {
+                "confirmed": 11,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 3300
+            },
+            "Kargil": {
+                "confirmed": 2,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 600
+            }
+        }
+    },
+    "Tamil Nadu": {
+        "districtData": {
+            "Kancheepuram": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Chennai": {
+                "confirmed": 23,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 5
+                },
+                "masks": 6900
+            },
+            "Erode": {
+                "confirmed": 19,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 10
+                },
+                "masks": 5700
+            },
+            "Coimbatore": {
+                "confirmed": 5,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 1500
+            },
+            "Tirunelveli": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Tiruppur": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Madurai": {
+                "confirmed": 4,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 1
+                },
+                "masks": 1200
+            },
+            "Salem": {
+                "confirmed": 6,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 1800
+            },
+            "Vellore": {
+                "confirmed": 2,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 600
+            },
+            "Tiruchirappalli": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Chengalpattu": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Thanjavur": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Virudhunagar": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Karur": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 1
+                },
+                "masks": 300
+            }
+        }
+    },
+    "Jammu and Kashmir": {
+        "districtData": {
+            "Jammu": {
+                "confirmed": 9,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 3
+                },
+                "masks": 2700
+            },
+            "Srinagar": {
+                "confirmed": 17,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 2
+                },
+                "masks": 5100
+            },
+            "Bandipore": {
+                "confirmed": 9,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 2700
+            },
+            "Unknown": {
+                "confirmed": 2,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 600
+            },
+            "Rajouri": {
+                "confirmed": 3,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 900
+            },
+            "Badgam": {
+                "confirmed": 2,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 600
+            },
+            "Baramula": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Shopian": {
+                "confirmed": 2,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 2
+                },
+                "masks": 600
+            }
+        }
+    },
+    "Karnataka": {
+        "districtData": {
+            "Bengaluru": {
+                "confirmed": 40,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 12000
+            },
+            "Kalaburagi": {
+                "confirmed": 3,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 900
+            },
+            "Kodagu": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Chikkaballapura": {
+                "confirmed": 9,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 2700
+            },
+            "Mysuru": {
+                "confirmed": 8,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 2400
+            },
+            "Dharwad": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Uttara Kannada": {
+                "confirmed": 8,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 2400
+            },
+            "Dakshina Kannada": {
+                "confirmed": 6,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 1800
+            },
+            "Udupi": {
+                "confirmed": 3,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 900
+            },
+            "Chitradurga": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Tumakuru": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Davanagere": {
+                "confirmed": 2,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 600
+            }
+        }
+    },
+    "Maharashtra": {
+        "districtData": {
+            "Pune": {
+                "confirmed": 42,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 5
+                },
+                "masks": 12600
+            },
+            "Mumbai": {
+                "confirmed": 75,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 3
+                },
+                "masks": 22500
+            },
+            "Nagpur": {
+                "confirmed": 12,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 2
+                },
+                "masks": 3600
+            },
+            "Thane": {
+                "confirmed": 5,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 1500
+            },
+            "Ahmadnagar": {
+                "confirmed": 3,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 900
+            },
+            "Yavatmal": {
+                "confirmed": 4,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 1200
+            },
+            "Aurangabad": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Ratnagiri": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Mumbai Suburban": {
+                "confirmed": 4,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 1200
+            },
+            "Unknown": {
+                "confirmed": 36,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 10800
+            },
+            "Sangli": {
+                "confirmed": 25,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 7500
+            },
+            "Satara": {
+                "confirmed": 2,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 600
+            },
+            "Kolhapur": {
+                "confirmed": 2,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 1
+                },
+                "masks": 600
+            },
+            "Gondiya": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Jalgaon": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Nashik": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 1
+                },
+                "masks": 300
+            }
+        }
+    },
+    "Punjab": {
+        "districtData": {
+            "Amritsar": {
+                "confirmed": 2,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 600
+            },
+            "Shahid Bhagat Singh Nagar": {
+                "confirmed": 19,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 5700
+            },
+            "S.A.S. Nagar": {
+                "confirmed": 6,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 1800
+            },
+            "Hoshiarpur": {
+                "confirmed": 2,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 600
+            },
+            "Jalandhar": {
+                "confirmed": 5,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 1500
+            },
+            "Unknown": {
+                "confirmed": 4,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 1
+                },
+                "masks": 1200
+            },
+            "Ludhiana": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            }
+        }
+    },
+    "Andhra Pradesh": {
+        "districtData": {
+            "S.P.S. Nellore": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Prakasam": {
+                "confirmed": 3,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 900
+            },
+            "Visakhapatnam": {
+                "confirmed": 6,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 1800
+            },
+            "East Godavari": {
+                "confirmed": 3,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 2
+                },
+                "masks": 900
+            },
+            "Krishna": {
+                "confirmed": 4,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 1200
+            },
+            "Chittoor": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Guntur": {
+                "confirmed": 4,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 1200
+            },
+            "Kurnool": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            }
+        }
+    },
+    "Uttarakhand": {
+        "districtData": {
+            "Dehradun": {
+                "confirmed": 4,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 1200
+            },
+            "Pauri Garhwal": {
+                "confirmed": 2,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 600
+            },
+            "Unknown": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            }
+        }
+    },
+    "Odisha": {
+        "districtData": {
+            "Khordha": {
+                "confirmed": 3,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 900
+            }
+        }
+    },
+    "Puducherry": {
+        "districtData": {
+            "Mahe": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            }
+        }
+    },
+    "West Bengal": {
+        "districtData": {
+            "Kolkata": {
+                "confirmed": 11,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 1
+                },
+                "masks": 3300
+            },
+            "North 24 Parganas": {
+                "confirmed": 2,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 600
+            },
+            "Nadia": {
+                "confirmed": 5,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 1500
+            },
+            "Purba Medinipur": {
+                "confirmed": 2,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 600
+            },
+            "Kalimpong": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Hooghly": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            }
+        }
+    },
+    "Chandigarh": {
+        "districtData": {
+            "Chandigarh": {
+                "confirmed": 13,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 5
+                },
+                "masks": 3900
+            }
+        }
+    },
+    "Chhattisgarh": {
+        "districtData": {
+            "Raipur": {
+                "confirmed": 4,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 1200
+            },
+            "Rajnandgaon": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Bilaspur": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Durg": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            }
+        }
+    },
+    "Gujarat": {
+        "districtData": {
+            "Rajkot": {
+                "confirmed": 8,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 2400
+            },
+            "Surat": {
+                "confirmed": 6,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 1800
+            },
+            "Ahmadabad": {
+                "confirmed": 22,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 1
+                },
+                "masks": 6600
+            },
+            "Vadodara": {
+                "confirmed": 9,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 2700
+            },
+            "Gandhinagar": {
+                "confirmed": 7,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 2100
+            },
+            "Kachchh": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Unknown": {
+                "confirmed": 8,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 2400
+            },
+            "Mahesana": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Porbandar": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Gir Somnath": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Bhavnagar": {
+                "confirmed": 5,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 5
+                },
+                "masks": 1500
+            }
+        }
+    },
+    "Himachal Pradesh": {
+        "districtData": {
+            "Kangra": {
+                "confirmed": 3,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 900
+            }
+        }
+    },
+    "Madhya Pradesh": {
+        "districtData": {
+            "Jabalpur": {
+                "confirmed": 8,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 2400
+            },
+            "Bhopal": {
+                "confirmed": 3,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 900
+            },
+            "Indore": {
+                "confirmed": 27,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 7
+                },
+                "masks": 8100
+            },
+            "Ujjain": {
+                "confirmed": 5,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 1
+                },
+                "masks": 1500
+            },
+            "Gwalior": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Shivpuri": {
+                "confirmed": 2,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 600
+            },
+            "Unknown": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            }
+        }
+    },
+    "Bihar": {
+        "districtData": {
+            "Munger": {
+                "confirmed": 3,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 900
+            },
+            "Patna": {
+                "confirmed": 4,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 1200
+            },
+            "Siwan": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Nalanda": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Unknown": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Lakhisarai": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Bhagalpur": {
+                "confirmed": 4,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 1200
+            }
+        }
+    },
+    "Manipur": {
+        "districtData": {
+            "Imphal West": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            }
+        }
+    },
+    "Mizoram": {
+        "districtData": {
+            "Aizawl": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            }
+        }
+    },
+    "Goa": {
+        "districtData": {
+            "North Goa": {
+                "confirmed": 3,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 900
+            },
+            "Unknown": {
+                "confirmed": 2,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 600
+            }
+        }
+    },
+    "Andaman and Nicobar Islands": {
+        "districtData": {
+            "South Andaman": {
+                "confirmed": 5,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 1500
+            },
+            "North and Middle Andaman": {
+                "confirmed": 1,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 300
+            },
+            "Unknown": {
+                "confirmed": 4,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 1
+                },
+                "masks": 1200
+            }
+        }
+    },
+    "Unknown": {
+        "districtData": {
+            "Unknown": {
+                "confirmed": 96,
+                "lastupdatedtime": "",
+                "delta": {
+                    "confirmed": 0
+                },
+                "masks": 28800
+            }
+        }
+    }
+}

@@ -1,0 +1,48 @@
+.example-card {
+  margin-left: 10px;
+  margin-right: 10px;
+ 
+  }
+  
+
+.district, .disputed, .state rect, .state path { stroke: #a9a9a9; stroke-width: 1px; }
+
+.district:hover { stroke: #777777; stroke-width: 1px; fill-opacity: .7; }
+.state:hover rect { stroke: #777777; stroke-width: 2px; fill-opacity: .7; }
+.state:hover path { fill-opacity: .7; }
+.MapExplorer{
+      margin-top: 20px;
+}
+.hidden {
+      display: none;
+}
+div.tooltip {
+      color: #222; 
+      background: #fff; 
+      border-radius: 3px; 
+      box-shadow: 0px 0px 2px 0px #a6a6a6; 
+      padding: .2em; 
+      text-shadow: #f5f5f5 0 1px 0;
+      opacity: 0.9; 
+      position: absolute;
+}
+   table {
+     
+      height: fit-content;
+      font-size:x-small;
+    }
+     .card-table{
+     
+          
+          font-size: x-small;
+      
+    }
+    .tab-tile{
+      margin-left:100px;
+      width: max-content;
+    }
+   
+   
+    @media screen and (max-width: 1024px) and (min-width: 768px){
+    
+    }

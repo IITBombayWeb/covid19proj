@@ -1,0 +1,69 @@
+
+<mat-toolbar color="primary">TableData Heat Map</mat-toolbar><br>
+<mat-grid-list *ngIf="DataMp" id="p1"class="example-card" [cols]="breakpoint" rowHeight="700px" (window:resize)="onResize($event)"> 
+  <div *ngFor="let D of DataMp">
+    <mat-grid-tile   colspan='3' id="main-{{D.id}}"> 
+<mat-card class="card-map">
+    <mat-card-header>
+        <mat-card-title>{{D.name}}</mat-card-title>
+       
+      </mat-card-header>
+    <mat-card-content>
+      <div class="mainLinear-{{D.id}}"></div>
+        
+          <div class="MapExplorer-{{D.id}} fadeInUp">
+            <div id="main-{{D.id}}" class="svg-parent-{{D.id}}">
+                <div class="tooltip" id="{{D.id}}">
+                
+                </div>
+              
+            </div>
+        </div>
+
+    </mat-card-content>
+  
+   
+  </mat-card>
+</mat-grid-tile>
+<mat-grid-tile  class="tab-tile"style="margin-left: 10px;" *ngFor="let D of DataTBL;let i=index" colspan='2' id="table-{{D.id}}"> 
+
+
+
+    <mat-card  class="card-table" >
+      <h3>{{D.name}}</h3>
+      <h3>{{Ndistrict.name}}</h3>
+      <h3>{{Nstate.name}}</h3>
+   
+            <table mat-table  [dataSource]="dataSource[i]" class="mat-elevation-z8">
+
+        
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+              </ng-container>
+            
+           
+              <ng-container matColumnDef="estimate">
+                <th mat-header-cell *matHeaderCellDef>Estimate </th>
+                <td mat-cell *matCellDef="let element"> {{element.estimate}} </td>
+              </ng-container>
+            
+        
+              <ng-container matColumnDef="units">
+                <th mat-header-cell *matHeaderCellDef> Units </th>
+                <td mat-cell *matCellDef="let element"> {{element.units}} </td>
+              </ng-container>
+             
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>  
+          
+          </mat-card> 
+
+
+   
+       
+    </mat-grid-tile>
+
+  </div>
+</mat-grid-list>
