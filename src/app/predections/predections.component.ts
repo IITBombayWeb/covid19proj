@@ -189,11 +189,9 @@ export class PredectionsComponent implements OnInit{
     let Ddate = this.DataMp[i].map
 	      //const max_d =[170,170,170,170]
     let index = i
-<<<<<<< HEAD
     let headD =[]
     headD =  this.Thead;
     const in_id = this.DataMp[i].id;
-=======
 
 
 
@@ -201,7 +199,6 @@ export class PredectionsComponent implements OnInit{
 
 
 
->>>>>>> a373c93760d208792334b4ba7d5bc66f32be06fe
     data.then(function (topology) {
       
     var model = new Covid19ModelIndia();
@@ -323,12 +320,9 @@ export class PredectionsComponent implements OnInit{
       
         svg.select('.legendLinear').call(legendLinear);
     
-<<<<<<< HEAD
         
-=======
 			    //console.log(maxConfirmed)
        
->>>>>>> a373c93760d208792334b4ba7d5bc66f32be06fe
   });
   
  
