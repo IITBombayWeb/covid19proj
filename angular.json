@@ -24,10 +24,13 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "src/styles.css"
+              "src/styles.css",
+             "src/assets/css/black-dashboard.css?v=1.0.0" 
             ],
             "scripts": [
+              "src/assets/js/jquery.min.js",
+              "src/assets/js/popper.min.js",
+              "src/assets/js/bootstrap.min.js",
               "src/assets/covid19-model-india.js",
               "src/assets/covid19-patients-india.js"
              
