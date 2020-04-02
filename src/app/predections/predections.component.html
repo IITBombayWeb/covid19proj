@@ -2,10 +2,11 @@
 <mat-toolbar color="primary">TableData Heat Map</mat-toolbar><br>
 <mat-grid-list *ngIf="DataMp" id="p1"class="example-card" [cols]="breakpoint" rowHeight="700px" (window:resize)="onResize($event)"> 
   <div *ngFor="let D of DataMp">
+    
     <mat-grid-tile   colspan='3' id="main-{{D.id}}"> 
 <mat-card class="card-map">
     <mat-card-header>
-        <mat-card-title>{{D.name}}</mat-card-title>
+        <mat-card-title style="margin-left: 100px;font-size: small;">{{D.name}} : {{D.map | date: 'MMMM d, y'}}</mat-card-title>
        
       </mat-card-header>
     <mat-card-content>
@@ -26,10 +27,10 @@
   </mat-card>
 </mat-grid-tile>
 <mat-grid-tile  class="tab-tile"style="margin-left: 10px;" *ngFor="let D1 of DataTBL[D.id];let i=index" colspan='2' id="table-{{D.id}}"> 
-  <mat-card  class="card-table" *ngIf="i==0 && Ndistrict[D.id] " >
+  <!-- <mat-card>
   <h3>{{Ndistrict[D.id]}}</h3>
       <h3>{{Nstate[D.id]}}</h3>
-  </mat-card>
+  </mat-card> -->
     <mat-card  class="card-table" >
       <h3>{{D1.name}}</h3>
    

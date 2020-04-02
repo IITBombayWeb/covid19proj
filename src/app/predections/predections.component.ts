@@ -72,9 +72,10 @@ export class PredectionsComponent implements OnInit{
   constructor(private http: HttpClient,private ps: PredectionService) { }
   ngOnInit(): void {
     this.DataMp= [
-      {id:"week_1", name: 'Week 1', type: 'week1',map: this.getDate(0)},
-      {id:"week_2", name: 'Week 2',  type: 'week2',map:this.getDate(7)},
-      {id:"week_3", name: 'Week 3',  type: 'week3',map:this.getDate(14)},
+      {id:"week_0", name: 'As on ' , type: 'week0',map: this.getDate(0)},
+      {id:"week_1", name: 'Week 1 ', type: 'week1',map: this.getDate(7)},
+      {id:"week_2", name: 'Week 2 ',  type: 'week2',map:this.getDate(14)},
+      {id:"week_3", name: 'Week 3 ',  type: 'week3',map:this.getDate(28)},
     ];
 
   
@@ -100,9 +101,9 @@ export class PredectionsComponent implements OnInit{
    
   }
   getDate(n){
-    var date = new Date();
-     return date.setDate(date.getDate() +n);
-      return date;
+    var date = new Date('28 March 2020');
+    date.setDate(date.getDate() + n);
+    return date;
   }
   objCOn(obj){
     return Object.keys(obj).map((key)=>{ return obj[key]});
@@ -181,12 +182,11 @@ export class PredectionsComponent implements OnInit{
     var dSource =[]
     dSource=  this.dataSource[this.DataMp[i].id]
     let c_id = "main-"+this.DataMp[i].id
-    let dist = this.Ndistrict
-    let state = this.Nstate
+    let dist = this.Ndistrict[this.DataMp[i].id]
+    let state = this.Nstate[this.DataMp[i].id]
     let Ddate = this.DataMp[i].map
-    let tab_id =  this.DataMp[i].id
-    const max_d =[680,3400,11900]
-    let index =i
+    const max_d =[170,170,170,170]
+    let index = i
     data.then(function (topology) {
       
         g.selectAll('path')
@@ -201,7 +201,8 @@ export class PredectionsComponent implements OnInit{
             const n1 = d.properties.st_nm;
             const n2 =  d.properties.district
             var numCritical = 0
-             
+            dist = d.properties.NAME_2
+            state=  d.properties.NAME_1
                var model = new Covid19ModelIndia()
                const dist_id = n2+"."+n1
                var districtIndex = model.indexDistrictNameKey(dist_id);
@@ -226,23 +227,32 @@ export class PredectionsComponent implements OnInit{
            
             const n1 = d.properties.st_nm;
             const n2 =  d.properties.district;
-            let cnf =0;
             var numCritical = 0
             var model = new Covid19ModelIndia()
             const dist_id = n2+"."+n1
             var districtIndex = model.indexDistrictNameKey(dist_id);
            if(districtIndex)
               numCritical = model.districtStat("carriers", districtIndex, model.lowParams, Ddate);
-             
-           
-           dist[tab_id] = d.properties.NAME_2
-           state[tab_id] =  d.properties.NAME_1
-         
-           dSource = pService.getTableData(numCritical,tData);
             tooltip
             .html(d.properties.st_nm + "<br>" + "District: " + d.properties.district + "<br>" + "Qty: " + numCritical)
             .style("left", (d3.event.pageX-document.getElementById(c_id).offsetLeft - 120 )+ "px")
             .style("top", (d3.event.pageY-document.getElementById(c_id).offsetTop - 80) + "px")
+          })
+          .on("click", function(d){
+          
+            const n1 = d.properties.st_nm;
+            const n2 =  d.properties.district;
+            var numCritical = 0
+            var model = new Covid19ModelIndia()
+            const dist_id = n2+"."+n1
+            var districtIndex = model.indexDistrictNameKey(dist_id);
+           if(districtIndex)
+              numCritical = model.districtStat("carriers", districtIndex, model.lowParams, Ddate);
+              dist = d.properties.NAME_2
+              state =  d.properties.NAME_1
+            
+              dSource = pService.getTableData(numCritical,tData);
+           
           }).on('mouseleave',(d)=>{
            
             tooltip
@@ -327,7 +337,17 @@ onResize(event) {
 }
 
 
+ stylestate( feature ) {
+  //STATE STYLES
 
+  //var c_count = counter("State", feature);
+  return {
+    weight: 1,
+    opacity: 0.9,
+    color: "#000",
+    fill: false
+  };
+}
 
 
 }
