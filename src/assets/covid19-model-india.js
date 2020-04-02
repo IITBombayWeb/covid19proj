@@ -62,6 +62,15 @@ class Covid19Model
     }
     return sum;
   }
+  
+  districtStatMax(category, params, date)
+  {
+    let maxValue = 0;
+    for (let i = 0; i < this.numDistricts; i++) {
+      maxValue = Math.max(maxValue, this.districtStat(category, i, params, date));
+    }
+    return maxValue;
+  }
 
   interpolateAt(date, g, t)
   {
@@ -93,6 +102,9 @@ class Covid19Model
 
   indexStateName(stateName)
   {
+    if (!this.stateNameIndexMap.has(stateName)) {
+      throw new SyntaxError("State Name: \"".concat(stateName.concat("\" is not valid.")));
+    }
     return this.stateNameIndexMap.get(stateName);
   }
 
@@ -103,6 +115,9 @@ class Covid19Model
 
   indexDistrictNameKey(districtNameKey)
   {
+    if (!this.districtNameKeyIndexMap.has(districtNameKey)) {
+      throw new SyntaxError("District Name Key: \"".concat(districtNameKey.concat("\" is not valid.")));
+    }
     return this.districtNameKeyIndexMap.get(districtNameKey);
   }
 
@@ -113,6 +128,9 @@ class Covid19Model
 
   indexItemName(itemName)
   {
+    if (!this.itemNameIndexMap.has(itemName)) {
+      throw new SyntaxError("Item Name: \"".concat(itemName.concat("\" is not valid.")));
+    }
     return this.itemNameIndexMap.get(itemName);
   }
 
@@ -273,7 +291,7 @@ const stateParamsForIndia = [
 { "id" :  6, "name" : "Chandigarh",                  "n" : 2 },
 { "id" :  7, "name" : "Chhattisgarh",                "n" : 2 },
 { "id" :  8, "name" : "Dadra and Nagar Haveli",      "n" : 2 },
-{ "id" :  9, "name" : "Daman and Diu",               "n" : 2 },
+{ "id" :  9, "name" : "Daman And Diu",               "n" : 2 },
 { "id" : 10, "name" : "Delhi",                       "n" : 2.5 },
 { "id" : 11, "name" : "Goa",                         "n" : 2 },
 { "id" : 12, "name" : "Gujarat",                     "n" : 3 },
@@ -407,9 +425,9 @@ const districtParamsForIndia = [
 { "id" : 96, "name" : "Muzaffarpur", "state" : "Bihar"},
 { "id" : 97, "name" : "Nalanda", "state" : "Bihar"},
 { "id" : 98, "name" : "Nawada", "state" : "Bihar"},
-{ "id" : 99, "name" : "Pashchim Champaran", "state" : "Bihar"},
+{ "id" : 99, "name" : "West Champaran", "state" : "Bihar"},
 { "id" : 100, "name" : "Patna", "state" : "Bihar"},
-{ "id" : 101, "name" : "Purba Champaran", "state" : "Bihar"},
+{ "id" : 101, "name" : "East Champaran", "state" : "Bihar"},
 { "id" : 102, "name" : "Purnia", "state" : "Bihar"},
 { "id" : 103, "name" : "Rohtas", "state" : "Bihar"},
 { "id" : 104, "name" : "Saharsa", "state" : "Bihar"},
@@ -433,7 +451,7 @@ const districtParamsForIndia = [
 { "id" : 122, "name" : "Dhamtari", "state" : "Chhattisgarh"},
 { "id" : 123, "name" : "Durg", "state" : "Chhattisgarh"},
 { "id" : 124, "name" : "Gariaband", "state" : "Chhattisgarh"},
-{ "id" : 125, "name" : "Janjgir - Champa", "state" : "Chhattisgarh"},
+{ "id" : 125, "name" : "Janjgir Champa", "state" : "Chhattisgarh"},
 { "id" : 126, "name" : "Jashpur", "state" : "Chhattisgarh"},
 { "id" : 127, "name" : "Kabeerdham", "state" : "Chhattisgarh"},
 { "id" : 128, "name" : "Kondagaon", "state" : "Chhattisgarh"},
@@ -526,7 +544,7 @@ const districtParamsForIndia = [
 { "id" : 215, "name" : "Kangra", "state" : "Himachal Pradesh"},
 { "id" : 216, "name" : "Kinnaur", "state" : "Himachal Pradesh"},
 { "id" : 217, "name" : "Kullu", "state" : "Himachal Pradesh"},
-{ "id" : 218, "name" : "Lahul & Spiti", "state" : "Himachal Pradesh"},
+{ "id" : 218, "name" : "Lahul and Spiti", "state" : "Himachal Pradesh"},
 { "id" : 219, "name" : "Mandi", "state" : "Himachal Pradesh"},
 { "id" : 220, "name" : "Shimla", "state" : "Himachal Pradesh"},
 { "id" : 221, "name" : "Sirmaur", "state" : "Himachal Pradesh"},
@@ -1044,7 +1062,7 @@ const districtParamsForIndia = [
 { "id" : 733, "name" : "Unclassified", "state" : "Chandigarh"},
 { "id" : 734, "name" : "Unclassified", "state" : "Chhattisgarh"},
 { "id" : 735, "name" : "Unclassified", "state" : "Dadra and Nagar Haveli"},
-{ "id" : 736, "name" : "Unclassified", "state" : "Daman and Diu"},
+{ "id" : 736, "name" : "Unclassified", "state" : "Daman And Diu"},
 { "id" : 737, "name" : "Unclassified", "state" : "Delhi"},
 { "id" : 738, "name" : "Unclassified", "state" : "Goa"},
 { "id" : 739, "name" : "Unclassified", "state" : "Gujarat"},
