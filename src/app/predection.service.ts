@@ -51,6 +51,7 @@ public ppe(){
   let ff = fc+fs+fi/1.5;
 
   return [
+   new TableData("Critical patients", function(n){ return Math.ceil(n*fc);},"per day"),
    new TableData("Doctors", function(n){ return Math.ceil(2./5*n*ff);},"per day"),
    new TableData("Nurses", function(n){ return Math.ceil(n*ff);},"per day"),
    new TableData("Gowns, Masks, etc.", function(n){ return Math.ceil(14./5*n*ff);},"per day"),
