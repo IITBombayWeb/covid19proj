@@ -1,11 +1,12 @@
 
 <mat-toolbar color="primary">TableData Heat Map</mat-toolbar><br>
-<mat-grid-list *ngIf="DataMp" id="p1"class="example-card" [cols]="breakpoint" rowHeight="700px" (window:resize)="onResize($event)"> 
-  <div *ngFor="let D of DataMp">
-    
-    <mat-grid-tile   colspan='3' id="main-{{D.id}}"> 
+<mat-grid-list *ngFor="let D of DataMp" id="main-{{D.id}}" class="example-card" [cols]="breakpoint" rowHeight="700px" (window:resize)="onResize($event)"> 
+
+    <mat-grid-tile   [colspan]='mapCol' > 
 <mat-card class="card-map">
+  
     <mat-card-header>
+ 
         <mat-card-title style="margin-left: 100px;font-size: small;">{{D.name}} : {{D.map | date: 'MMMM d, y'}}</mat-card-title>
        
       </mat-card-header>
@@ -26,16 +27,20 @@
    
   </mat-card>
 </mat-grid-tile>
-<mat-grid-tile  class="tab-tile"style="margin-left: 10px;" *ngFor="let D1 of DataTBL[D.id];let i=index" colspan='2' id="table-{{D.id}}"> 
-  <!-- <mat-card>
-  <h3>{{Ndistrict[D.id]}}</h3>
-      <h3>{{Nstate[D.id]}}</h3>
-  </mat-card> -->
-    <mat-card  class="card-table" >
+
+<mat-grid-tile style="overflow: scroll;" class="tab-tile"style="margin-left: 10px;"  [colspan]='tabCol' id="table-{{D.id}}"> 
+ 
+  <div class="container cTab"   *ngFor="let D1 of DataTBL[D.id];let i=index">
+    <div *ngIf="i==1">
+      <p class="col-md-6">{{Thead[D.id].sname}} <br> {{Thead[D.id].dname}}</p>
+    
+    </div>
+   
+    <mat-card class="card-table" >
       <h3>{{D1.name}}</h3>
    
    
-            <table  mat-table  [dataSource]="dataSource[D.id][i]" class="mat-elevation-z8">
+            <table mat-table  [dataSource]="dataSource[D.id][i]" class="mat-elevation-z8 ">
 
         
               <ng-container matColumnDef="name">
@@ -60,11 +65,11 @@
             </table>  
           
           </mat-card> 
+        </div>
 
-
-   
+     
        
     </mat-grid-tile>
+  
 
-  </div>
 </mat-grid-list>

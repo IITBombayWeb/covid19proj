@@ -26,7 +26,8 @@ export interface DataMap{
   map:any;
 }
 export interface TableHead{
-  name: string;
+  sname: string;
+  dname:string
 }
 
 @Component({
@@ -44,9 +45,10 @@ export class PredectionsComponent implements OnInit{
     state: 'NAME_1',
     district: 'NAME_2',
   };
+  mapCol:any = 3
+  tabCol:any=6;
   displayedColumns: string[] = ['name', 'estimate', 'units'];
-  Ndistrict:TableHead[] =[];
-  Nstate:TableHead[] =[];
+  Thead:TableHead[] =[];
   tiles: Tile[] = [
     {text: '0', cols: 1, rows: 1, color: ' rgb(246, 238, 234)'},
     {text: '1 - 10', cols: 1, rows: 1, color: 'rgb(253, 213, 195)'},
@@ -80,8 +82,9 @@ export class PredectionsComponent implements OnInit{
 
   
     
-    this.breakpoint = (window.innerWidth <= 900) ? 3 : this.ps.Tdata().length*2 + 3;
-    
+    this.breakpoint = (window.innerWidth <= 784) ? 6: 9;
+    this.mapCol = (window.innerWidth <= 784) ?6: 3;
+    this.tabCol = (window.innerWidth <= 784) ? 6: 6;
     this.ps.requestDataFromMultipleSources().subscribe(responseList => {
       this.responseData['data'] = responseList[0];
       this.getMAx()
@@ -158,11 +161,11 @@ export class PredectionsComponent implements OnInit{
     let g = svg.append('g')
    
     g.attr('class', 'map');
-   
+    
     // create a tooltip
     const t_id = "#"+this.DataMp[i].id
     const tooltip = d3.select(t_id);
-
+    this.Thead[this.DataMp[i].id] =[];
     svg.call(d3.zoom()
       .extent([[0, 0], [this.width, this.height]])
       .scaleExtent([1, 8])
@@ -182,11 +185,13 @@ export class PredectionsComponent implements OnInit{
     var dSource =[]
     dSource=  this.dataSource[this.DataMp[i].id]
     let c_id = "main-"+this.DataMp[i].id
-    let dist = this.Ndistrict[this.DataMp[i].id]
-    let state = this.Nstate[this.DataMp[i].id]
+  
     let Ddate = this.DataMp[i].map
     const max_d =[170,170,170,170]
     let index = i
+    let headD =[]
+    headD =  this.Thead;
+    const in_id = this.DataMp[i].id;
     data.then(function (topology) {
       
         g.selectAll('path')
@@ -201,15 +206,13 @@ export class PredectionsComponent implements OnInit{
             const n1 = d.properties.st_nm;
             const n2 =  d.properties.district
             var numCritical = 0
-            dist = d.properties.NAME_2
-            state=  d.properties.NAME_1
                var model = new Covid19ModelIndia()
                const dist_id = n2+"."+n1
                var districtIndex = model.indexDistrictNameKey(dist_id);
               if(districtIndex)
                  numCritical = model.districtStat("carriers", districtIndex, model.lowParams, Ddate);
-                 if(numCritical >  maxConfirmed)
-                     maxConfirmed = numCritical
+                //  if(numCritical >  maxConfirmed)
+                //      maxConfirmed = numCritical
             
             const color =
             numCritical === 0
@@ -224,7 +227,7 @@ export class PredectionsComponent implements OnInit{
           .attr('stroke-width', 1)
           .attr('d', path)
           .on('mouseover', (d) => {
-           
+          
             const n1 = d.properties.st_nm;
             const n2 =  d.properties.district;
             var numCritical = 0
@@ -248,9 +251,9 @@ export class PredectionsComponent implements OnInit{
             var districtIndex = model.indexDistrictNameKey(dist_id);
            if(districtIndex)
               numCritical = model.districtStat("carriers", districtIndex, model.lowParams, Ddate);
-              dist = d.properties.NAME_2
-              state =  d.properties.NAME_1
-            
+           console.log(headD)
+            headD[in_id] = {sname:"State : "+n1,dname:"District : "+n2}
+       
               dSource = pService.getTableData(numCritical,tData);
            
           }).on('mouseleave',(d)=>{
@@ -300,8 +303,7 @@ export class PredectionsComponent implements OnInit{
       
         svg.select('.legendLinear').call(legendLinear);
     
-        console.log(maxConfirmed)
-       
+        
   });
   
  
@@ -333,7 +335,9 @@ export class PredectionsComponent implements OnInit{
   
 };
 onResize(event) {
-  this.breakpoint = (event.target.innerWidth <= 784) ? 3 :this.ps.Tdata().length*2+3;
+  this.breakpoint = (event.target.innerWidth <= 784) ? 6 :9;
+    this.mapCol = (event.target.innerWidth <= 748) ? 6: 3;
+    this.tabCol = (event.target.innerWidth <= 748) ? 6: 6;
 }
 
 
