@@ -75,7 +75,7 @@ export class PredectionsComponent implements OnInit{
       {id:"week_0", name: 'As on ' , type: 'week0',map: this.getDate(0)},
       {id:"week_1", name: 'Week 1 ', type: 'week1',map: this.getDate(7)},
       {id:"week_2", name: 'Week 2 ',  type: 'week2',map:this.getDate(14)},
-      {id:"week_3", name: 'Week 3 ',  type: 'week3',map:this.getDate(28)},
+      {id:"week_3", name: 'Week 3 ',  type: 'week3',map:this.getDate(21)},
     ];
 
   
@@ -185,10 +185,21 @@ export class PredectionsComponent implements OnInit{
     let dist = this.Ndistrict[this.DataMp[i].id]
     let state = this.Nstate[this.DataMp[i].id]
     let Ddate = this.DataMp[i].map
-    const max_d =[170,170,170,170]
+	      //const max_d =[170,170,170,170]
     let index = i
+
+
+
+	      //var max_d[index] = maxd;
+
+
+
     data.then(function (topology) {
       
+    var model = new Covid19ModelIndia();
+    var maxd = model.districtStatMax("carriers", model.lowParams, Ddate);
+	      //console.log('date maxd: ' + Ddate + maxd.toString())
+
         g.selectAll('path')
        
           .data(t.feature(topology,topology.objects.IND_adm2).features)
@@ -211,13 +222,17 @@ export class PredectionsComponent implements OnInit{
                  if(numCritical >  maxConfirmed)
                      maxConfirmed = numCritical
             
+
+
             const color =
             numCritical === 0
                 ? '#ffffff'
                 : d3.interpolateReds(
-                    (maxInterpolation * numCritical) / ( max_d[index] || 0.001)
+                    (maxInterpolation * numCritical) / ( maxd )
                   );
+	      //console.log('dist: ' + dist_id  + ' ' + numCritical + ', ' + maxd , ', ', maxInterpolation*numCritical/maxd);
             return color;
+	      //(maxInterpolation * numCritical) / ( max_d[index] || 0.001)
           })
          
       
@@ -261,7 +276,8 @@ export class PredectionsComponent implements OnInit{
     
           const color = d3
           .scaleSequential(d3.interpolateReds)
-          .domain([0, max_d[index] / 0.8 || 10]);
+          .domain([0, maxd / 0.8 || 10]);
+			    //.domain([0, max_d[index] / 0.8 || 10]);
       
         let cells = null;
         let label = null;
@@ -279,9 +295,10 @@ export class PredectionsComponent implements OnInit{
       
         const numCells = 6;
         const delta = Math.floor(
-          (max_d[index] < numCells ? numCells : max_d[index]) /
+          (maxd < numCells ? numCells : maxd) /
             (numCells - 1)
         );
+			    //(max_d[index] < numCells ? numCells : max_d[index]) /
       
         cells = Array.from(Array(numCells).keys()).map((i) => i * delta);
       
@@ -300,7 +317,7 @@ export class PredectionsComponent implements OnInit{
       
         svg.select('.legendLinear').call(legendLinear);
     
-        console.log(maxConfirmed)
+			    //console.log(maxConfirmed)
        
   });
   
@@ -328,7 +345,7 @@ export class PredectionsComponent implements OnInit{
 }
  renderData(ids,svg) {
   
-  console.log(this.max_number2[ids])
+			    //console.log(this.max_number2[ids])
 
   
 };
