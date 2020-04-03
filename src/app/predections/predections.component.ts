@@ -176,7 +176,6 @@ export class PredectionsComponent implements OnInit{
   }
   
     let aread = this.responseData['data'];
-    const maxInterpolation = 0.8;
     let maxConfirmed = 0;
     this.DataTBL[this.DataMp[i].id] = this.ps.Tdata();
     this.dataSource[this.DataMp[i].id] =  this.ps.getTableData(this.def_list,this.DataTBL[this.DataMp[i].id]);
@@ -203,7 +202,10 @@ export class PredectionsComponent implements OnInit{
       
     var model = new Covid19ModelIndia();
     var maxd = model.districtStatMax("carriers", model.lowParams, Ddate);
-	      //console.log('date maxd: ' + Ddate + maxd.toString())
+	      console.log('date maxd: ' + Ddate + maxd.toString())
+    var maxInterpolation = (i+1.)/4.;
+	      console.log('maxInterp' + i + ' ' + maxInterpolation);
+
 
         g.selectAll('path')
        
@@ -266,7 +268,7 @@ export class PredectionsComponent implements OnInit{
             var districtIndex = model.indexDistrictNameKey(dist_id);
            if(districtIndex)
               numCritical = model.districtStat("carriers", districtIndex, model.lowParams, Ddate);
-           console.log(headD)
+			    //console.log(headD)
             headD[in_id] = {sname:"State : "+n1,dname:"District : "+n2}
        
               dSource = pService.getTableData(numCritical,tData);
@@ -279,7 +281,7 @@ export class PredectionsComponent implements OnInit{
     
           const color = d3
           .scaleSequential(d3.interpolateReds)
-          .domain([0, maxd / 0.8 || 10]);
+          .domain([0, maxd / maxInterpolation || 10]);
 			    //.domain([0, max_d[index] / 0.8 || 10]);
       
         let cells = null;
@@ -296,10 +298,9 @@ export class PredectionsComponent implements OnInit{
           }
         };
       
-        const numCells = 6;
+        const numCells = 10;
         const delta = Math.floor(
-          (maxd < numCells ? numCells : maxd) /
-            (numCells - 1)
+			    (maxd < numCells ? numCells : maxd ) / (numCells - 1)
         );
 			    //(max_d[index] < numCells ? numCells : max_d[index]) /
       
