@@ -1,4 +1,4 @@
-.example-card {
+/* .example-card {
   margin-left: 10px;
   margin-right: 10px;
  
@@ -9,13 +9,17 @@
 
 .district:hover { stroke: #777777; stroke-width: 1px; fill-opacity: .7; }
 .state:hover rect { stroke: #777777; stroke-width: 2px; fill-opacity: .7; }
-.state:hover path { fill-opacity: .7; }
-.MapExplorer{
+.state:hover path { fill-opacity: .7; } */
+/* .MapExplorer{
       margin-top: 20px;
 }
 .hidden {
       display: none;
-}
+} */
+
+.legendLinear .legendCells.cell text.label {
+      color: white;
+ }
 div.tooltip {
       color: #222; 
       background: #fff; 
@@ -24,11 +28,11 @@ div.tooltip {
       padding: .2em; 
       text-shadow: #f5f5f5 0 1px 0;
       opacity: 0.9; 
-      position: relative;
+      position: absolute;
       width: fit-content;
       font-size: x-small;
 }
-   table {
+   /* table {
      
       height: fit-content;
       font-size:x-small;
@@ -54,4 +58,4 @@ div.tooltip {
 
     @media screen and (max-width: 748px) and (min-width: 500px){
 
-    }
+    } */
