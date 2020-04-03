@@ -14,10 +14,19 @@ import {MatTableModule} from '@angular/material/table';
 import {MatSelectModule} from '@angular/material/select';
 import {MatListModule} from '@angular/material/list';
 import {MatDividerModule} from '@angular/material/divider';
+import { NavbarComponent } from './navbar/navbar.component';
+import { AboutComponent } from './about/about.component';
+import { FaqsComponent } from './faqs/faqs.component';
+import { NotificationComponent } from './notification/notification.component';
+
 @NgModule({
   declarations: [
     AppComponent,
-    PredectionsComponent
+    PredectionsComponent,
+    NavbarComponent,
+    AboutComponent,
+    FaqsComponent,
+    NotificationComponent,
   ],
   imports: [
     BrowserModule,

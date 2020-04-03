@@ -24,20 +24,22 @@ export class PredectionService {
     let response3 = this.http.get('assets/vent_district.json');
     return forkJoin([response1, response2,response3]);
   }
-public getTableData(np:number,ilist){
+public getTableData(dp:number,cn,sn,ilist){
   let rVal:any= [];
  
   for (let i=0;i<ilist.length;i++) {
     rVal[i] = []
     for(let j=0;j<ilist[i].map.length;j++){
   
-      ilist[i].map[j].estimate =   ilist[i].map[j].efun(np) ;
+      ilist[i].map[j].estimate =   ilist[i].map[j].efun(dp) ;
+      ilist[i].map[j].state =   ilist[i].map[j].efun(sn) ;
+      ilist[i].map[j].country =   ilist[i].map[j].efun(cn) ;
      
     }
    
     rVal[i] = ilist[i].map
   }
-
+console.log(rVal)
   return rVal;
 }
 
