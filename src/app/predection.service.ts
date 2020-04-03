@@ -54,9 +54,10 @@ public ppe(){
    new TableData("Critical patients", function(n){ return Math.ceil(n*fc);}),
    new TableData("Doctors", function(n){ return Math.ceil(2./5*n*ff);},"per day"),
    new TableData("Nurses", function(n){ return Math.ceil(n*ff);},"per day"),
-   new TableData("Gowns, Masks, etc.", function(n){ return Math.ceil(14./5*n*ff);},"per day"),
-   new TableData("Gloves (sterile)", function(n){ return Math.ceil(n*(10*fc + 5*(fs+fi))) ;}, "per day"),
-   new TableData("Gloves (non-sterile)", function(n){ return Math.ceil(n*(5*fc + 2.5*(fs+fi))) ;}, "per day"),
+   new TableData("Staff PPE: Gowns, Masks, Goggles", function(n){ return Math.ceil(14./5*n*ff);},"per day"),
+   new TableData("Patient PPE: Masks", function(n){ return Math.ceil(4*n*(fs+fi));},"per day"),
+   new TableData("Gloves (sterile)", function(n){ return Math.ceil(n*(5*fc + 2.5*(fs+fi))) ;}, "per day"),
+   new TableData("Gloves (non-sterile)", function(n){ return Math.ceil(n*(10*fc + 5*(fs+fi))) ;}, "per day"),
    new TableData("Towels, Needles, Bags", function(n){ return Math.ceil(n*(5*fc + 2.5*(fs+fi))) ;}, "per day")
  
    ];
@@ -69,13 +70,22 @@ public ppe(){
 
    return [
      new TableData("Ventilators", function(n){ return Math.ceil(n*fc);}),
-     new TableData("ET Tube", function(n){ return Math.ceil(n*fc/2);},"per day"),
-     new TableData("Laryngoscopes", function(n){ return Math.ceil(n*fc/20);}),
+	    new TableData("Laryngoscopes, Defibrillator", function(n){ return Math.ceil(n*fc*0.30);}), // 3 per 10
+     new TableData("ECG", function(n){ return Math.ceil(n*fc/20);}),
      new TableData("Ambu Bags", function(n){ return Math.ceil(n*fc);}),
+     new TableData("Oxymeter", function(n){ return Math.ceil(n*fs/20);}),
+     new TableData("High flow nasal canula", function(n){ return Math.ceil(n*fs);}), //severe
      new TableData("Glass case", function(n){ return Math.ceil(n*fc);}),
      new TableData("Bedside X-ray", function(n){ return Math.ceil(n*fc/20);}),
-     new TableData("Arterial blood gas line", function(n){ return Math.ceil(n*fc/30);}),
-     new TableData("Infusion pump", function(n){ return Math.ceil(n*fc);})
+     new TableData("Arterial blood gas machine", function(n){ return Math.ceil(n*fc/30);}),
+     new TableData("Monitors (Arterial BP)", function(n){ return Math.ceil(n*fc);}),
+     new TableData("Nebuliser", function(n){ return Math.ceil(n*fs);}), // for severe
+     new TableData("Non-contact Thermometer", function(n){ return Math.ceil(n*(1-fs-fc-fi)/20);}), // for 1 for 20 outpatients
+     new TableData("Infusion pumps", function(n){ return Math.ceil(3*n*fc);}),
+     new TableData("Patient cot", function(n){ return Math.ceil(n*(fc+fs+fi));}),
+     new TableData("Wheel chair", function(n){ return Math.ceil(n*(fs/20));}),
+     new TableData("Ambulance", function(n){ return Math.ceil(n*3/20);}), // 3 times n and 20 trips per day
+     new TableData("Stretcher", function(n){ return Math.ceil(n*(3*fs/20 + fc));})
    ];
  
  }
@@ -85,11 +95,13 @@ public ppe(){
   let fi = 0.4;
 
    return [
-     new TableData("Sanitizer", function(n){ return Math.ceil(n*14/10000);}, " lt / day"),
+     new TableData("Sanitizer", function(n){ return Math.ceil(n*(fc+fs+fi)*0.25);}, " lt / day"),
+     new TableData("ET Tube", function(n){ return Math.ceil(n*fc/3);},"per day"),
      new TableData("Oxygen (medium)",function(n){ return Math.ceil(n*fc*4);}, "cylinders / day"),
      new TableData("Central, Peripheral lines",function(n){ return Math.ceil(n*fc/3);}, "per day"),
-     new TableData("IV sugar, saline",function(n){ return Math.ceil(n*fc*2*500/1000);}, "lt / day"),
-     new TableData("Suction catheter",function(n){ return Math.ceil(n*fc);})
+     new TableData("IV fluids",function(n){ return Math.ceil(n*fc*5*0.5);}, "lt / day"),
+     new TableData("Suction catheter",function(n){ return Math.ceil(n*fc);},"per day"),
+     new TableData("Test kits",function(n){ return Math.ceil(n*3);}),
    ];
    
  }
