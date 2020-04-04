@@ -21,7 +21,9 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/doc/aboutinv.pdf",
+              "src/_redirects"
             ],
             "styles": [
               "src/styles.css",
@@ -33,7 +35,6 @@
               "src/assets/js/bootstrap.min.js",
               "src/assets/covid19-model-india.js",
               "src/assets/covid19-patients-india.js"
-             
             ]
           },
           "configurations": {
@@ -130,5 +131,8 @@
       }
     }
   },
-  "defaultProject": "CWR"
+  "defaultProject": "CWR",
+  "cli": {
+    "analytics": "2a221b20-e819-4579-8a85-f61954ea7451"
+  }
 }

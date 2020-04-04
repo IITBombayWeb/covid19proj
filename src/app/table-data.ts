@@ -1,14 +1,14 @@
 export class TableData {
-    name: string;
-    estimate: any;
+    item: string;
+    district: any;
     country:any
     state:any
     efun: any;
     units: string;
-    constructor(name ,efunc, units="",estimate="",state="",country=""){
-        this.name = name;
+    constructor(item ,efunc, units="",district="",state="",country=""){
+        this.item = item;
         this.efun = efunc;
-        this.estimate = estimate;
+        this.district = district;
         this.state = state;
         this.country = country;
         this.units = units

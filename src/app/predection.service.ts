@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { forkJoin,Observable } from 'rxjs';  // RxJS 6 syntax\
+import { forkJoin,Observable } from 'rxjs'; 
 import { TableData } from './table-data';
 
 
@@ -24,6 +24,7 @@ export class PredectionService {
     let response3 = this.http.get('assets/vent_district.json');
     return forkJoin([response1, response2,response3]);
   }
+
 public getTableData(dp:number,cn,sn,ilist){
   let rVal:any= [];
  
@@ -31,7 +32,7 @@ public getTableData(dp:number,cn,sn,ilist){
     rVal[i] = []
     for(let j=0;j<ilist[i].map.length;j++){
   
-      ilist[i].map[j].estimate =   ilist[i].map[j].efun(dp) ;
+      ilist[i].map[j].district =   ilist[i].map[j].efun(dp) ;
       ilist[i].map[j].state =   ilist[i].map[j].efun(sn) ;
       ilist[i].map[j].country =   ilist[i].map[j].efun(cn) ;
      
@@ -39,7 +40,7 @@ public getTableData(dp:number,cn,sn,ilist){
    
     rVal[i] = ilist[i].map
   }
-console.log(rVal)
+
   return rVal;
 }
 

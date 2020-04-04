@@ -6,7 +6,8 @@ import { FaqsComponent } from './faqs/faqs.component';
 const routes: Routes = [
   {path: '', component: PredectionsComponent},
   {path: 'faqs', component:FaqsComponent },
-  {path: 'about', component:AboutComponent },
+  {path: 'about', component:AboutComponent }
+
 
 ];
 

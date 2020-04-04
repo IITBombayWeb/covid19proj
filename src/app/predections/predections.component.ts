@@ -1,11 +1,10 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import * as d3 from 'd3';
 import * as t from 'topojson'
-import { HttpClient } from '@angular/common/http';
 import { PredectionService } from '../predection.service';
 import { TableData } from '../table-data';
 import {legendColor} from 'd3-svg-legend';
-declare var Covid19ModelIndia : any; 
+declare var Covid19ModelIndia : any;
 
 export interface Tile {
   color: string;
@@ -49,7 +48,7 @@ export class PredectionsComponent implements OnInit{
     district: 'NAME_2',
   };
   Gsvg:any;
-  displayedColumns: string[] = ['name', 'estimate','state','country', 'units'];
+  displayedColumns: string[] = ['item', 'district','state','country', 'units'];
   displayedTypes: DataMap[] = [{id:'lowParams',name:'Moderate',type:'',map:''},
                                 {id:'highParams',name:'Worst case',type:'',map:''}];
   Thead:TableHead ={sname:'India',dname:''};
@@ -75,21 +74,22 @@ export class PredectionsComponent implements OnInit{
   sa_list:number=100
   max_number:any=[];
   paramsType:any=this.displayedTypes[0].id
-  constructor(private http: HttpClient,private ps: PredectionService) { }
+  Sdate:any;
+  constructor(private ps: PredectionService) { }
   ngOnInit(): void {
     this.DataMp=this.getTdata();
-  
+
     this.ps.requestDataFromMultipleSources().subscribe(responseList => {
       const data =  d3.json("assets/india-districts.json");//Fetch India Map JSON
     this.renderView(data);
    //  console.log(this.getstime())
 
-    //  this.responseData['data'] = responseList[0];  
-    //  this.getMAx() 
+    //  this.responseData['data'] = responseList[0];
+    //  this.getMAx()
      // const  data2 =   d3.json("assets/ne_10m_admin_0_Kashmir_Occupied.json");
   });
 
-  } 
+  }
   // Render India Map
   renderView(data){
          // for(let i=0 ; i< this.DataMp.length;i++){
@@ -101,7 +101,7 @@ export class PredectionsComponent implements OnInit{
 
     let svgEle = this.createSvgElement();
     this.DataTBL = this.ps.Tdata();
-   
+
     const tData = this.DataTBL
     let pService =  this.ps
     var dSource =[]
@@ -111,8 +111,10 @@ export class PredectionsComponent implements OnInit{
     let SFunCrtical = this.getSateCrtical
     let CFunCrtical = this.getCountryCrtical
     let resetToggel = this.resetToggel
-    let maxd =  this.getMaxd;
+    let fmaxd =  this.getMaxd;
+    let maxd =  0;
     let headD  = this.Thead;
+    const maxInterpolation = this.maxInterpolation
     let btn = this.buttonToggle.nativeElement;
     let btn2 = this.buttonToggle2.nativeElement;
     let date = btn.getElementsByTagName('input')[0].value
@@ -120,10 +122,12 @@ export class PredectionsComponent implements OnInit{
     this.cn_list = this.getCountryCrtical(data,this.paramsType)
     let cn_list = this.cn_list
     let sa_list = this.sa_list
+    this.Sdate = btn.querySelector('.active').getElementsByTagName('input')[0].value
     this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
     let Legend = this.createLegend;
     data.then(function (topology) {
-        Legend(svgEle[0],maxd(date,btn2.querySelector('.active').getElementsByTagName('input')[0].value));
+      maxd = fmaxd(date,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
+        Legend(svgEle[0],maxd,maxInterpolation);
         svgEle[1].selectAll('path')
           .data(t.feature(topology,topology.objects.IND_adm2).features)
           .enter()
@@ -136,7 +140,8 @@ export class PredectionsComponent implements OnInit{
             const n2 =  d.properties.district;
             const index_key = n2+"."+n1
             var numCritical = FunCrtical(index_key,btn.querySelector('.active').getElementsByTagName('input')[0].value,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
-              svgEle[3]
+            
+            svgEle[3]
             .html(d.properties.st_nm + "<br>" + "District: " + d.properties.district + "<br>" + "Qty: " + numCritical)
             .style("left", (d3.event.pageX-document.getElementById("main").offsetLeft - 120 )+ "px")
             .style("top", (d3.event.pageY-document.getElementById("main").offsetTop - 80) + "px")
@@ -154,23 +159,23 @@ export class PredectionsComponent implements OnInit{
             sa_list = Scritical
             headD.sname =n1; headD.dname = n2
             dSource = pService.getTableData(numCritical,cn_list,sa_list,tData);
-           console.log(btn2.querySelector('.active').getElementsByTagName('input')[0].value)
+          // console.log(btn2.querySelector('.active').getElementsByTagName('input')[0].value)
           }).on('mouseleave',(d)=>{
             svgEle[3]
             .html("");
           })
-          MapFill(FunCrtical,maxd,date,btn2.querySelector('.active').getElementsByTagName('input')[0].value);
+          MapFill(FunCrtical,maxd,date,btn2.querySelector('.active').getElementsByTagName('input')[0].value,maxInterpolation);
        
   });
-  
- 
+
+
 
 }
 // Create color Bar Range
-createLegend(svg,maxd){
+createLegend(svg,maxd,maxInterpolation){
   const color = d3
   .scaleSequential(d3.interpolateReds)
-  .domain([0, maxd / 0.8 || 10]);
+  .domain([0, maxd / maxInterpolation || 10]);
   //.domain([0, max_d[index] / 0.8 || 10]);
 
 let cells = null;
@@ -200,38 +205,38 @@ svg
   .append('g')
   .attr('class', 'legendLinear')
   .attr('fill','white')
-  .attr('transform', 'translate(-20, -60)');
+  .attr('transform', 'translate(-70, -60)');
 
 const legendLinear = legendColor()
   .shapeWidth(50)
   .cells(cells)
   .titleWidth(4)
-  
+
   .labels(label)
   .orient('vertical')
   .scale(color);
-  svg.select('.legendLinear').call(legendLinear);     
+  svg.select('.legendLinear').call(legendLinear);
 }
 // Create Svg Element
 createSvgElement(){
   let projection = d3.geoMercator().center([88, 18])
     .scale(1050)
     .translate([this.width / 2,this.height / 2]);;
-    
-     
-    
+
+
+
     let svg = d3.select("div.svg-parent")
-   
+
     .append("svg")
-  
+
     .attr('id','chart')
     // Responsive SVG needs these 2 attributes and no width and height attr.
-   
+
     .attr("preserveAspectRatio", "xMidYMid meet")
-    .attr("viewBox", "-50 -50 800 600")
+    .attr("viewBox", "-100 -50 800 600")
     // Class to make it responsive.
     // Fill with a rectangle for visualization.
- 
+
     .attr("width", this.width)
     .attr("height", this.height);
     this.Gsvg =svg
@@ -239,9 +244,9 @@ createSvgElement(){
       .projection(projection);
 
     let g = svg.append('g')
-   
+
     g.attr('class', 'map');
-    
+
     // create a tooltip
     const tooltip = d3.select("#tooltip");
     svg.call(d3.zoom()
@@ -258,24 +263,26 @@ createSvgElement(){
 handleChange(data){
   //If it has district name then
   const btn = this.buttonToggle.nativeElement
+  const date = data.map
+  this.Sdate  = date
   if(this.Thead.dname !==''){
-    const date = btn.querySelector("#"+data.id).getElementsByTagName('input')[0].value
-    this.def_list = this.getDistricCrtical(this.Thead.dname+"."+this.Thead.sname,this.buttonToggle.nativeElement,this.paramsType)
-    this.sa_list = this.getSateCrtical(this.Thead.sname,this.buttonToggle.nativeElement,this.paramsType)
-    this.cn_list = this.getCountryCrtical(this.buttonToggle.nativeElement,this.paramsType)
+    this.def_list = this.getDistricCrtical(this.Thead.dname+"."+this.Thead.sname,date,this.paramsType)
+    this.sa_list = this.getSateCrtical(this.Thead.sname,date,this.paramsType)
+    this.cn_list = this.getCountryCrtical(date,this.paramsType)
     this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
     this.removeColorLegend()
-    this.createLegend(this.Gsvg,this.getMaxd(date,this.paramsType));
-    this.setMapColor(this.getDistricCrtical,this.getMaxd,date,this.paramsType)
+    this.createLegend(this.Gsvg,this.getMaxd(date,this.paramsType),this.maxInterpolation);
+    this.setMapColor(this.getDistricCrtical,this.getMaxd(date,this.paramsType),date,this.paramsType,this.maxInterpolation)
   }else{
     this.resetToggel(btn) // reset Toggel Button if district name doesn't exists
   }
-} 
+}
 // Handel Modrate and crtical
 handleChangeParam(data){
   this.paramsType = data.id;
   //If it has district name then
   if(this.Thead.dname !==''){
+    
     this.def_list = this.getDistricCrtical(this.Thead.dname+"."+this.Thead.sname,this.buttonToggle.nativeElement,this.paramsType) 
     this.sa_list = this.getSateCrtical(this.Thead.sname,this.buttonToggle.nativeElement,this.paramsType)
     this.cn_list = this.getCountryCrtical(this.buttonToggle.nativeElement,this.paramsType)
@@ -305,7 +312,7 @@ getCountryCrtical(date,params){
 getMaxd(date,params){
 
   let model = new Covid19ModelIndia()
- 
+
   return model.districtStatMax("carriers",   params==="lowParams"?model.lowParams:model.highParams, new Date(date)) // Get Maximum Number Of affected People
 }
 
@@ -318,21 +325,22 @@ getstime(){
 }
 
 // This function will set color to district in the map
-setMapColor(funcrtical,funmaxd,date,params){
-  const maxd = funmaxd(date,params) // Get Maximum Number from Model
+setMapColor(funcrtical,maxd,date,params,maxInterpolation){
+ 
  
   d3.select('.map').selectAll('path') // Select all paths of the maps
-  .style("fill", (d)=>{  // Set Color function 
+  .style("fill", (d)=>{  // Set Color function
     const n1 = d.properties.st_nm; // Select State name
     const n2 =  d.properties.district // Select District name
-    const dist_id = n2+"."+n1 // Create district and state key  
+    const dist_id = n2+"."+n1 // Create district and state key
     let numCritical = funcrtical(dist_id,date,params) // Initializing and set default number of critical
-   
+
+   //console.log(dist_id , numCritical , maxd)
     const color = // Color Function to set color
-    numCritical === 0 
+    numCritical === 0
         ? '#ffffff' // White Color if its Zero
         : d3.interpolateReds(
-            (0.8 * numCritical) / ( maxd ) // Color calculation
+            (maxInterpolation * numCritical) / ( maxd ) // Color calculation
           ); // Return RGB Value
         return color; // Return Color
   })
@@ -354,7 +362,7 @@ getDate(n){
     return date;// return date object
   }
 
- 
+
 
 
 
@@ -372,7 +380,7 @@ getDate(n){
   //   for(let i =0;i< this.DataMp.length;i++){
   //     this.max_number[this.DataMp[i].id] = this.maxcalculate(this.objCOn(this.responseData['data']));
   //   }
-   
+
   // }
 
   // objCOn(obj){
@@ -381,21 +389,21 @@ getDate(n){
   // maxcalculate(d){
   //  let data:any=[];
   //    for(let i=0;i < d.length;i++){
-     
+
   //     data[i] = this.objCOn(d[i].districtData);
-        
-      
+
+
   //    }
   //    let max =0
   //    for(let j=0;j<data.length;j++){
-     
+
   //     for(let k=0;k<data[j].length;k++){
   //       var curr_val = this.objCOn(data[j][k])[0];
   //       if(curr_val > max){
   //         max = curr_val;
   //       }
   //     }
-  //    } 
+  //    }
   //   return max;
   // }
 }
