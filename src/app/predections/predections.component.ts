@@ -111,8 +111,10 @@ export class PredectionsComponent implements OnInit{
     let SFunCrtical = this.getSateCrtical
     let CFunCrtical = this.getCountryCrtical
     let resetToggel = this.resetToggel
-    let maxd =  this.getMaxd;
+    let fmaxd =  this.getMaxd;
+    let maxd =  0;
     let headD  = this.Thead;
+    const maxInterpolation = this.maxInterpolation
     let btn = this.buttonToggle.nativeElement;
     let btn2 = this.buttonToggle2.nativeElement;
     let date = btn.getElementsByTagName('input')[0].value
@@ -124,7 +126,8 @@ export class PredectionsComponent implements OnInit{
     this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
     let Legend = this.createLegend;
     data.then(function (topology) {
-        Legend(svgEle[0],maxd(date,btn2.querySelector('.active').getElementsByTagName('input')[0].value));
+      maxd = fmaxd(date,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
+        Legend(svgEle[0],maxd,maxInterpolation);
         svgEle[1].selectAll('path')
           .data(t.feature(topology,topology.objects.IND_adm2).features)
           .enter()
@@ -137,7 +140,8 @@ export class PredectionsComponent implements OnInit{
             const n2 =  d.properties.district;
             const index_key = n2+"."+n1
             var numCritical = FunCrtical(index_key,btn.querySelector('.active').getElementsByTagName('input')[0].value,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
-              svgEle[3]
+            
+            svgEle[3]
             .html(d.properties.st_nm + "<br>" + "District: " + d.properties.district + "<br>" + "Qty: " + numCritical)
             .style("left", (d3.event.pageX-document.getElementById("main").offsetLeft - 120 )+ "px")
             .style("top", (d3.event.pageY-document.getElementById("main").offsetTop - 80) + "px")
@@ -160,7 +164,7 @@ export class PredectionsComponent implements OnInit{
             svgEle[3]
             .html("");
           })
-          MapFill(FunCrtical,maxd,date,btn2.querySelector('.active').getElementsByTagName('input')[0].value);
+          MapFill(FunCrtical,maxd,date,btn2.querySelector('.active').getElementsByTagName('input')[0].value,maxInterpolation);
        
   });
   
@@ -168,10 +172,10 @@ export class PredectionsComponent implements OnInit{
 
 }
 // Create color Bar Range
-createLegend(svg,maxd){
+createLegend(svg,maxd,maxInterpolation){
   const color = d3
   .scaleSequential(d3.interpolateReds)
-  .domain([0, maxd / 0.8 || 10]);
+  .domain([0, maxd / maxInterpolation || 10]);
   //.domain([0, max_d[index] / 0.8 || 10]);
 
 let cells = null;
@@ -259,15 +263,16 @@ createSvgElement(){
 handleChange(data){
   //If it has district name then
   const btn = this.buttonToggle.nativeElement
+  const date = data.map
+  this.Sdate  = date
   if(this.Thead.dname !==''){
-    const date = data.map
     this.def_list = this.getDistricCrtical(this.Thead.dname+"."+this.Thead.sname,date,this.paramsType)
     this.sa_list = this.getSateCrtical(this.Thead.sname,date,this.paramsType)
     this.cn_list = this.getCountryCrtical(date,this.paramsType)
     this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
     this.removeColorLegend()
-    this.createLegend(this.Gsvg,this.getMaxd(date,this.paramsType));
-    this.setMapColor(this.getDistricCrtical,this.getMaxd,date,this.paramsType)
+    this.createLegend(this.Gsvg,this.getMaxd(date,this.paramsType),this.maxInterpolation);
+    this.setMapColor(this.getDistricCrtical,this.getMaxd(date,this.paramsType),date,this.paramsType,this.maxInterpolation)
   }else{
     this.resetToggel(btn) // reset Toggel Button if district name doesn't exists
   }
@@ -277,6 +282,7 @@ handleChangeParam(data){
   this.paramsType = data.id;
   //If it has district name then
   if(this.Thead.dname !==''){
+    
     this.def_list = this.getDistricCrtical(this.Thead.dname+"."+this.Thead.sname,this.buttonToggle.nativeElement,this.paramsType) 
     this.sa_list = this.getSateCrtical(this.Thead.sname,this.buttonToggle.nativeElement,this.paramsType)
     this.cn_list = this.getCountryCrtical(this.buttonToggle.nativeElement,this.paramsType)
@@ -319,8 +325,8 @@ getstime(){
 }
 
 // This function will set color to district in the map
-setMapColor(funcrtical,funmaxd,date,params){
-  const maxd = funmaxd(date,params) // Get Maximum Number from Model
+setMapColor(funcrtical,maxd,date,params,maxInterpolation){
+ 
  
   d3.select('.map').selectAll('path') // Select all paths of the maps
   .style("fill", (d)=>{  // Set Color function 
@@ -328,12 +334,13 @@ setMapColor(funcrtical,funmaxd,date,params){
     const n2 =  d.properties.district // Select District name
     const dist_id = n2+"."+n1 // Create district and state key  
     let numCritical = funcrtical(dist_id,date,params) // Initializing and set default number of critical
-   
+
+   console.log(dist_id , numCritical , maxd)
     const color = // Color Function to set color
     numCritical === 0 
         ? '#ffffff' // White Color if its Zero
         : d3.interpolateReds(
-            (0.8 * numCritical) / ( maxd ) // Color calculation
+            (maxInterpolation * numCritical) / ( maxd ) // Color calculation
           ); // Return RGB Value
         return color; // Return Color
   })
