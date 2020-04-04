@@ -50,8 +50,8 @@ export class PredectionsComponent implements OnInit{
   };
   Gsvg:any;
   displayedColumns: string[] = ['name', 'estimate','state','country', 'units'];
-  displayedTypes: DataMap[] = [{id:'lowParams',name:'Modrate',type:'',map:''},
-                                {id:'highParams',name:'Critical',type:'',map:''}];
+  displayedTypes: DataMap[] = [{id:'lowParams',name:'Moderate',type:'',map:''},
+                                {id:'highParams',name:'Worst case',type:'',map:''}];
   Thead:TableHead ={sname:'India',dname:''};
   tiles: Tile[] = [
     {text: '0', cols: 1, rows: 1, color: ' rgb(246, 238, 234)'},
