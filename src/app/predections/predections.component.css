@@ -1,22 +1,3 @@
-/* .example-card {
-  margin-left: 10px;
-  margin-right: 10px;
- 
-  }
-  
-
-.district, .disputed, .state rect, .state path { stroke: #a9a9a9; stroke-width: 1px; }
-
-.district:hover { stroke: #777777; stroke-width: 1px; fill-opacity: .7; }
-.state:hover rect { stroke: #777777; stroke-width: 2px; fill-opacity: .7; }
-.state:hover path { fill-opacity: .7; } */
-/* .MapExplorer{
-      margin-top: 20px;
-}
-.hidden {
-      display: none;
-} */
-
 .legendLinear .legendCells.cell text.label {
       color: white;
  }
@@ -32,30 +13,24 @@ div.tooltip {
       width: fit-content;
       font-size: x-small;
 }
-   /* table {
-     
-      height: fit-content;
-      font-size:x-small;
+::-webkit-scrollbar {
+      width: 5px;
+      height:5px;
     }
-     .card-table{
     
-     margin-bottom: 20px;
-          font-size: x-small;
-          display: table;
+    /* Track */
+    ::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 5px grey;
+      border-radius: 20px;
     }
-    .tab-tile{
-      margin-left:100px;
-      width: max-content;
+    
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: #7d176d;
+      border-radius: 20px;
     }
-   
-  
-    @media screen and (max-width: 748px) and (min-width: 768px){
-      .card-table{
-               height: 100%;
-               width: 100vw;
-          }
+    
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: #d725bb;
     }
-
-    @media screen and (max-width: 748px) and (min-width: 500px){
-
-    } */

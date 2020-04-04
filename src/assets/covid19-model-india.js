@@ -74,16 +74,21 @@ class Covid19Model
 
   interpolateAt(date, g, t)
   {
+    
     for (let i = 0; i < t.length; i++) {
+     
       if (date <= t[i]) {
+        
         return g[i];
       }
     }
+   
     return g[g.length - 1];
   }
 
   districtStat(category, districtIndex, params, date)
   {
+   
     const stateName     = this.districtParams[districtIndex].state;
     const stateIndex    = this.stateNameIndexMap.get(stateName);
     const adjustedCount = this.districtAdjustedCount[districtIndex];
@@ -92,7 +97,7 @@ class Covid19Model
     const reported      = Math.floor(this.districtNewsCount[districtIndex]);
     const carriers      = Math.floor(growth * n * adjustedCount);
     const critical      = Math.floor(0.01 * params.x * carriers);
-
+  
     switch (category) {
       case "reported" : return reported; break;
       case "carriers" : return carriers; break;
