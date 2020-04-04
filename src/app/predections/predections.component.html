@@ -1,69 +1,118 @@
 
-<mat-toolbar color="primary">TableData Heat Map</mat-toolbar><br>
-<mat-grid-list *ngIf="DataMp" id="p1"class="example-card" [cols]="breakpoint" rowHeight="700px" (window:resize)="onResize($event)"> 
-  <div *ngFor="let D of DataMp">
-    <mat-grid-tile   colspan='3' id="main-{{D.id}}"> 
-<mat-card class="card-map">
-    <mat-card-header>
-        <mat-card-title>{{D.name}}</mat-card-title>
-       
-      </mat-card-header>
-    <mat-card-content>
-      <div class="mainLinear-{{D.id}}"></div>
+
+<div class="wrapper">
+ 
+  <div class="main-panel">
+<app-navbar></app-navbar>
+    <!-- End Navbar -->
+    <div class="content">
+      <div class="row">
         
-          <div class="MapExplorer-{{D.id}} fadeInUp">
-            <div id="main-{{D.id}}" class="svg-parent-{{D.id}}">
-                <div class="tooltip" id="{{D.id}}">
-                
+       <app-notification class="col-md-12"> 
+
+       </app-notification>
+
+
+
+
+
+        <div class="col-6">
+          <div class="card card-chart">
+            <div class="card-body">
+                <div id="main" class="svg-parent">
+                    <div class="tooltip" id="tooltip"></div>
                 </div>
-              
             </div>
+          </div>
         </div>
 
-    </mat-card-content>
-  
-   
-  </mat-card>
-</mat-grid-tile>
-<mat-grid-tile  class="tab-tile"style="margin-left: 10px;" *ngFor="let D1 of DataTBL[D.id];let i=index" colspan='2' id="table-{{D.id}}"> 
-  <mat-card  class="card-table" *ngIf="i==0 && Ndistrict[D.id] " >
-  <h3>{{Ndistrict[D.id]}}</h3>
-      <h3>{{Nstate[D.id]}}</h3>
-  </mat-card>
-    <mat-card  class="card-table" >
-      <h3>{{D1.name}}</h3>
-   
-   
-            <table  mat-table  [dataSource]="dataSource[D.id][i]" class="mat-elevation-z8">
 
-        
-              <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef> Name </th>
-                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-              </ng-container>
-            
+
+
+
+
+
+        <div class="col-6">
+          <div class="card card-chart">
+            <div class="card-header ">
+              <div class="row">
+                <div class="col-sm-6 text-left">
+                  <h3 class="card-title">{{Thead.sname}}</h3>
+                  <h2 class="card-title">{{Thead.dname}}</h2>
+                </div>
+                <div class="col-sm-6 ">
+                  <div  #buttonToggle id="weeks" class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+                    <label *ngFor="let d of DataMp;let i = index"  class="btn btn-sm btn-primary btn-simple"  [ngClass]="{'active': d.type}" id="{{d.id}}" (click)="handleChange(d)">
+                      <input type="radio"  value="{{d.map}}" name="options" >
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">{{d.name}}</span>
+                      <span class="d-block d-sm-none">
+                        <i class="tim-icons icon-single-02"></i>
+                      </span>
+                    </label>
+                   
+                  </div>
+                </div>
+              
+              
+              </div>
+            </div>
            
-              <ng-container matColumnDef="estimate">
-                <th mat-header-cell *matHeaderCellDef>Estimate </th>
-                <td mat-cell *matCellDef="let element"> {{element.estimate}} </td>
-              </ng-container>
-            
-        
-              <ng-container matColumnDef="units">
-                <th mat-header-cell *matHeaderCellDef> Units </th>
-                <td mat-cell *matCellDef="let element"> {{element.units}} </td>
-              </ng-container>
-             
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>  
-          
-          </mat-card> 
+            <div class="card-body ">
+              <div class="row">
+               
+                <div class="col-sm-12 ">
+                  <div  #buttonToggle2 id="weeks" class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+                    <label *ngFor="let d of displayedTypes;let i = index"  class="btn btn-sm btn-primary btn-simple"  [ngClass]="{'active': i==0}" id="{{d.id}}" (click)="handleChangeParam(d)">
+                      <input type="radio"  value="{{d.id}}" name="options" >
+                      <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">{{d.name}}</span>
+                      <span class="d-block d-sm-none">
+                        <i class="tim-icons icon-single-02"></i>
+                      </span>
+                    </label>
+                   
+                  </div>
+                </div>
+                <div class="col-sm-12 card-body">
+                    <ul class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                      <li  *ngFor="let D1 of DataTBL;let i=index" ><a class="nav-item nav-link {{i==0?'show active':''}}" aria-selected="true" href="#{{D1.id}}" role="tab" data-toggle="tab">{{D1.name}}</a></li> 
+                    </ul>
+                </div>
+              </div>
+            </div>
+            <div class="tab-content">
+            <div role="tabpanel" *ngFor="let D1 of DataTBL;let i=index"  class="card-body tab-pane fade {{i==0?'show active':''}}" id="{{D1.id}}" role="tabpanel" [attr.aria-labelledby]="D1.id">
+              <div class="col-sm-6 text-left">
+                <h2 class="card-title">{{D1.name}}</h2>
+              </div>
+              <div class="table-responsive" >
+                <table class="table tablesorter " id="">
+                  <thead class=" text-primary">
+                    <tr>
+                      <th *ngFor="let  head of displayedColumns">
+                        {{head}}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let TBL of dataSource[i]">
 
+                      <td *ngFor="let  head of displayedColumns">
+                           {{TBL[head]}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+      </div>
 
-   
-       
-    </mat-grid-tile>
+          </div>
+        </div>
+      </div>
 
+ 
+    </div>
+    
   </div>
-</mat-grid-list>
+</div>
+
