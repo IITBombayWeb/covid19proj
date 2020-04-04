@@ -34,3 +34,18 @@ div.tooltip {
     ::-webkit-scrollbar-thumb:hover {
       background: #d725bb;
     }
+    .nav-tabs .nav-link.active,
+    .nav-tabs .nav-item.show .nav-link {
+      color: #ffffff;
+      border-color: #e14eca;
+      background-image: linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca) !important;
+      background-image: -webkit-linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca) !important;
+      background-image: -o-linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca) !important;
+      background-image: -moz-linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca) !important;
+      background-color: #ba54f5 !important;
+      box-shadow: none;
+    }
+    a {
+      color: #d725bb;
+      font-weight: 300;
+    }
