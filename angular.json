@@ -22,6 +22,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
+              "src/doc/aboutinv.pdf",
               "src/_redirects"
             ],
             "styles": [
