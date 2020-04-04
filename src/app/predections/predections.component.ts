@@ -1,7 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import * as d3 from 'd3';
 import * as t from 'topojson'
-import { HttpClient } from '@angular/common/http';
 import { PredectionService } from '../predection.service';
 import { TableData } from '../table-data';
 import {legendColor} from 'd3-svg-legend';
@@ -76,7 +75,7 @@ export class PredectionsComponent implements OnInit{
   max_number:any=[];
   paramsType:any=this.displayedTypes[0].id
   Sdate:any;
-  constructor(private http: HttpClient,private ps: PredectionService) { }
+  constructor(private ps: PredectionService) { }
   ngOnInit(): void {
     this.DataMp=this.getTdata();
   
