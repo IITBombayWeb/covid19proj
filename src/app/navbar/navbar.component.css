@@ -2,3 +2,96 @@
     text-transform: none;
     font-size: 1.5rem;
 }
+@media only screen  and (max-width: 274px) {
+    .navbar .navbar-brand{
+        text-transform: none;
+        font-size: 5px;
+    }
+  }
+@media only screen  and (min-width: 275px) and (max-width: 315px) {
+    .navbar .navbar-brand{
+        text-transform: none;
+        font-size: 5px;
+    }
+
+    .textMobile {
+        font-size: 10px;
+     }
+  }
+@media only screen  and (min-width: 316px) and (max-width: 336px) {
+    .navbar .navbar-brand{
+        text-transform: none;
+        font-size: 8px;
+    }
+
+    .textMobile {
+        font-size: 13px;
+     }
+  }
+  @media only screen and (min-width: 336px) and (max-width: 380px) {
+    .navbar .navbar-brand{
+        text-transform: none;
+        font-size: 9px;
+    }
+    .textMobile {
+        font-size: 13px;
+     }
+  
+  
+  }
+  @media only screen and (min-width: 381px) and (max-width: 424px) {
+    .navbar .navbar-brand{
+        text-transform: none;
+        font-size: 11px;
+    }
+   
+  }
+  @media only screen and (min-width: 425px) and (max-width: 525px) {
+    .navbar .navbar-brand{
+        text-transform: none;
+        font-size: 13px;
+    }
+
+  
+  }
+  @media only screen and (min-width: 526px) and (max-width: 625px) {
+    .navbar .navbar-brand{
+        text-transform: none;
+        font-size: 16px;
+    }
+
+  
+  }
+  @media only screen and (min-width: 625px) and (max-width: 730px) {
+    .navbar .navbar-brand{
+        text-transform: none;
+        font-size: 17px;
+    }
+
+  
+  }
+  @media only screen and (min-width: 731px) and (max-width: 800px) {
+    .navbar .navbar-brand{
+        text-transform: none;
+        font-size: 19px;
+    }
+
+  
+  }
+  @media only screen and (min-width: 992px) and (max-width: 1064px) {
+    .navbar .navbar-brand{
+        text-transform: none;
+        font-size: 1.3rem;
+    }
+
+  
+  }
+  /* @media only screen and (min-width: 435px) and (max-width: 658px) {
+    .navbar .navbar-brand{
+        text-transform: none;
+        font-size: 17px;
+    }
+    .navbar {
+       padding-left: 0px;
+    }
+  } */
