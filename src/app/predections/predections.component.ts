@@ -49,7 +49,7 @@ export class PredectionsComponent implements OnInit{
     district: 'NAME_2',
   };
   Gsvg:any;
-  displayedColumns: string[] = ['name', 'estimate','state','country', 'units'];
+  displayedColumns: string[] = ['item', 'district','state','country', 'units'];
   displayedTypes: DataMap[] = [{id:'lowParams',name:'Modrate',type:'',map:''},
                                 {id:'highParams',name:'Critical',type:'',map:''}];
   Thead:TableHead ={sname:'India',dname:''};
