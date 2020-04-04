@@ -12,7 +12,9 @@ export interface Tile {
   rows: number;
   text: string;
 }
-
+export interface DispDate {
+  date: string;
+}
 export interface TableElement {
   name: string;
   position: number;
@@ -74,7 +76,7 @@ export class PredectionsComponent implements OnInit{
   sa_list:number=100
   max_number:any=[];
   paramsType:any=this.displayedTypes[0].id
-  Sdate:any;
+  Sdate:DispDate;
   constructor(private ps: PredectionService) { }
   ngOnInit(): void {
     this.DataMp=this.getTdata();
@@ -117,16 +119,16 @@ export class PredectionsComponent implements OnInit{
     const maxInterpolation = this.maxInterpolation
     let btn = this.buttonToggle.nativeElement;
     let btn2 = this.buttonToggle2.nativeElement;
-    let date = btn.getElementsByTagName('input')[0].value
     let def_list = this.def_list
     this.cn_list = this.getCountryCrtical(data,this.paramsType)
     let cn_list = this.cn_list
     let sa_list = this.sa_list
-    this.Sdate = btn.querySelector('.active').getElementsByTagName('input')[0].value
+    this.Sdate = {date: this.buttonToggle.nativeElement.querySelector('.active').getElementsByTagName('input')[0].value}
+    let date = this.Sdate
     this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
     let Legend = this.createLegend;
     data.then(function (topology) {
-      maxd = fmaxd(date,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
+      maxd = fmaxd(date.date,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
         Legend(svgEle[0],maxd,maxInterpolation);
         svgEle[1].selectAll('path')
           .data(t.feature(topology,topology.objects.IND_adm2).features)
@@ -148,12 +150,13 @@ export class PredectionsComponent implements OnInit{
           })
           .on("click", function(d){
             resetToggel(btn)
+            date.date = btn.querySelector('.active').getElementsByTagName('input')[0].value
             const n1 = d.properties.st_nm;
             const n2 =  d.properties.district;
             const index_key = n2+"."+n1
-            let numCritical = FunCrtical(index_key,date,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
-            let Scritical = SFunCrtical(n1,date,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
-            let Ccritical = CFunCrtical(date,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
+            let numCritical = FunCrtical(index_key,date.date,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
+            let Scritical = SFunCrtical(n1,date.date,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
+            let Ccritical = CFunCrtical(date.date,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
             def_list =  numCritical
             cn_list = Ccritical
             sa_list = Scritical
@@ -164,7 +167,7 @@ export class PredectionsComponent implements OnInit{
             svgEle[3]
             .html("");
           })
-          MapFill(FunCrtical,maxd,date,btn2.querySelector('.active').getElementsByTagName('input')[0].value,maxInterpolation);
+          MapFill(FunCrtical,maxd,date.date,btn2.querySelector('.active').getElementsByTagName('input')[0].value,maxInterpolation);
        
   });
 
@@ -264,7 +267,7 @@ handleChange(data){
   //If it has district name then
   const btn = this.buttonToggle.nativeElement
   const date = data.map
-  this.Sdate  = date
+  this.Sdate.date  = date
   if(this.Thead.dname !==''){
     this.def_list = this.getDistricCrtical(this.Thead.dname+"."+this.Thead.sname,date,this.paramsType)
     this.sa_list = this.getSateCrtical(this.Thead.sname,date,this.paramsType)
@@ -272,7 +275,7 @@ handleChange(data){
     this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
     this.removeColorLegend()
     this.createLegend(this.Gsvg,this.getMaxd(date,this.paramsType),this.maxInterpolation);
-    this.setMapColor(this.getDistricCrtical,this.getMaxd(date,this.paramsType),date,this.paramsType,this.maxInterpolation)
+   // this.setMapColor(this.getDistricCrtical,this.getMaxd(date,this.paramsType),date,this.paramsType,this.maxInterpolation)
   }else{
     this.resetToggel(btn) // reset Toggel Button if district name doesn't exists
   }
@@ -280,12 +283,12 @@ handleChange(data){
 // Handel Modrate and crtical
 handleChangeParam(data){
   this.paramsType = data.id;
+  const date = this.buttonToggle.nativeElement.querySelector('.active').getElementsByTagName('input')[0].value
   //If it has district name then
   if(this.Thead.dname !==''){
-    
-    this.def_list = this.getDistricCrtical(this.Thead.dname+"."+this.Thead.sname,this.buttonToggle.nativeElement,this.paramsType) 
-    this.sa_list = this.getSateCrtical(this.Thead.sname,this.buttonToggle.nativeElement,this.paramsType)
-    this.cn_list = this.getCountryCrtical(this.buttonToggle.nativeElement,this.paramsType)
+    this.def_list = this.getDistricCrtical(this.Thead.dname+"."+this.Thead.sname,date,this.paramsType) 
+    this.sa_list = this.getSateCrtical(this.Thead.sname,date,this.paramsType)
+    this.cn_list = this.getCountryCrtical(date,this.paramsType)
     this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
   }
 }
