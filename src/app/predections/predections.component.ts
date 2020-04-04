@@ -335,7 +335,7 @@ setMapColor(funcrtical,maxd,date,params,maxInterpolation){
     const dist_id = n2+"."+n1 // Create district and state key
     let numCritical = funcrtical(dist_id,date,params) // Initializing and set default number of critical
 
-   console.log(dist_id , numCritical , maxd)
+   //console.log(dist_id , numCritical , maxd)
     const color = // Color Function to set color
     numCritical === 0
         ? '#ffffff' // White Color if its Zero
