@@ -16532,7 +16532,8 @@ h3,
 
 h4,
 .h4 {
-  line-height: 1.45em;
+  line-height: 2;
+  letter-spacing: 1px;
   margin-bottom: 15px;
 }
 
