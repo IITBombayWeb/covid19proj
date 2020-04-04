@@ -50,8 +50,8 @@ export class PredectionsComponent implements OnInit{
   };
   Gsvg:any;
   displayedColumns: string[] = ['item', 'district','state','country', 'units'];
-  displayedTypes: DataMap[] = [{id:'lowParams',name:'Modrate',type:'',map:''},
-                                {id:'highParams',name:'Critical',type:'',map:''}];
+  displayedTypes: DataMap[] = [{id:'lowParams',name:'Moderate',type:'',map:''},
+                                {id:'highParams',name:'Worst case',type:'',map:''}];
   Thead:TableHead ={sname:'India',dname:''};
   tiles: Tile[] = [
     {text: '0', cols: 1, rows: 1, color: ' rgb(246, 238, 234)'},
@@ -75,6 +75,7 @@ export class PredectionsComponent implements OnInit{
   sa_list:number=100
   max_number:any=[];
   paramsType:any=this.displayedTypes[0].id
+  Sdate:any;
   constructor(private http: HttpClient,private ps: PredectionService) { }
   ngOnInit(): void {
     this.DataMp=this.getTdata();
@@ -120,6 +121,7 @@ export class PredectionsComponent implements OnInit{
     this.cn_list = this.getCountryCrtical(data,this.paramsType)
     let cn_list = this.cn_list
     let sa_list = this.sa_list
+    this.Sdate = btn.querySelector('.active').getElementsByTagName('input')[0].value
     this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
     let Legend = this.createLegend;
     data.then(function (topology) {
@@ -154,7 +156,7 @@ export class PredectionsComponent implements OnInit{
             sa_list = Scritical
             headD.sname =n1; headD.dname = n2
             dSource = pService.getTableData(numCritical,cn_list,sa_list,tData);
-           console.log(btn2.querySelector('.active').getElementsByTagName('input')[0].value)
+          // console.log(btn2.querySelector('.active').getElementsByTagName('input')[0].value)
           }).on('mouseleave',(d)=>{
             svgEle[3]
             .html("");
@@ -259,10 +261,10 @@ handleChange(data){
   //If it has district name then
   const btn = this.buttonToggle.nativeElement
   if(this.Thead.dname !==''){
-    const date = btn.querySelector("#"+data.id).getElementsByTagName('input')[0].value
-    this.def_list = this.getDistricCrtical(this.Thead.dname+"."+this.Thead.sname,this.buttonToggle.nativeElement,this.paramsType)
-    this.sa_list = this.getSateCrtical(this.Thead.sname,this.buttonToggle.nativeElement,this.paramsType)
-    this.cn_list = this.getCountryCrtical(this.buttonToggle.nativeElement,this.paramsType)
+    const date = data.map
+    this.def_list = this.getDistricCrtical(this.Thead.dname+"."+this.Thead.sname,date,this.paramsType)
+    this.sa_list = this.getSateCrtical(this.Thead.sname,date,this.paramsType)
+    this.cn_list = this.getCountryCrtical(date,this.paramsType)
     this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
     this.removeColorLegend()
     this.createLegend(this.Gsvg,this.getMaxd(date,this.paramsType));

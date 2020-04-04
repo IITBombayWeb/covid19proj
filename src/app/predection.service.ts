@@ -31,7 +31,7 @@ public getTableData(dp:number,cn,sn,ilist){
     rVal[i] = []
     for(let j=0;j<ilist[i].map.length;j++){
   
-      ilist[i].map[j].estimate =   ilist[i].map[j].efun(dp) ;
+      ilist[i].map[j].district =   ilist[i].map[j].efun(dp) ;
       ilist[i].map[j].state =   ilist[i].map[j].efun(sn) ;
       ilist[i].map[j].country =   ilist[i].map[j].efun(cn) ;
      
@@ -39,7 +39,7 @@ public getTableData(dp:number,cn,sn,ilist){
    
     rVal[i] = ilist[i].map
   }
-console.log(rVal)
+
   return rVal;
 }
 
