@@ -1,50 +1,40 @@
-
-
 <div class="wrapper">
 
   <div class="main-panel ps">
-<app-navbar></app-navbar>
+    <app-navbar></app-navbar>
     <!-- End Navbar -->
     <div class="content">
       <div class="row">
 
-       <app-notification class="col-md-12 col-sm-12">
+        <app-notification class="col-md-12 col-sm-12">
 
-       </app-notification>
-
-
-
-
-
-        <div class="col-lg-6 col-md-12 col-sm-12">
+        </app-notification>
+        <div class="row">
+          <div class="col-sm-12 col-sm-12 text-left">
+            <h3 class="card-title pl-20">Requirement Projection (District-wise) </h3>
+          </div>
+        <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
           <div class="card card-chart">
             <div class="card-body">
-                <div id="main" class="svg-parent">
-                    <div class="tooltip" id="tooltip"></div>
-                </div>
+              <div id="main" class="svg-parent">
+                <div class="tooltip" id="tooltip"></div>
+              </div>
             </div>
           </div>
         </div>
 
-
-
-
-
-
-
-        <div class="col-lg-6 col-md-12  col-sm-12">
+        <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
           <div class="card card-chart">
             <div class="card-header ">
               <div class="row">
                 <div class="col-sm-6 col-sm-6 text-left">
-                  <h3 class="card-title">{{Thead.dname}} {{Thead.dname !==''?',':''}}  {{Thead.sname}}</h3>
-                  <h3 class="card-title"> {{Sdate|date:'fullDate'}}</h3>
-             
+                  <h3 class="card-title">{{Thead.sname}}</h3>
+                  <h3 class="card-title">{{Thead.dname}} {{Sdate|date:'fullDate'}}</h3>
                 </div>
                 <div class="col-sm-6 col-sm-6">
-                  <div  #buttonToggle id="weeks" class="btn-group btn-group-toggle float-right" data-toggle="buttons">
-                    <label *ngFor="let d of DataMp;let i = index"  class="btn btn-sm btn-primary btn-simple"  [ngClass]="{'active': d.type}" id="{{d.id}}" (click)="handleChange(d)">
-                      <input type="radio"  value="{{d.map}}" name="options" >
+                  <div #buttonToggle id="weeks" class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+                    <label *ngFor="let d of DataMp;let i = index" class="btn btn-sm btn-primary btn-simple" [ngClass]="{'active': d.type}" id="{{d.id}}" (click)="handleChange(d)">
+                      <input type="radio" value="{{d.map}}" name="options">
                       <span class="d-sm-block d-md-block d-lg-block d-xl-block">{{d.name}}</span>
                     </label>
 
@@ -59,9 +49,9 @@
               <div class="row">
 
                 <div class="col-md-12 ">
-                  <div  #buttonToggle2 id="weeks" class="btn-group btn-group-toggle float-right" data-toggle="buttons">
-                    <label *ngFor="let d of displayedTypes;let i = index"  class="btn btn-sm btn-primary btn-simple"  [ngClass]="{'active': i==0}" id="{{d.id}}" (click)="handleChangeParam(d)">
-                      <input type="radio"  value="{{d.id}}" name="options" >
+                  <div #buttonToggle2 id="weeks" class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+                    <label *ngFor="let d of displayedTypes;let i = index" class="btn btn-sm btn-primary btn-simple" [ngClass]="{'active': i==0}" id="{{d.id}}" (click)="handleChangeParam(d)">
+                      <input type="radio" value="{{d.id}}" name="options">
                       <span class=" d-sm-block d-md-block d-lg-block d-xl-block">{{d.name}}</span>
 
                     </label>
@@ -69,38 +59,39 @@
                   </div>
                 </div>
                 <div class="col-md-12 card-body">
-                    <ul class="nav nav-tabs " id="nav-tab" role="tablist">
-                      <li *ngFor="let D1 of DataTBL;let i=index" ><a class="nav-item nav-link {{i==0?'show active':''}}" aria-selected="true" href="#{{D1.id}}" role="tab" data-toggle="tab"><b>{{D1.name}}</b></a></li>
-                    </ul>
+                  <ul class="nav nav-tabs " id="nav-tab" role="tablist">
+                    <li *ngFor="let D1 of DataTBL;let i=index"><a class="nav-item nav-link {{i==0?'show active':''}}" aria-selected="true" href="#{{D1.id}}" role="tab" data-toggle="tab"><b>{{D1.name}}</b></a></li>
+                  </ul>
                 </div>
               </div>
             </div>
             <div class="tab-content">
-            <div role="tabpanel" *ngFor="let D1 of DataTBL;let i=index"  class="card-body tab-pane fade {{i==0?'show active':''}}" id="{{D1.id}}" role="tabpanel" [attr.aria-labelledby]="D1.id">
-              <div class="col-sm-6 text-left">
-                <h2 class="card-title">{{D1.name}}</h2>
-              </div>
-              <div class="table-responsive" >
-                <table class="table tablesorter " id="">
-                  <thead class=" text-primary">
-                    <tr>
-                      <th *ngFor="let  head of displayedColumns">
-                        {{head}}
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let TBL of dataSource[i]">
+              <div role="tabpanel" *ngFor="let D1 of DataTBL;let i=index" class="card-body tab-pane fade {{i==0?'show active':''}}" id="{{D1.id}}" role="tabpanel" [attr.aria-labelledby]="D1.id">
+                <div class="col-sm-6 text-left">
+                  <h2 class="card-title">{{D1.name}}</h2>
+                </div>
+                <div class="table-responsive">
+                  <table class="table tablesorter " id="">
+                    <thead class=" text-primary">
+                      <tr>
+                        <th *ngFor="let  head of displayedColumns">
 
-                      <td *ngFor="let  head of displayedColumns">
-                           {{TBL[head]}}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                          {{head}}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let TBL of dataSource[i]">
+
+                        <td *ngFor="let  head of displayedColumns">
+                          {{TBL[head]}}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
-      </div>
 
           </div>
         </div>
