@@ -20430,3 +20430,34 @@ Copyright (c) 2015 Daniel Eden
 }
 
 /*# sourceMappingURL=dashboard-free.css.map */
+
+/* width */
+/* ::-webkit-scrollbar {
+  width: 5px;
+  height:5px;
+} */
+
+/* Track */
+/* ::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 20px;
+} */
+
+/* Handle */
+/* ::-webkit-scrollbar-thumb {
+  background: #7d176d;
+  border-radius: 20px;
+} */
+
+/* Handle on hover */
+/* ::-webkit-scrollbar-thumb:hover {
+  background: #d725bb;
+} */
+
+h4
+.h4 {
+
+ line-height: 2;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+}
