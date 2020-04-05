@@ -264,21 +264,22 @@ createSvgElement(){
 }
 // Handle Change Of toggelButton
 handleChange(data){
-  //If it has district name then
-  const btn = this.buttonToggle.nativeElement
-  const date = data.map
-  this.Sdate.date  = date
-  if(this.Thead.dname !==''){
-    this.def_list = this.getDistricCrtical(this.Thead.dname+"."+this.Thead.sname,date,this.paramsType)
-    this.sa_list = this.getSateCrtical(this.Thead.sname,date,this.paramsType)
-    this.cn_list = this.getCountryCrtical(date,this.paramsType)
-    this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
-    this.removeColorLegend()
-    this.createLegend(this.Gsvg,this.getMaxd(date,this.paramsType),this.maxInterpolation);
-   // this.setMapColor(this.getDistricCrtical,this.getMaxd(date,this.paramsType),date,this.paramsType,this.maxInterpolation)
-  }else{
-    this.resetToggel(btn) // reset Toggel Button if district name doesn't exists
-  }
+    //If it has district name then
+    const btn = this.buttonToggle.nativeElement
+    const date = data.map
+    this.Sdate.date  = date
+    if(this.Thead.dname !==''){
+	this.def_list = this.getDistricCrtical(this.Thead.dname+"."+this.Thead.sname,date,this.paramsType)
+	this.sa_list = this.getSateCrtical(this.Thead.sname,date,this.paramsType)
+	this.cn_list = this.getCountryCrtical(date,this.paramsType)
+	this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
+	this.removeColorLegend()
+	factor = this.getMaxInterp(date,this.paramsType)
+	this.createLegend(this.Gsvg,this.getMaxd(date,this.paramsType),this.maxInterpolation);
+	// this.setMapColor(this.getDistricCrtical,this.getMaxd(date,this.paramsType),date,this.paramsType,this.maxInterpolation)
+    }else{
+	this.resetToggel(btn) // reset Toggel Button if district name doesn't exists
+    }
 }
 // Handel Modrate and crtical
 handleChangeParam(data){
@@ -318,6 +319,20 @@ getMaxd(date,params){
 
   return model.districtStatMax("carriers",   params==="lowParams"?model.lowParams:model.highParams, new Date(date)) // Get Maximum Number Of affected People
 }
+
+getMaxInterp(date, params){
+
+    let model = new Covid19ModelIndia()
+
+    let d2ms = 1000 * 3600 * 24 // ms in a day
+
+    let d1 = new Date(date).valueOf()
+    let d0 = new Date("28 March 2020").valueOf()
+    let factor = ((d1-d0) /7/d2ms + 1)/4
+    
+    return factor 
+}
+    
 
 removeColorLegend(){
   d3.select('.legendLinear').remove() // Removes Color Bar From the Map
