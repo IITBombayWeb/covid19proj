@@ -71,9 +71,9 @@ export class PredectionsComponent implements OnInit{
   // public responseData:any=[];
   // public responseData1: any;
   // public responseData2: any;
-  def_list:number=100;
-  cn_list:number=100
-  sa_list:number=100
+  def_list:number=0;
+  cn_list:number=0
+  sa_list:number=0
   max_number:any=[];
   paramsType:any=this.displayedTypes[0].id
   Sdate:DispDate;
@@ -120,11 +120,14 @@ export class PredectionsComponent implements OnInit{
     let btn = this.buttonToggle.nativeElement;
     let btn2 = this.buttonToggle2.nativeElement;
     let def_list = this.def_list
-    this.cn_list = this.getCountryCrtical(data,this.paramsType)
-    let cn_list = this.cn_list
-    let sa_list = this.sa_list
     this.Sdate = {date: this.buttonToggle.nativeElement.querySelector('.active').getElementsByTagName('input')[0].value}
     let date = this.Sdate
+    this.cn_list = this.getCountryCrtical(date.date,this.paramsType)
+    let cn_list = this.cn_list
+    let sa_list = this.sa_list
+
+      console.log("init:" + date.date + "cn: " + cn_list)
+
     this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
     let Legend = this.createLegend;
     data.then(function (topology) {
@@ -267,30 +270,39 @@ handleChange(data){
   //If it has district name then
   const btn = this.buttonToggle.nativeElement
   const date = data.map
+
+  this.cn_list = this.getCountryCrtical(date,this.paramsType)
+  console.log("change:" + date + "cn: " + this.cn_list)
+
   this.Sdate.date  = date
   if(this.Thead.dname !==''){
     this.def_list = this.getDistricCrtical(this.Thead.dname+"."+this.Thead.sname,date,this.paramsType)
     this.sa_list = this.getSateCrtical(this.Thead.sname,date,this.paramsType)
-    this.cn_list = this.getCountryCrtical(date,this.paramsType)
     this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
     this.removeColorLegend()
     this.createLegend(this.Gsvg,this.getMaxd(date,this.paramsType),this.maxInterpolation);
    // this.setMapColor(this.getDistricCrtical,this.getMaxd(date,this.paramsType),date,this.paramsType,this.maxInterpolation)
   }else{
-    this.resetToggel(btn) // reset Toggel Button if district name doesn't exists
+    //this.resetToggel(btn) // reset Toggel Button if district name doesn't exists
   }
+  this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
 }
 // Handel Modrate and crtical
 handleChangeParam(data){
   this.paramsType = data.id;
   const date = this.buttonToggle.nativeElement.querySelector('.active').getElementsByTagName('input')[0].value
+
+  this.cn_list = this.getCountryCrtical(date,this.paramsType)
+    console.log("change:" + date + "cn: " + this.cn_list + data.id)
+    
   //If it has district name then
   if(this.Thead.dname !==''){
     this.def_list = this.getDistricCrtical(this.Thead.dname+"."+this.Thead.sname,date,this.paramsType) 
     this.sa_list = this.getSateCrtical(this.Thead.sname,date,this.paramsType)
-    this.cn_list = this.getCountryCrtical(date,this.paramsType)
     this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
   }
+
+  this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
 }
 
 resetToggel(btn){
