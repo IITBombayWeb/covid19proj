@@ -115,6 +115,7 @@ export class PredectionsComponent implements OnInit{
     let resetToggel = this.resetToggel
     let fmaxd =  this.getMaxd;
     let fmaxinterp =  this.getMaxInterp;
+    let date0 = this.getDate(0);
     let maxd =  0;
     let paramstype = "lowParams";
     let maxInterpfactor = 1
@@ -134,8 +135,8 @@ export class PredectionsComponent implements OnInit{
     let Legend = this.createLegend;
     data.then(function (topology) {
 	paramstype = btn2.querySelector('.active').getElementsByTagName('input')[0].value
-      maxd = fmaxd(date.date,paramstype)
-	maxInterpfactor = fmaxinterp(date,paramstype)
+  maxd = fmaxd(date.date,paramstype)
+	maxInterpfactor = fmaxinterp(date0,date,paramstype)
 	console.log("Date" + date + ": " + maxInterpfactor)
         Legend(svgEle[0],maxd,maxInterpfactor);
         svgEle[1].selectAll('path')
@@ -282,7 +283,7 @@ handleChange(data){
 	this.cn_list = this.getCountryCrtical(date,this.paramsType)
 	this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
 	this.removeColorLegend()
-	var maxInterpfactor = this.getMaxInterp(date,this.paramsType)
+	var maxInterpfactor = this.getMaxInterp(this.getDate(0),date,this.paramsType)
 	this.createLegend(this.Gsvg,this.getMaxd(date,this.paramsType),maxInterpfactor);
 	this.setMapColor(this.getDistricCrtical,this.getMaxd(date,this.paramsType),date,this.paramsType,maxInterpfactor)
     }else{
@@ -328,13 +329,13 @@ getMaxd(date,params){
   return model.districtStatMax("carriers",   params==="lowParams"?model.lowParams:model.highParams, new Date(date)) // Get Maximum Number Of affected People
 }
 
-getMaxInterp(date, params){
+getMaxInterp(date0,date1, params){
 
     let model = new Covid19ModelIndia()
 
     let d2ms = 1000 * 3600 * 24 // ms in a day
 
-    let d1 = new Date(date).valueOf()
+    let d1 = new Date(date1).valueOf()
     let d0 = new Date("28 March 2020").valueOf()
     let factor = 3*((d1-d0) /7/d2ms + 1)/4
     
