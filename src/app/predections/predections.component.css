@@ -1,55 +1,134 @@
 .legendLinear .legendCells.cell text.label {
-      color: white;
- }
-div.tooltip {
-      color: #222;
-      background: #fff;
-      border-radius: 3px;
-      box-shadow: 0px 0px 2px 0px #a6a6a6;
-      padding: .2em;
-      text-shadow: #f5f5f5 0 1px 0;
-      opacity: 0.9;
-      position: absolute;
-      width: fit-content;
-      font-size: x-small;
+  color: white;
 }
+
+div.tooltip {
+  color: #222;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0px 0px 2px 0px #a6a6a6;
+  padding: .2em;
+  text-shadow: #f5f5f5 0 1px 0;
+  opacity: 0.9;
+  position: absolute;
+  width: fit-content;
+  font-size: x-small;
+}
+
 ::-webkit-scrollbar {
-      width: 5px;
-      height:5px;
-    }
+  width: 5px;
+  height: 5px;
+}
 
-    /* Track */
-    ::-webkit-scrollbar-track {
-      box-shadow: inset 0 0 5px grey;
-      border-radius: 20px;
-    }
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 20px;
+}
 
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-      background: #7d176d;
-      border-radius: 20px;
-    }
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #7d176d;
+  border-radius: 20px;
+}
 
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-      background: #d725bb;
-    }
-    .nav-tabs .nav-link.active,
-    .nav-tabs .nav-item.show .nav-link {
-      color: #ffffff;
-      border-color: #e14eca;
-      background-image: linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca) !important;
-      background-image: -webkit-linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca) !important;
-      background-image: -o-linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca) !important;
-      background-image: -moz-linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca) !important;
-      background-color: #ba54f5 !important;
-      box-shadow: none;
-    }
-    a {
-      color: #d725bb;
-      font-weight: 300;
-    }
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #d725bb;
+}
 
-    .pl-20{
-      padding-left: 20px;
-    }
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+  color: #ffffff;
+  border-color: #e14eca;
+  background-image: linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca) !important;
+  background-image: -webkit-linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca) !important;
+  background-image: -o-linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca) !important;
+  background-image: -moz-linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca) !important;
+  background-color: #ba54f5 !important;
+  box-shadow: none;
+}
+
+a {
+  color: #d725bb;
+  font-weight: 300;
+}
+
+.pl-20 {
+  padding-left: 20px;
+}
+
+
+.table-scroll {
+  position: relative;
+  z-index: 1;
+  margin: auto;
+  overflow: auto;
+}
+.table-scroll table {
+  width: 100%;
+  min-width: 620px;
+  min-height: 500px !important;
+  margin: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.table-wrap {
+  position: relative;
+}
+
+.table-scroll thead th {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+
+/* safari and ios need the tfoot itself to be position:sticky also */
+.table-scroll tfoot,
+.table-scroll tfoot th,
+.table-scroll tfoot td {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
+  z-index:4;
+}
+
+/* th:first-child {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  z-index: 2;
+}
+thead th:first-child,
+tfoot th:first-child {
+  z-index: 5;
+} */
+/* .table-scroll th,
+.table-scroll td {
+  padding: 5px 10px;
+  vertical-align: top;
+} */
+
+.hide{
+    display:block !important;
+}
+@media screen and (max-width: 600px) {
+  .hide{
+      display:none !important;
+  }
+}
+
+.display{
+    display:none !important;
+}
+@media screen and (max-width: 992px) {
+  .display{
+      display:none !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .display{
+      display:block !important;
+  }
+}

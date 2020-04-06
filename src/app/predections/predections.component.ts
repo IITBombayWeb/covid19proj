@@ -12,7 +12,9 @@ export interface Tile {
   rows: number;
   text: string;
 }
-
+export interface DispDate {
+  date: string;
+}
 export interface TableElement {
   name: string;
   position: number;
@@ -42,7 +44,6 @@ export class PredectionsComponent implements OnInit{
   title = 'CWR';
   height = 700;
   width = 800;
-  maxInterpolation = 0.8;
   propertyFieldMap = {
     state: 'NAME_1',
     district: 'NAME_2',
@@ -69,12 +70,12 @@ export class PredectionsComponent implements OnInit{
   // public responseData:any=[];
   // public responseData1: any;
   // public responseData2: any;
-  def_list:number=100;
-  cn_list:number=100
-  sa_list:number=100
+  def_list:number=0;
+  cn_list:number=0
+  sa_list:number=0
   max_number:any=[];
   paramsType:any=this.displayedTypes[0].id
-  Sdate:any;
+  Sdate:DispDate;
   constructor(private ps: PredectionService) { }
   ngOnInit(): void {
     this.DataMp=this.getTdata();
@@ -112,22 +113,31 @@ export class PredectionsComponent implements OnInit{
     let CFunCrtical = this.getCountryCrtical
     let resetToggel = this.resetToggel
     let fmaxd =  this.getMaxd;
+    let fmaxinterp =  this.getMaxInterp;
     let maxd =  0;
+    let paramstype = "lowParams";
+    let maxInterpfactor = 1
     let headD  = this.Thead;
-    const maxInterpolation = this.maxInterpolation
     let btn = this.buttonToggle.nativeElement;
     let btn2 = this.buttonToggle2.nativeElement;
-    let date = btn.getElementsByTagName('input')[0].value
     let def_list = this.def_list
-    this.cn_list = this.getCountryCrtical(data,this.paramsType)
     let cn_list = this.cn_list
     let sa_list = this.sa_list
-    this.Sdate = btn.querySelector('.active').getElementsByTagName('input')[0].value
+    this.Sdate = {date: this.buttonToggle.nativeElement.querySelector('.active').getElementsByTagName('input')[0].value}
+    let date = this.Sdate
+    let date0 = this.getDate(0)
+    this.cn_list = this.getCountryCrtical(date.date,this.paramsType)
+
+      console.log("init:" + date.date + "cn: " + cn_list)
+
     this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
     let Legend = this.createLegend;
     data.then(function (topology) {
-      maxd = fmaxd(date,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
-        Legend(svgEle[0],maxd,maxInterpolation);
+  	paramstype = btn2.querySelector('.active').getElementsByTagName('input')[0].value
+    maxd = fmaxd(date.date,paramstype)
+	  maxInterpfactor = fmaxinterp(date0,date.date,paramstype)
+//	console.log("Date maxinterp" + date + ": " + maxInterpfactor)
+        Legend(svgEle[0],maxd,maxInterpfactor);
         svgEle[1].selectAll('path')
           .data(t.feature(topology,topology.objects.IND_adm2).features)
           .enter()
@@ -140,20 +150,21 @@ export class PredectionsComponent implements OnInit{
             const n2 =  d.properties.district;
             const index_key = n2+"."+n1
             var numCritical = FunCrtical(index_key,btn.querySelector('.active').getElementsByTagName('input')[0].value,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
-            
+
             svgEle[3]
             .html(d.properties.st_nm + "<br>" + "District: " + d.properties.district + "<br>" + "Qty: " + numCritical)
-            .style("left", (d3.event.pageX-document.getElementById("main").offsetLeft - 120 )+ "px")
-            .style("top", (d3.event.pageY-document.getElementById("main").offsetTop - 80) + "px")
+            .style("left", (d3.event.pageX-document.getElementById("main").offsetLeft - 60 )+ "px")
+            .style("top", (d3.event.pageY-document.getElementById("main").offsetTop - 150) + "px")
           })
           .on("click", function(d){
             resetToggel(btn)
+            date.date = btn.querySelector('.active').getElementsByTagName('input')[0].value
             const n1 = d.properties.st_nm;
             const n2 =  d.properties.district;
             const index_key = n2+"."+n1
-            let numCritical = FunCrtical(index_key,date,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
-            let Scritical = SFunCrtical(n1,date,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
-            let Ccritical = CFunCrtical(date,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
+            let numCritical = FunCrtical(index_key,date.date,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
+            let Scritical = SFunCrtical(n1,date.date,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
+            let Ccritical = CFunCrtical(date.date,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
             def_list =  numCritical
             cn_list = Ccritical
             sa_list = Scritical
@@ -164,8 +175,8 @@ export class PredectionsComponent implements OnInit{
             svgEle[3]
             .html("");
           })
-          MapFill(FunCrtical,maxd,date,btn2.querySelector('.active').getElementsByTagName('input')[0].value,maxInterpolation);
-       
+          MapFill(FunCrtical,maxd,date.date,btn2.querySelector('.active').getElementsByTagName('input')[0].value,maxInterpfactor);
+
   });
 
 
@@ -174,7 +185,9 @@ export class PredectionsComponent implements OnInit{
 // Create color Bar Range
 createLegend(svg,maxd,maxInterpolation){
   const color = d3
-  .scaleSequential(d3.interpolateReds)
+  //.scaleSequential(d3.interpolateReds)
+  .scaleSequential(d3.interpolateYlOrRd)
+  //.scaleSequential(d3.interpolatePurples)
   .domain([0, maxd / maxInterpolation || 10]);
   //.domain([0, max_d[index] / 0.8 || 10]);
 
@@ -264,30 +277,44 @@ handleChange(data){
   //If it has district name then
   const btn = this.buttonToggle.nativeElement
   const date = data.map
-  this.Sdate  = date
+
+  this.cn_list = this.getCountryCrtical(date,this.paramsType)
+  console.log("change:" + date + "cn: " + this.cn_list)
+  var maxInterpfactor = this.getMaxInterp(this.getDate(0),date,this.paramsType)
+
+  this.Sdate.date  = date
   if(this.Thead.dname !==''){
     this.def_list = this.getDistricCrtical(this.Thead.dname+"."+this.Thead.sname,date,this.paramsType)
     this.sa_list = this.getSateCrtical(this.Thead.sname,date,this.paramsType)
-    this.cn_list = this.getCountryCrtical(date,this.paramsType)
     this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
     this.removeColorLegend()
-    this.createLegend(this.Gsvg,this.getMaxd(date,this.paramsType),this.maxInterpolation);
-    this.setMapColor(this.getDistricCrtical,this.getMaxd(date,this.paramsType),date,this.paramsType,this.maxInterpolation)
   }else{
-    this.resetToggel(btn) // reset Toggel Button if district name doesn't exists
+    //this.resetToggel(btn) // reset Toggel Button if district name doesn't exists
   }
+  this.createLegend(this.Gsvg,this.getMaxd(date,this.paramsType),maxInterpfactor);
+  this.setMapColor(this.getDistricCrtical,this.getMaxd(date,this.paramsType),date,this.paramsType,maxInterpfactor)
+  this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
 }
 // Handel Modrate and crtical
 handleChangeParam(data){
   this.paramsType = data.id;
+  const date = this.buttonToggle.nativeElement.querySelector('.active').getElementsByTagName('input')[0].value
+
+  var maxInterpfactor = this.getMaxInterp(this.getDate(0),date,this.paramsType)
+  this.cn_list = this.getCountryCrtical(date,this.paramsType)
+    //console.log("change:" + date + "cn: " + this.cn_list + data.id)
+    console.log(date + " (maxint): " + maxInterpfactor)
+
   //If it has district name then
   if(this.Thead.dname !==''){
-    
-    this.def_list = this.getDistricCrtical(this.Thead.dname+"."+this.Thead.sname,this.buttonToggle.nativeElement,this.paramsType) 
-    this.sa_list = this.getSateCrtical(this.Thead.sname,this.buttonToggle.nativeElement,this.paramsType)
-    this.cn_list = this.getCountryCrtical(this.buttonToggle.nativeElement,this.paramsType)
-    this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
+    this.def_list = this.getDistricCrtical(this.Thead.dname+"."+this.Thead.sname,date,this.paramsType)
+    this.sa_list = this.getSateCrtical(this.Thead.sname,date,this.paramsType)
+    //this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
   }
+
+  this.createLegend(this.Gsvg,this.getMaxd(date,this.paramsType),maxInterpfactor);
+  this.setMapColor(this.getDistricCrtical,this.getMaxd(date,this.paramsType),date,this.paramsType,maxInterpfactor)
+  this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
 }
 
 resetToggel(btn){
@@ -316,6 +343,22 @@ getMaxd(date,params){
   return model.districtStatMax("carriers",   params==="lowParams"?model.lowParams:model.highParams, new Date(date)) // Get Maximum Number Of affected People
 }
 
+getMaxInterp(date0,date1, params){
+
+    let model = new Covid19ModelIndia()
+
+    let d2ms = 1000 * 3600 * 24 // ms in a day
+
+    let d1 = new Date(date1).valueOf()
+    let d0 = date0.valueOf()
+    let factor = 1
+    factor = params == "lowParams" ? 2*((d1-d0) /7/d2ms + 1)/4:
+	3*((d1-d0) /7/d2ms + 1)/4
+
+    return factor
+}
+
+
 removeColorLegend(){
   d3.select('.legendLinear').remove() // Removes Color Bar From the Map
 }
@@ -326,8 +369,8 @@ getstime(){
 
 // This function will set color to district in the map
 setMapColor(funcrtical,maxd,date,params,maxInterpolation){
- 
- 
+
+
   d3.select('.map').selectAll('path') // Select all paths of the maps
   .style("fill", (d)=>{  // Set Color function
     const n1 = d.properties.st_nm; // Select State name
@@ -335,11 +378,13 @@ setMapColor(funcrtical,maxd,date,params,maxInterpolation){
     const dist_id = n2+"."+n1 // Create district and state key
     let numCritical = funcrtical(dist_id,date,params) // Initializing and set default number of critical
 
-   console.log(dist_id , numCritical , maxd)
+      console.log(dist_id , numCritical , maxd, maxInterpolation)
     const color = // Color Function to set color
     numCritical === 0
         ? '#ffffff' // White Color if its Zero
-        : d3.interpolateReds(
+        //: d3.interpolateReds(
+        : d3.interpolateYlOrRd(
+        //: d3.interpolatePurples(
             (maxInterpolation * numCritical) / ( maxd ) // Color calculation
           ); // Return RGB Value
         return color; // Return Color
@@ -361,8 +406,6 @@ getDate(n){
     date.setDate(date.getDate() + n); // Add Date with n days
     return date;// return date object
   }
-
-
 
 
 
