@@ -44,7 +44,6 @@ export class PredectionsComponent implements OnInit{
   title = 'CWR';
   height = 700;
   width = 800;
-  maxInterpolation = 0.8;
   propertyFieldMap = {
     state: 'NAME_1',
     district: 'NAME_2',
@@ -115,29 +114,29 @@ export class PredectionsComponent implements OnInit{
     let resetToggel = this.resetToggel
     let fmaxd =  this.getMaxd;
     let fmaxinterp =  this.getMaxInterp;
-    let date0 = this.getDate(0);
     let maxd =  0;
     let paramstype = "lowParams";
     let maxInterpfactor = 1
     let headD  = this.Thead;
-    const maxInterpolation = this.maxInterpolation
     let btn = this.buttonToggle.nativeElement;
     let btn2 = this.buttonToggle2.nativeElement;
     let def_list = this.def_list
-    this.Sdate = {date: this.buttonToggle.nativeElement.querySelector('.active').getElementsByTagName('input')[0].value}
-    let date = this.Sdate
-      console.log("init:" + date.date)
-    this.cn_list = this.getCountryCrtical(date.date,this.paramsType)
     let cn_list = this.cn_list
     let sa_list = this.sa_list
+    this.Sdate = {date: this.buttonToggle.nativeElement.querySelector('.active').getElementsByTagName('input')[0].value}
+    let date = this.Sdate
+    let date0 = this.getDate(0)
+    this.cn_list = this.getCountryCrtical(date.date,this.paramsType)
+
+      console.log("init:" + date.date + "cn: " + cn_list)
 
     this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
     let Legend = this.createLegend;
     data.then(function (topology) {
-	paramstype = btn2.querySelector('.active').getElementsByTagName('input')[0].value
-  maxd = fmaxd(date.date,paramstype)
-	maxInterpfactor = fmaxinterp(date0,date,paramstype)
-	console.log("Date" + date + ": " + maxInterpfactor)
+  	paramstype = btn2.querySelector('.active').getElementsByTagName('input')[0].value
+    maxd = fmaxd(date.date,paramstype)
+	  maxInterpfactor = fmaxinterp(date0,date.date,paramstype)
+//	console.log("Date maxinterp" + date + ": " + maxInterpfactor)
         Legend(svgEle[0],maxd,maxInterpfactor);
         svgEle[1].selectAll('path')
           .data(t.feature(topology,topology.objects.IND_adm2).features)
@@ -186,7 +185,9 @@ export class PredectionsComponent implements OnInit{
 // Create color Bar Range
 createLegend(svg,maxd,maxInterpolation){
   const color = d3
-  .scaleSequential(d3.interpolateReds)
+  //.scaleSequential(d3.interpolateReds)
+  .scaleSequential(d3.interpolateYlOrRd)
+  //.scaleSequential(d3.interpolatePurples)
   .domain([0, maxd / maxInterpolation || 10]);
   //.domain([0, max_d[index] / 0.8 || 10]);
 
@@ -273,34 +274,47 @@ createSvgElement(){
 }
 // Handle Change Of toggelButton
 handleChange(data){
-    //If it has district name then
-    const btn = this.buttonToggle.nativeElement
-    const date = data.map
-    this.Sdate.date  = date
-    if(this.Thead.dname !==''){
-	this.def_list = this.getDistricCrtical(this.Thead.dname+"."+this.Thead.sname,date,this.paramsType)
-	this.sa_list = this.getSateCrtical(this.Thead.sname,date,this.paramsType)
-	this.cn_list = this.getCountryCrtical(date,this.paramsType)
-	this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
-	this.removeColorLegend()
-	var maxInterpfactor = this.getMaxInterp(this.getDate(0),date,this.paramsType)
-	this.createLegend(this.Gsvg,this.getMaxd(date,this.paramsType),maxInterpfactor);
-	this.setMapColor(this.getDistricCrtical,this.getMaxd(date,this.paramsType),date,this.paramsType,maxInterpfactor)
-    }else{
-	this.resetToggel(btn) // reset Toggel Button if district name doesn't exists
-    }
+  //If it has district name then
+  const btn = this.buttonToggle.nativeElement
+  const date = data.map
+
+  this.cn_list = this.getCountryCrtical(date,this.paramsType)
+  console.log("change:" + date + "cn: " + this.cn_list)
+  var maxInterpfactor = this.getMaxInterp(this.getDate(0),date,this.paramsType)
+
+  this.Sdate.date  = date
+  if(this.Thead.dname !==''){
+    this.def_list = this.getDistricCrtical(this.Thead.dname+"."+this.Thead.sname,date,this.paramsType)
+    this.sa_list = this.getSateCrtical(this.Thead.sname,date,this.paramsType)
+    this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
+    this.removeColorLegend()
+  }else{
+    //this.resetToggel(btn) // reset Toggel Button if district name doesn't exists
+  }
+  this.createLegend(this.Gsvg,this.getMaxd(date,this.paramsType),maxInterpfactor);
+  this.setMapColor(this.getDistricCrtical,this.getMaxd(date,this.paramsType),date,this.paramsType,maxInterpfactor)
+  this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
 }
 // Handel Modrate and crtical
 handleChangeParam(data){
   this.paramsType = data.id;
   const date = this.buttonToggle.nativeElement.querySelector('.active').getElementsByTagName('input')[0].value
+
+  var maxInterpfactor = this.getMaxInterp(this.getDate(0),date,this.paramsType)
+  this.cn_list = this.getCountryCrtical(date,this.paramsType)
+    //console.log("change:" + date + "cn: " + this.cn_list + data.id)
+    console.log(date + " (maxint): " + maxInterpfactor)
+    
   //If it has district name then
   if(this.Thead.dname !==''){
     this.def_list = this.getDistricCrtical(this.Thead.dname+"."+this.Thead.sname,date,this.paramsType) 
     this.sa_list = this.getSateCrtical(this.Thead.sname,date,this.paramsType)
-    this.cn_list = this.getCountryCrtical(date,this.paramsType)
-    this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
+    //this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
   }
+
+  this.createLegend(this.Gsvg,this.getMaxd(date,this.paramsType),maxInterpfactor);
+  this.setMapColor(this.getDistricCrtical,this.getMaxd(date,this.paramsType),date,this.paramsType,maxInterpfactor)
+  this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
 }
 
 resetToggel(btn){
@@ -336,8 +350,10 @@ getMaxInterp(date0,date1, params){
     let d2ms = 1000 * 3600 * 24 // ms in a day
 
     let d1 = new Date(date1).valueOf()
-    let d0 = new Date("28 March 2020").valueOf()
-    let factor = 3*((d1-d0) /7/d2ms + 1)/4
+    let d0 = date0.valueOf()
+    let factor = 1
+    factor = params == "lowParams" ? 2*((d1-d0) /7/d2ms + 1)/4:
+	3*((d1-d0) /7/d2ms + 1)/4
     
     return factor 
 }
@@ -366,7 +382,9 @@ setMapColor(funcrtical,maxd,date,params,maxInterpolation){
     const color = // Color Function to set color
     numCritical === 0
         ? '#ffffff' // White Color if its Zero
-        : d3.interpolateReds(
+        //: d3.interpolateReds(
+        : d3.interpolateYlOrRd(
+        //: d3.interpolatePurples(
             (maxInterpolation * numCritical) / ( maxd ) // Color calculation
           ); // Return RGB Value
         return color; // Return Color
