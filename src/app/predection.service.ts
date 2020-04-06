@@ -57,9 +57,9 @@ public ppe(){
       new TableData("Critical patients (ICU Beds)", function(n){
 	  return Math.ceil(n*fc);}),
       new TableData("Doctors", function(n){
-	  return Math.ceil(2./5*n*ff/10)*10;},"per day"),
+	  return Math.ceil(2./5*n*ff/10)*10;},"on duty in a day"),
       new TableData("Nurses", function(n){
-	  return Math.ceil(n*ff/10)*10;},"per day"),
+	  return Math.ceil(n*ff/10)*10;},"on duty in a day"),
       new TableData("Staff PPE: Gowns, Masks, Goggles", function(n){
 	  return Math.ceil(14./5*n*ff/50)*50;},"per day"),
       new TableData("Patient PPE: Masks", function(n){

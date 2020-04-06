@@ -71,9 +71,9 @@ export class PredectionsComponent implements OnInit{
   // public responseData:any=[];
   // public responseData1: any;
   // public responseData2: any;
-  def_list:number=100;
-  cn_list:number=100
-  sa_list:number=100
+  def_list:number=0;
+  cn_list:number=0
+  sa_list:number=0
   max_number:any=[];
   paramsType:any=this.displayedTypes[0].id
   Sdate:DispDate;
@@ -123,11 +123,13 @@ export class PredectionsComponent implements OnInit{
     let btn = this.buttonToggle.nativeElement;
     let btn2 = this.buttonToggle2.nativeElement;
     let def_list = this.def_list
-    this.cn_list = this.getCountryCrtical(data,this.paramsType)
-    let cn_list = this.cn_list
-    let sa_list = this.sa_list
     this.Sdate = {date: this.buttonToggle.nativeElement.querySelector('.active').getElementsByTagName('input')[0].value}
     let date = this.Sdate
+      console.log("init:" + date.date)
+    this.cn_list = this.getCountryCrtical(date.date,this.paramsType)
+    let cn_list = this.cn_list
+    let sa_list = this.sa_list
+
     this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
     let Legend = this.createLegend;
     data.then(function (topology) {
