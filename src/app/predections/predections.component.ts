@@ -153,8 +153,8 @@ export class PredectionsComponent implements OnInit{
             
             svgEle[3]
             .html(d.properties.st_nm + "<br>" + "District: " + d.properties.district + "<br>" + "Qty: " + numCritical)
-            .style("left", (d3.event.pageX-document.getElementById("main").offsetLeft - 120 )+ "px")
-            .style("top", (d3.event.pageY-document.getElementById("main").offsetTop - 80) + "px")
+            .style("left", (d3.event.pageX-document.getElementById("main").offsetLeft - 60 )+ "px")
+            .style("top", (d3.event.pageY-document.getElementById("main").offsetTop - 150) + "px")
           })
           .on("click", function(d){
             resetToggel(btn)
