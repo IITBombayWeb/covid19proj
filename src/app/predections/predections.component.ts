@@ -338,25 +338,25 @@ export class PredectionsComponent implements OnInit{
 				//let model = new Covid19ModelIndia()
 				//console.log("DC: " + model.lowParams)
 				const index =  model.indexDistrictNameKey(key)
-				return index?model.districtStat("carriers",index , params==="lowParams"?model.lowParams:model.highParams, new Date(date)):0; // Get District Critical
+				return index?model.districtStat("reported",index , params==="lowParams"?model.lowParams:model.highParams, new Date(date)):0; // Get District Critical
     }
 
     getSateCrtical(model, key,date,params){
 				//let model = new Covid19ModelIndia()
 				console.log("SC: " + model.lowParams)
 				const index =  model.indexStateName(key)
-				return index?model.stateStat("carriers",index , params==="lowParams"?model.lowParams:model.highParams, new Date(date)):0; // Get  State Critical
+				return index?model.stateStat("reported",index , params==="lowParams"?model.lowParams:model.highParams, new Date(date)):0; // Get  State Critical
     }
 
     getCountryCrtical(model, date,params){
 				//let model = new Covid19ModelIndia()
-				return model.countryStat("carriers",
+				return model.countryStat("reported",
 																 params==="lowParams"?model.lowParams:model.highParams, new Date(date)); // Get Country Critical  
     }
 
     getMaxd(model, date,params){
 				//let model = new Covid19ModelIndia()
-				return model.districtStatMax("carriers",   params==="lowParams"?model.lowParams:model.highParams, new Date(date)) // Get Maximum Number Of affected People
+				return model.districtStatMax("reported",   params==="lowParams"?model.lowParams:model.highParams, new Date(date)) // Get Maximum Number Of affected People
     }
 
     getMaxInterp(date, params){
@@ -427,7 +427,7 @@ export class PredectionsComponent implements OnInit{
     }
     getBaseDate(){
 				let t0 = new Date();
-				t0.setDate(t0.getDate() - 3);
+				t0.setDate(t0.getDate() - 0);
 				return t0	
     }
 }
