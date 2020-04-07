@@ -89,9 +89,9 @@ export class PredectionsComponent implements OnInit{
 						// 		console.log(i + ' : ' + resp)
 								
 						// })
-						let t0 = new Date();
-						t0.setDate(t0.getDate() - 7);
-						
+						let t0 = this.getBaseDate()
+						console.log('baseDate = ' + t0)
+								
 						let statesSeries = responseList[0].states_daily;
 						let caseSeries   = responseList[1].raw_data;
 						this.model        = new Covid19ModelIndia(t0, statesSeries,
@@ -409,23 +409,30 @@ export class PredectionsComponent implements OnInit{
 
     // Return Toggel Button
     getTdata(){
-				var model = 0
 				return [
-						{id:"week_0", name: 'Current ' , type: true,map: this.getDate(model,0)},
-						{id:"week_1", name: 'Week 1 ', type: '',map: this.getDate(model, 7)},
-						{id:"week_2", name: 'Week 2 ',  type: '',map:this.getDate(model, 14)},
-						{id:"week_3", name: 'Week 3 ',  type: '',map:this.getDate(model, 21)},
+						{id:"week_0", name: 'Current ' , type: true,map: this.getFDate(0)},
+						{id:"week_1", name: 'Week 1 ', type: '',map: this.getFDate(7)},
+						{id:"week_2", name: 'Week 2 ',  type: '',map:this.getFDate(14)},
+						{id:"week_3", name: 'Week 3 ',  type: '',map:this.getFDate(21)},
 				]
     }
-    //Create Date Object
-    getDate(model, n){
+
+    getFDate(n){ // Return a future date from the base date
 				//var date = new Date('28 March 2020'); // Set Date Object
 				var date = new Date()
-				let t0 = model.t0
 				//console.log('t0 = ' + t0)
-				date.setDate(date.getDate() + n); // Add Date with n days
+				//date.setDate(date.getDate() + n); // Add Date with n days
 				//date.setDate(model.t0.getDate() + n); // Add Date with n days
-				console.log('date = ' + date)
+				//console.log('date = ' + date)
+				var t0 = this.getBaseDate()
+				//console.log('t0 = ' + t0)
+				date.setDate(t0.getDate() + n); // Add Date with n days
+				console.log('date set = ' + n + ': ' + date)
 				return date;// return date object
+    }
+    getBaseDate(){
+				let t0 = new Date();
+				t0.setDate(t0.getDate() - 8);
+				return t0	
     }
 }
