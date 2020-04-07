@@ -19,10 +19,32 @@ export class PredectionService {
 }
 
   public requestDataFromMultipleSources(): Observable<any[]> {
-    let response1 = this.http.get('https://api.covid19india.org/state_district_wise.json');
-    let response2 = this.http.get('assets/masks_district.json');
-    let response3 = this.http.get('assets/vent_district.json');
-    return forkJoin([response1, response2,response3]);
+    // let response1 = this.http.get('https://api.covid19india.org/state_district_wise.json');
+    // let response2 = this.http.get('assets/masks_district.json');
+    // let response3 = this.http.get('assets/vent_district.json');
+			let urls = [];
+			let responses = [];
+			
+			urls.push("https://api.covid19india.org/states_daily.json");
+			urls.push("https://api.covid19india.org/raw_data.json");
+
+			// let hget = this.http.get
+			// urls.forEach(function(url,i,responses) {
+			// 		responses[i] = hget(url);
+			// 		// overwrite urls by responses
+			// 		//responses[i] = this.http.get(url);
+			// })
+			// urls.forEach(urls, function(url,i,responses) {
+			// 		this.push(hget(url));
+			// }, responses)
+
+			for (let i=0; i<urls.length; i++)
+					responses.push(this.http.get(urls[i]));
+			
+			return forkJoin(responses);
+
+			
+    //return forkJoin([response1, response2,response3]);
   }
 
 public getTableData(dp:number,cn,sn,ilist){

@@ -73,23 +73,40 @@ export class PredectionsComponent implements OnInit{
     sa_list:number=0
     max_number:any=[];
 
-    model:any = new Covid19ModelIndia();
+    //model:any = new Covid19ModelIndia();
+		model:any = []
     
     paramsType:any=this.displayedTypes[0].id
     Sdate:DispDate;
     constructor(private ps: PredectionService) { }
     ngOnInit(): void {
+				
 				this.DataMp=this.getTdata();
-
 				this.ps.requestDataFromMultipleSources().subscribe(responseList => {
-						const data =  d3.json("assets/india-districts.json");//Fetch India Map JSON
-						this.renderView(data);
-						//  console.log(this.getstime())
+						const inddist =  d3.json("assets/india-districts.json");//Fetch India Map JSON
+						
+						// responseList.forEach(function (resp,i) {
+						// 		console.log(i + ' : ' + resp)
+								
+						// })
+						let t0 = new Date();
+						t0.setDate(t0.getDate() - 7);
+						
+						let statesSeries = responseList[0].states_daily;
+						let caseSeries   = responseList[1].raw_data;
+						this.model        = new Covid19ModelIndia(t0, statesSeries,
+																											caseSeries);
+						
+
+						//this.DataMp=this.getTdata(this.model);
+				//this.DataMp=this.getTdata();
+						this.renderView(this.model, inddist);
+
 				});
 
     }
     // Render India Map
-    renderView(data){
+    renderView(model, mapdata){
 
 				let svgEle = this.createSvgElement();
 				this.DataTBL = this.ps.Tdata();
@@ -103,7 +120,6 @@ export class PredectionsComponent implements OnInit{
 				let SFunCrtical = this.getSateCrtical
 				let CFunCrtical = this.getCountryCrtical
 				let resetToggel = this.resetToggel
-				let model = this.model
 				let fmaxd =  this.getMaxd;
 				let fmaxinterp =  this.getMaxInterp;
 				let maxd =  0;
@@ -119,15 +135,15 @@ export class PredectionsComponent implements OnInit{
 				let date = this.Sdate
 				this.cn_list = this.getCountryCrtical(model, date.date,this.paramsType)
 
-				console.log("init:" + date.date + "cn: " + cn_list)
+				//console.log("init:" + date.date + "cn: " + cn_list)
 
 				this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
 				let Legend = this.createLegend;
-				data.then(function (topology) {
+				mapdata.then(function (topology) {
 						paramstype = btn2.querySelector('.active').getElementsByTagName('input')[0].value
 						maxd = fmaxd(model, date.date,paramstype)
 						maxInterpfactor = fmaxinterp(date.date,paramstype)
-						console.log("Date maxinterp" + date + ": " + maxInterpfactor)
+						//console.log("Date maxinterp" + date + ": " + maxInterpfactor)
             Legend(svgEle[0],maxd,maxInterpfactor);
             svgEle[1].selectAll('path')
 								.data(t.feature(topology,topology.objects.IND_adm2).features)
@@ -320,7 +336,7 @@ export class PredectionsComponent implements OnInit{
 
     getDistricCrtical(model,key,date,params){
 				//let model = new Covid19ModelIndia()
-				console.log("DC: " + model.lowParams)
+				//console.log("DC: " + model.lowParams)
 				const index =  model.indexDistrictNameKey(key)
 				return index?model.districtStat("carriers",index , params==="lowParams"?model.lowParams:model.highParams, new Date(date)):0; // Get District Critical
     }
@@ -393,17 +409,23 @@ export class PredectionsComponent implements OnInit{
 
     // Return Toggel Button
     getTdata(){
+				var model = 0
 				return [
-						{id:"week_0", name: 'Current ' , type: true,map: this.getDate(0)},
-						{id:"week_1", name: 'Week 1 ', type: '',map: this.getDate(7)},
-						{id:"week_2", name: 'Week 2 ',  type: '',map:this.getDate(14)},
-						{id:"week_3", name: 'Week 3 ',  type: '',map:this.getDate(21)},
+						{id:"week_0", name: 'Current ' , type: true,map: this.getDate(model,0)},
+						{id:"week_1", name: 'Week 1 ', type: '',map: this.getDate(model, 7)},
+						{id:"week_2", name: 'Week 2 ',  type: '',map:this.getDate(model, 14)},
+						{id:"week_3", name: 'Week 3 ',  type: '',map:this.getDate(model, 21)},
 				]
     }
     //Create Date Object
-    getDate(n){
-				var date = new Date('28 March 2020'); // Set Date Object
+    getDate(model, n){
+				//var date = new Date('28 March 2020'); // Set Date Object
+				var date = new Date()
+				let t0 = model.t0
+				//console.log('t0 = ' + t0)
 				date.setDate(date.getDate() + n); // Add Date with n days
+				//date.setDate(model.t0.getDate() + n); // Add Date with n days
+				console.log('date = ' + date)
 				return date;// return date object
     }
 }
