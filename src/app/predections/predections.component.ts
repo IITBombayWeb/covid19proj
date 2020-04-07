@@ -125,6 +125,7 @@ export class PredectionsComponent implements OnInit{
     let sa_list = this.sa_list
     this.Sdate = {date: this.buttonToggle.nativeElement.querySelector('.active').getElementsByTagName('input')[0].value}
     let date = this.Sdate
+    let date0 = this.getDate(0)
     this.cn_list = this.getCountryCrtical(date.date,this.paramsType)
 
       console.log("init:" + date.date + "cn: " + cn_list)
@@ -132,10 +133,10 @@ export class PredectionsComponent implements OnInit{
     this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
     let Legend = this.createLegend;
     data.then(function (topology) {
-	paramstype = btn2.querySelector('.active').getElementsByTagName('input')[0].value
-      maxd = fmaxd(date.date,paramstype)
-	maxInterpfactor = fmaxinterp(date.date,paramstype)
-	console.log("Date maxinterp" + date + ": " + maxInterpfactor)
+  	paramstype = btn2.querySelector('.active').getElementsByTagName('input')[0].value
+    maxd = fmaxd(date.date,paramstype)
+	  maxInterpfactor = fmaxinterp(date0,date.date,paramstype)
+//	console.log("Date maxinterp" + date + ": " + maxInterpfactor)
         Legend(svgEle[0],maxd,maxInterpfactor);
         svgEle[1].selectAll('path')
           .data(t.feature(topology,topology.objects.IND_adm2).features)
@@ -152,8 +153,8 @@ export class PredectionsComponent implements OnInit{
             
             svgEle[3]
             .html(d.properties.st_nm + "<br>" + "District: " + d.properties.district + "<br>" + "Qty: " + numCritical)
-            .style("left", (d3.event.pageX-document.getElementById("main").offsetLeft - 120 )+ "px")
-            .style("top", (d3.event.pageY-document.getElementById("main").offsetTop - 80) + "px")
+            .style("left", (d3.event.pageX-document.getElementById("main").offsetLeft - 60 )+ "px")
+            .style("top", (d3.event.pageY-document.getElementById("main").offsetTop - 150) + "px")
           })
           .on("click", function(d){
             resetToggel(btn)
@@ -279,7 +280,7 @@ handleChange(data){
 
   this.cn_list = this.getCountryCrtical(date,this.paramsType)
   console.log("change:" + date + "cn: " + this.cn_list)
-  var maxInterpfactor = this.getMaxInterp(date,this.paramsType)
+  var maxInterpfactor = this.getMaxInterp(this.getDate(0),date,this.paramsType)
 
   this.Sdate.date  = date
   if(this.Thead.dname !==''){
@@ -299,7 +300,7 @@ handleChangeParam(data){
   this.paramsType = data.id;
   const date = this.buttonToggle.nativeElement.querySelector('.active').getElementsByTagName('input')[0].value
 
-  var maxInterpfactor = this.getMaxInterp(date,this.paramsType)
+  var maxInterpfactor = this.getMaxInterp(this.getDate(0),date,this.paramsType)
   this.cn_list = this.getCountryCrtical(date,this.paramsType)
     //console.log("change:" + date + "cn: " + this.cn_list + data.id)
     console.log(date + " (maxint): " + maxInterpfactor)
@@ -342,14 +343,14 @@ getMaxd(date,params){
   return model.districtStatMax("carriers",   params==="lowParams"?model.lowParams:model.highParams, new Date(date)) // Get Maximum Number Of affected People
 }
 
-getMaxInterp(date, params){
+getMaxInterp(date0,date1, params){
 
     let model = new Covid19ModelIndia()
 
     let d2ms = 1000 * 3600 * 24 // ms in a day
 
-    let d1 = new Date(date).valueOf()
-    let d0 = new Date("28 March 2020").valueOf()
+    let d1 = new Date(date1).valueOf()
+    let d0 = date0.valueOf()
     let factor = 1
     factor = params == "lowParams" ? 2*((d1-d0) /7/d2ms + 1)/4:
 	3*((d1-d0) /7/d2ms + 1)/4
@@ -377,7 +378,7 @@ setMapColor(funcrtical,maxd,date,params,maxInterpolation){
     const dist_id = n2+"."+n1 // Create district and state key
     let numCritical = funcrtical(dist_id,date,params) // Initializing and set default number of critical
 
-   //console.log(dist_id , numCritical , maxd)
+      console.log(dist_id , numCritical , maxd, maxInterpolation)
     const color = // Color Function to set color
     numCritical === 0
         ? '#ffffff' // White Color if its Zero
