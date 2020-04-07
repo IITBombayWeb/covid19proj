@@ -418,21 +418,16 @@ export class PredectionsComponent implements OnInit{
     }
 
     getFDate(n){ // Return a future date from the base date
-				//var date = new Date('28 March 2020'); // Set Date Object
-				var date = new Date()
-				//console.log('t0 = ' + t0)
-				//date.setDate(date.getDate() + n); // Add Date with n days
-				//date.setDate(model.t0.getDate() + n); // Add Date with n days
-				//console.log('date = ' + date)
 				var t0 = this.getBaseDate()
+				var date = new Date(t0)
 				//console.log('t0 = ' + t0)
-				date.setDate(t0.getDate() + n); // Add Date with n days
-				console.log('date set = ' + n + ': ' + date)
+				date.setDate(date.getDate() + n); // Add Date with n days
+				//console.log('date set = ' + n + ': ' + date)
 				return date;// return date object
     }
     getBaseDate(){
 				let t0 = new Date();
-				t0.setDate(t0.getDate() - 8);
+				t0.setDate(t0.getDate() - 3);
 				return t0	
     }
 }
