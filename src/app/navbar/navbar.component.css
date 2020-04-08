@@ -1,7 +1,25 @@
 .navbar .navbar-brand{
     text-transform: none;
     font-size: 1.5rem;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
 }
+
+.navbar-minimize-fixed {
+  position: fixed;
+  opacity: 1;
+    margin-left: 0px !important;
+    margin-top: 0px !important;
+    padding-top: 14px;
+    padding-bottom: 14px !important;
+    -webkit-transition: background 300ms linear;
+  -moz-transition: background 300ms linear;
+  -o-transition: background 300ms linear;
+  -ms-transition: background 300ms linear;
+  transition: background 300ms linear;
+}
+
+
 @media only screen  and (max-width: 274px) {
     .navbar .navbar-brand{
         text-transform: none;
@@ -15,7 +33,7 @@
     }
 
     .textMobile {
-        font-size: 10px;
+        font-size: 8px;
      }
   }
 @media only screen  and (min-width: 316px) and (max-width: 336px) {
@@ -25,7 +43,7 @@
     }
 
     .textMobile {
-        font-size: 13px;
+        font-size: 12px;
      }
   }
   @media only screen and (min-width: 336px) and (max-width: 380px) {

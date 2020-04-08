@@ -149,15 +149,22 @@ export class PredectionsComponent implements OnInit{
 				let date = this.Sdate
 				this.cn_list = this.getCountryCrtical(model, date.date,this.paramsType)
 
+				let rmLegendFun = this.removeColorLegend
+				let mkLegendFun = this.createLegend
+				let gsvg = this.Gsvg
+
 				//console.log("init:" + date.date + "cn: " + cn_list)
 
-				this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
+				this.dataSource =  this.ps.getTableData(this.def_list,
+																								this.cn_list,
+																								this.sa_list,
+																								this.DataTBL);
 				let Legend = this.createLegend;
 				mapdata.then(function (topology) {
-						paramstype = btn2.querySelector('.active').getElementsByTagName('input')[0].value
+						paramstype = btn2.querySelector('.active')
+								.getElementsByTagName('input')[0].value
 						maxd = fmaxd(model, date.date,paramstype)
 						maxInterpfactor = fmaxinterp(date.date,paramstype)
-						//console.log("Date maxinterp" + date + ": " + maxInterpfactor)
             Legend(svgEle[0],maxd,maxInterpfactor);
             svgEle[1].selectAll('path')
 								.data(t.feature(topology,topology.objects.IND_adm2).features)
@@ -175,43 +182,72 @@ export class PredectionsComponent implements OnInit{
 																								 .getElementsByTagName('input')[0]
 																								 .value,
 																								 btn2.querySelector('.active')
-																								 .getElementsByTagName('input')[0].value) 
+																								 .getElementsByTagName('input')[0]
+																								 .value) 
 										
 										svgEle[3]
-												.html(d.properties.st_nm + "<br>" + "District: " + d.properties.district + "<br>" + "Qty: " + numCritical)
-												.style("left", (d3.event.pageX-document.getElementById("main").offsetLeft - 120 )+ "px")
-												.style("top", (d3.event.pageY-document.getElementById("main").offsetTop - 80) + "px")
+												.html(d.properties.st_nm + "<br>" + "District: "
+															+ d.properties.district + "<br>" + "Qty: "
+															+ numCritical)
+												.style("left",
+															 (d3.event.pageX-document
+																.getElementById("main").offsetLeft - 120 )+ "px")
+												.style("top",
+															 (d3.event.pageY-document
+																.getElementById("main").offsetTop - 80) + "px")
 								})
 								.on("click", function(d){
 										resetToggel(btn)
-										date.date = btn.querySelector('.active').getElementsByTagName('input')[0].value
+										date.date = btn.querySelector('.active')
+												.getElementsByTagName('input')[0].value
 										const n1 = d.properties.st_nm;
 										const n2 =  d.properties.district;
 										const index_key = n2+"."+n1
-										//var maxInterpfactor = this.getMaxInterp(date.date,this.paramsType)
-										let numCritical = FunCrtical(model, index_key,date.date,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
-										let Scritical = SFunCrtical(model, n1,date.date,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
-										let Ccritical = CFunCrtical(model, date.date,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
+										let numCritical =
+												FunCrtical(model, index_key,
+																	 date.date,
+																	 btn2.querySelector('.active')
+																	 .getElementsByTagName('input')[0].value)
+										let Scritical =
+												SFunCrtical(model, n1,
+																		date.date,
+																		btn2.querySelector('.active')
+																		.getElementsByTagName('input')[0].value)
+										let Ccritical =
+												CFunCrtical(model,
+																		date.date,
+																		btn2.querySelector('.active')
+																		.getElementsByTagName('input')[0]
+																		.value)
 										def_list =  numCritical
 										cn_list = Ccritical
 										sa_list = Scritical
 										headD.sname =n1; headD.dname = n2
-										dSource = pService.getTableData(numCritical,cn_list,sa_list,tData);
+										dSource = pService.getTableData(numCritical,
+																										cn_list,sa_list,tData);
 
-										//this.removeColorLegend()
-										//this.createLegend(this.Gsvg,this.getMaxd(this.model,date.date,this.paramsType),maxInterpfactor);
-										// console.log(btn2.querySelector('.active').getElementsByTagName('input')[0].value)
+										rmLegendFun()
+										mkLegendFun(gsvg,maxd,maxInterpfactor)
 								}).on('mouseleave',(d)=>{
 										svgEle[3]
 												.html("");
 								})
-            MapFill(model, FunCrtical,maxd,date.date,btn2.querySelector('.active').getElementsByTagName('input')[0].value,maxInterpfactor);
+            MapFill(model, FunCrtical,maxd,
+										date.date,
+										btn2.querySelector('.active')
+										.getElementsByTagName('input')[0].value,
+										maxInterpfactor);
 						
 				});
 
 
 
     }
+
+    removeColorLegend(){
+				d3.select('.legendLinear').remove() // Removes Color Bar From the Map
+    }
+		
     // Create color Bar Range
     createLegend(svg,maxd,maxInterpolation){
 				const color = d3
@@ -237,8 +273,8 @@ export class PredectionsComponent implements OnInit{
 
 				const numCells = 6;
 				const delta = Math.floor(
-						(maxd < numCells ? numCells : maxd) /
-								(numCells - 1)
+						(maxd < numCells ? numCells : maxd)
+								/ (numCells - 1)
 				);
 				//(max_d[index] < numCells ? numCells : max_d[index]) /
 
@@ -248,13 +284,13 @@ export class PredectionsComponent implements OnInit{
 						.append('g')
 						.attr('class', 'legendLinear')
 						.attr('fill','white')
-						.attr('transform', 'translate(-70, -60)');
+						.attr('transform', 'translate(-70, -80)');
 
 				const legendLinear = legendColor()
+							.title("Positive patients (district-wise)")
+							.titleWidth(600)
 							.shapeWidth(50)
 							.cells(cells)
-							.titleWidth(4)
-
 							.labels(label)
 							.orient('vertical')
 							.scale(color);
@@ -313,12 +349,18 @@ export class PredectionsComponent implements OnInit{
 
 				this.Sdate.date  = date
 				if(this.Thead.dname !==''){
-						this.def_list = this.getDistricCrtical(this.model, this.Thead.dname+"."+this.Thead.sname,date,this.paramsType)
-						this.sa_list = this.getSateCrtical(this.model, this.Thead.sname,date,this.paramsType)
-						this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
+						this.def_list =
+								this.getDistricCrtical(this.model,
+																			 this.Thead.dname+"."
+																			 +this.Thead.sname,
+																			 date,this.paramsType)
+						this.sa_list =
+								this.getSateCrtical(this.model,
+																		this.Thead.sname,date,this.paramsType)
+						this.dataSource =
+								this.ps.getTableData(this.def_list,this.cn_list,
+																		 this.sa_list,this.DataTBL);
 						this.removeColorLegend()
-				}else{
-						//this.resetToggel(btn) // reset Toggel Button if district name doesn't exists
 				}
 				this.resetMapTable()
 				//this.getmpdata()
@@ -335,9 +377,13 @@ export class PredectionsComponent implements OnInit{
 				
 				//If it has district name then
 				if(this.Thead.dname !==''){
-						this.def_list = this.getDistricCrtical(this.model, this.Thead.dname+"."+this.Thead.sname,date,this.paramsType) 
-						this.sa_list = this.getSateCrtical(this.model, this.Thead.sname,date,this.paramsType)
-						//this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
+						this.def_list =
+								this.getDistricCrtical(this.model,
+																			 this.Thead.dname+"."+this.Thead.sname,
+																			 date,this.paramsType) 
+						this.sa_list =
+								this.getSateCrtical(this.model, this.Thead.sname,
+																		date,this.paramsType)
 				}
 				this.resetMapTable()
 
@@ -387,14 +433,23 @@ this.dropDownListState = state.filter((x, i, a) => x && a.indexOf(x) === i)
 				//let model = new Covid19ModelIndia()
 				//console.log("DC: " + model.lowParams)
 				const index =  model.indexDistrictNameKey(key)
-				return index?model.districtStat("reported",index , params==="lowParams"?model.lowParams:model.highParams, new Date(date)):0; // Get District Critical
+				return index?
+						model.districtStat("reported",index ,
+															 params==="lowParams"?
+															 model.lowParams:model.highParams,
+															 new Date(date))
+						:0; // Get District Critical
     }
 
     getSateCrtical(model, key,date,params){
 				//let model = new Covid19ModelIndia()
 				//console.log("SC: " + model.lowParams)
 				const index =  model.indexStateName(key)
-				return index?model.stateStat("reported",index , params==="lowParams"?model.lowParams:model.highParams, new Date(date)):0; // Get  State Critical
+				return index?
+						model.stateStat("reported",index , params==="lowParams"?
+														model.lowParams:model.highParams,
+														new Date(date))
+						:0; // Get  State Critical
     }
 
     getCountryCrtical(model, date,params){
@@ -405,7 +460,9 @@ this.dropDownListState = state.filter((x, i, a) => x && a.indexOf(x) === i)
 
     getMaxd(model, date,params){
 				//let model = new Covid19ModelIndia()
-				return model.districtStatMax("reported",   params==="lowParams"?model.lowParams:model.highParams, new Date(date)) // Get Maximum Number Of affected People
+				return model.districtStatMax("reported", params==="lowParams"?
+																		 model.lowParams:model.highParams,
+																		 new Date(date)) // Get Maximum Number Of affected People
     }
 
     getMaxInterp(date, params){
@@ -423,10 +480,6 @@ this.dropDownListState = state.filter((x, i, a) => x && a.indexOf(x) === i)
 				return factor 
     }
     
-
-    removeColorLegend(){
-				d3.select('.legendLinear').remove() // Removes Color Bar From the Map
-    }
 
     getstime(){
 				return new Date(this.buttonToggle.nativeElement.getElementsByTagName('input')[0].value) // Return time from Toggel Button
