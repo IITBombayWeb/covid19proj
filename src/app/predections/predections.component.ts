@@ -187,6 +187,7 @@ export class PredectionsComponent implements OnInit{
 										const n1 = d.properties.st_nm;
 										const n2 =  d.properties.district;
 										const index_key = n2+"."+n1
+										//var maxInterpfactor = this.getMaxInterp(date.date,this.paramsType)
 										let numCritical = FunCrtical(model, index_key,date.date,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
 										let Scritical = SFunCrtical(model, n1,date.date,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
 										let Ccritical = CFunCrtical(model, date.date,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
@@ -195,6 +196,9 @@ export class PredectionsComponent implements OnInit{
 										sa_list = Scritical
 										headD.sname =n1; headD.dname = n2
 										dSource = pService.getTableData(numCritical,cn_list,sa_list,tData);
+
+										//this.removeColorLegend()
+										//this.createLegend(this.Gsvg,this.getMaxd(this.model,date.date,this.paramsType),maxInterpfactor);
 										// console.log(btn2.querySelector('.active').getElementsByTagName('input')[0].value)
 								}).on('mouseleave',(d)=>{
 										svgEle[3]
@@ -304,7 +308,7 @@ export class PredectionsComponent implements OnInit{
 				const date = data.map
 
 				this.cn_list = this.getCountryCrtical(this.model, date,this.paramsType)
-				//console.log("change:" + date + "cn: " + this.cn_list)
+				console.log("Wchange:" + date + "cn: " + this.cn_list)
 				var maxInterpfactor = this.getMaxInterp(date,this.paramsType)
 
 				this.Sdate.date  = date
@@ -316,18 +320,16 @@ export class PredectionsComponent implements OnInit{
 				}else{
 						//this.resetToggel(btn) // reset Toggel Button if district name doesn't exists
 				}
-				this.createLegend(this.Gsvg,this.getMaxd(this.model, date,this.paramsType),maxInterpfactor);
-				this.setMapColor(this.model, this.getDistricCrtical,this.getMaxd(this.model, date,this.paramsType),date,this.paramsType,maxInterpfactor)
-				this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
+				this.resetMapTable()
     }
     // Handle Modrate and crtical
     handleChangeParam(data){
 				this.paramsType = data.id;
 				const date = this.buttonToggle.nativeElement.querySelector('.active').getElementsByTagName('input')[0].value
+				//const date = data.map
 
-				var maxInterpfactor = this.getMaxInterp(date,this.paramsType)
 				this.cn_list = this.getCountryCrtical(this.model, date,this.paramsType)
-				//console.log("change:" + date + "cn: " + this.cn_list + data.id)
+				console.log("Pchange:" + date + ", cn: " + this.cn_list + data.id)
 				//console.log(date + " (maxint): " + maxInterpfactor)
 				
 				//If it has district name then
@@ -336,11 +338,29 @@ export class PredectionsComponent implements OnInit{
 						this.sa_list = this.getSateCrtical(this.model, this.Thead.sname,date,this.paramsType)
 						//this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
 				}
+				this.resetMapTable()
 
-				this.createLegend(this.Gsvg,this.getMaxd(this.model, date,this.paramsType),maxInterpfactor);
-				this.setMapColor(this.model, this.getDistricCrtical,this.getMaxd(this.model, date,this.paramsType),date,this.paramsType,maxInterpfactor)
-				this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
     }
+
+		resetMapTable() {
+				const date = this.buttonToggle.nativeElement
+							.querySelector('.active').getElementsByTagName('input')[0].value
+
+				console.log("reset:" + date + "@" + this.paramsType)
+				var maxInterpfactor = this.getMaxInterp(date,this.paramsType)
+
+				this.createLegend(this.Gsvg,this.getMaxd(this.model,
+																								 date,this.paramsType),
+													maxInterpfactor);
+				this.setMapColor(this.model, this.getDistricCrtical,
+												 this.getMaxd(this.model,
+																			date,this.paramsType),
+												 date,this.paramsType,maxInterpfactor) 
+				this.dataSource = this.ps.getTableData(this.def_list,
+																							 this.cn_list,
+																							 this.sa_list, this.DataTBL); 
+				
+		}
 
     resetToggel(btn){
 				btn.querySelector(".active").classList.remove('active') // Select all DOM Element From Element
