@@ -51,8 +51,7 @@ export class PredectionsComponent implements OnInit{
     Gsvg:any;
     displayedColumns: string[] = ['item', 'district','state','country', 'units'];
     displayedTypes: DataMap[] = [{id:'lowParams',name:'Moderate',type:'',map:''},
-                                 {id:'highParams',name:'Worst case',type:'',
-																	map:''}];  
+                                 {id:'highParams',name:'Worst case',type:'',map:''}];  														
     Thead:TableHead ={sname:'India',dname:''};
     tiles: Tile[] = [
 				{text: '0', cols: 1, rows: 1, color: ' rgb(246, 238, 234)'},
@@ -108,13 +107,20 @@ export class PredectionsComponent implements OnInit{
     }
 
 		resetView() {
+<<<<<<< HEAD
 				this.def_list = 0
 				this.sa_list = 0
 				this.Thead = {sname:'India', dname:''}
+=======
+	  this.def_list = 0
+	  this.sa_list = 0
+	  this.Thead.sname = "India"
+	  this.Thead.dname = ""
+>>>>>>> 4804424b63c25e83b4aa0b711fff46f4943e3f12
         d3.select('svg').remove()
         this.resetToggel(this.buttonToggle.nativeElement)
         this.resetToggel2(this.buttonToggle2.nativeElement)
-				this.renderView(this.model, this.inddist)
+		this.renderView(this.model, this.inddist)
 				
 		}
     // Render India Map
