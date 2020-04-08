@@ -4,6 +4,7 @@ import * as t from 'topojson'
 import { PredectionService } from '../predection.service';
 import { TableData } from '../table-data';
 import {legendColor} from 'd3-svg-legend';
+import { ThrowStmt } from '@angular/compiler';
 declare var Covid19ModelIndia : any;
 
 export interface Tile {
@@ -62,7 +63,8 @@ export class PredectionsComponent implements OnInit{
 				{text: '51 -70', cols: 1, rows: 1, color: 'rgb(232, 56, 44)'},
 				{text: '> 71', cols: 1, rows: 1, color: 'rgb(187, 21, 26)'},
     ];
-
+	dropDownListState:any[]=[]
+	dropDownListdata:any[]=[]
     ELEMENT_DATA: TableData[] = [];
     dataSource = this.ELEMENT_DATA;
     DataMp: DataMap[];
@@ -319,6 +321,7 @@ export class PredectionsComponent implements OnInit{
 						//this.resetToggel(btn) // reset Toggel Button if district name doesn't exists
 				}
 				this.resetMapTable()
+				//this.getmpdata()
     }
     // Handle Modrate and crtical
     handleChangeParam(data){
@@ -358,6 +361,19 @@ export class PredectionsComponent implements OnInit{
 																							 this.sa_list, this.DataTBL); 
 				
 		}
+getmpdata(){
+	let data =[]
+	let state =[]
+	d3.selectAll(".map").selectAll('path').each( function(d, i){
+		  data[i] = {sname: d.properties.st_nm,dname:d.properties.district}
+		
+		
+  } )
+state = data.map(dta => dta.sname); 
+this.dropDownListdata = data
+this.dropDownListState = state.filter((x, i, a) => x && a.indexOf(x) === i)
+//this.dropDownListdata.filter(element => element.sname == "Maharashtra")
+}
 
     resetToggel(btn){
 				btn.querySelector(".active").classList.remove('active') // Select all DOM Element From Element
@@ -439,7 +455,7 @@ export class PredectionsComponent implements OnInit{
 								return color; // Return Color
 						})
     }
-
+	
     // Return Toggel Button
     getTdata(){
 				return [
