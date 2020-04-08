@@ -5,66 +5,68 @@
     <div class="content col-lg-12 col-lg-12 col-md-12 col-sm-12">
       <div class="row">
 
-
+        
         <!-- App Notification -->
         <app-notification class="col-md-12 col-sm-12"></app-notification>
 
 
-        <!-- <div class="row"> -->
-        <div class="col-sm-12 col-sm-12 text-left">
-          <h3 class="card-title pl-20">Requirement Projection (District-wise) </h3>
-        </div>
 
-        <!-- Map - Open -->
-        <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 hide">
-          <!--to hide map on mobile view add 'hide' to class here-->
-          <div class="card card-chart">
-            <div class="card-body">
-              <div id="main" class="svg-parent">
-                <div class="tooltip " id="tooltip"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Map - Close -->
 
-        <!-- Drop Down - Open -->
-        <div class=" col-lg-12 col-md-12 col-sm-12 display ">
-          <!--to display dropdown on mobile view add 'display' to class here-->
-          <h4 class="card-title">Select State & City</h4>
-          <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12">
-              <div >
-                <button class="dropdown-toggle btn btn-primary btn-block" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  State
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <h6 class="dropdown-header">Dropdown header</h6>
-                  <a class="dropdown-item" href="#">Action</a>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12">
-              <div >
-                <button type="button" class="btn btn-danger btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  District
-                </button>
-                <div class="dropdown-menu">
-                  <h6 class="dropdown-header">Dropdown header</h6>
-                  <a class="dropdown-item" href="#">Action</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+					<!-- Map - Open -->
+					<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 hide">
+						<!--to hide map on mobile view add 'hide' to class here-->
+						<div class="card card-chart">
+							<div class="card-body">
+								<div id="main" class="svg-parent">
+									<div class="tooltip " id="tooltip"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Map - Close -->
+					
+					<!-- Drop Down - Open -->
+					<div class=" col-lg-12 col-md-12 col-sm-12 display ">
+						<!--to display dropdown on mobile view add 'display' to class here-->
+						<h4 class="card-title">Select State & City</h4>
+						<div class="row">
+							<div class="col-lg-6 col-md-6 col-sm-12">
+								<div >
+									<button class="dropdown-toggle btn btn-primary btn-block" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										State
+									</button>
+									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+										<h6 class="dropdown-header">Dropdown header</h6>
+										<a class="dropdown-item" href="#">Action</a>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-6 col-md-6 col-sm-12">
+								<div >
+									<button type="button" class="btn btn-danger btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										District
+									</button>
+									<div class="dropdown-menu">
+										<h6 class="dropdown-header">Dropdown header</h6>
+										<a class="dropdown-item" href="#">Action</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
         <!-- Drop Down - Close -->
 
-        <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-          <div class="card card-chart">
-            <div class="card-header col-12">
+				<!-- <div class="row"> -->
+					<!-- <div class="col-sm-12 col-sm-12"> -->
+					
 
-              <!-- Table - Header Open -->
-              <div class="row">
+					<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+					<h3 class="card-title pl-20">Medical Inventory Requirement Projection </h3> 
+						<div class="card card-chart">
+							<div class="card-header col-12">
+								
+								<!-- Table - Header Open -->
+								<div class="row">
                 <!-- row start-->
                 <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12  text-left">
                   <h3 class="card-title">{{Thead.dname}} {{Thead.dname !==''?',':''}} {{Thead.sname}}</h3>
@@ -83,12 +85,26 @@
                     </div>
                     <div class="col-12 mt-md-3 mt-sm-5 ">
                       <div #buttonToggle2 id="weeks" class="btn-group btn-group-toggle float-right" data-toggle="buttons">
-                        <label *ngFor="let d of displayedTypes;let i = index" class="btn btn-sm btn-primary btn-simple" [ngClass]="{'active': i==0}" id="{{d.id}}" (click)="handleChangeParam(d)">
+                        <label *ngFor="let d of displayedTypes;let i =
+																			 index" class="btn btn-sm
+																										 btn-primary
+																										 btn-simple"
+															 [ngClass]="{'active': i==0}" id="{{d.id}}" (click)="handleChangeParam(d)">
                           <input type="radio" value="{{d.id}}" name="options">
                           <span class=" d-sm-block d-md-block d-lg-block d-xl-block">{{d.name}}</span>
                         </label>
                       </div>
                     </div>
+
+                    <div class="col-12 mt-md-3 mt-sm-5 ">
+                      <div id="weeks" class="btn-group float-right"  data-toggle="buttons">
+                        <label (click)="resetView()" class="btn btn-sm btn-primary btn-simple">
+                          <span class=" d-sm-block d-md-block
+                          d-lg-block d-xl-block">Reset all</span>
+                        </label>
+                      </div>
+                    </div>
+										
                   </div><!-- row end-->
                 </div>
               </div><!-- row end-->
@@ -145,5 +161,3 @@
 
 
 
-      </div>
-    </div>
