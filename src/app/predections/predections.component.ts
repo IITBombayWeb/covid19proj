@@ -150,7 +150,7 @@ export class PredectionsComponent implements OnInit{
             const n2 =  d.properties.district;
             const index_key = n2+"."+n1
             var numCritical = FunCrtical(index_key,btn.querySelector('.active').getElementsByTagName('input')[0].value,btn2.querySelector('.active').getElementsByTagName('input')[0].value)
-            
+
             svgEle[3]
             .html(d.properties.st_nm + "<br>" + "District: " + d.properties.district + "<br>" + "Qty: " + numCritical)
             .style("left", (d3.event.pageX-document.getElementById("main").offsetLeft - 60 )+ "px")
@@ -176,7 +176,7 @@ export class PredectionsComponent implements OnInit{
             .html("");
           })
           MapFill(FunCrtical,maxd,date.date,btn2.querySelector('.active').getElementsByTagName('input')[0].value,maxInterpfactor);
-       
+
   });
 
 
@@ -304,10 +304,10 @@ handleChangeParam(data){
   this.cn_list = this.getCountryCrtical(date,this.paramsType)
     //console.log("change:" + date + "cn: " + this.cn_list + data.id)
     console.log(date + " (maxint): " + maxInterpfactor)
-    
+
   //If it has district name then
   if(this.Thead.dname !==''){
-    this.def_list = this.getDistricCrtical(this.Thead.dname+"."+this.Thead.sname,date,this.paramsType) 
+    this.def_list = this.getDistricCrtical(this.Thead.dname+"."+this.Thead.sname,date,this.paramsType)
     this.sa_list = this.getSateCrtical(this.Thead.sname,date,this.paramsType)
     //this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
   }
@@ -354,10 +354,10 @@ getMaxInterp(date0,date1, params){
     let factor = 1
     factor = params == "lowParams" ? 2*((d1-d0) /7/d2ms + 1)/4:
 	3*((d1-d0) /7/d2ms + 1)/4
-    
-    return factor 
+
+    return factor
 }
-    
+
 
 removeColorLegend(){
   d3.select('.legendLinear').remove() // Removes Color Bar From the Map
@@ -369,8 +369,8 @@ getstime(){
 
 // This function will set color to district in the map
 setMapColor(funcrtical,maxd,date,params,maxInterpolation){
- 
- 
+
+
   d3.select('.map').selectAll('path') // Select all paths of the maps
   .style("fill", (d)=>{  // Set Color function
     const n1 = d.properties.st_nm; // Select State name
@@ -406,8 +406,6 @@ getDate(n){
     date.setDate(date.getDate() + n); // Add Date with n days
     return date;// return date object
   }
-
-
 
 
 
