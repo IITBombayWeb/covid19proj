@@ -95,8 +95,7 @@ export class PredectionsComponent implements OnInit{
 								
 						let statesSeries = responseList[0].states_daily;
 						let caseSeries   = responseList[1].raw_data;
-						this.model        = new Covid19ModelIndia(t0, statesSeries,
-																											caseSeries);
+						this.model        = new Covid19ModelIndia(t0, statesSeries,caseSeries);
 						
 
 						//this.DataMp=this.getTdata(this.model);
@@ -306,7 +305,6 @@ export class PredectionsComponent implements OnInit{
 				//If it has district name then
 				const btn = this.buttonToggle.nativeElement
 				const date = data.map
-
 				this.cn_list = this.getCountryCrtical(this.model, date,this.paramsType)
 				console.log("Wchange:" + date + "cn: " + this.cn_list)
 				var maxInterpfactor = this.getMaxInterp(date,this.paramsType)
@@ -325,9 +323,9 @@ export class PredectionsComponent implements OnInit{
     // Handle Modrate and crtical
     handleChangeParam(data){
 				this.paramsType = data.id;
-				const date = this.buttonToggle.nativeElement.querySelector('.active').getElementsByTagName('input')[0].value
+				const date = this.Sdate.date
+				
 				//const date = data.map
-
 				this.cn_list = this.getCountryCrtical(this.model, date,this.paramsType)
 				console.log("Pchange:" + date + ", cn: " + this.cn_list + data.id)
 				//console.log(date + " (maxint): " + maxInterpfactor)
@@ -343,8 +341,7 @@ export class PredectionsComponent implements OnInit{
     }
 
 		resetMapTable() {
-				const date = this.buttonToggle.nativeElement
-							.querySelector('.active').getElementsByTagName('input')[0].value
+				const date = this.Sdate.date
 
 				console.log("reset:" + date + "@" + this.paramsType)
 				var maxInterpfactor = this.getMaxInterp(date,this.paramsType)
