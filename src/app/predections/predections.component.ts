@@ -41,7 +41,8 @@ export interface TableHead{
 export class PredectionsComponent implements OnInit{
     @ViewChild('buttonToggle') buttonToggle: ElementRef;
     @ViewChild('buttonToggle2') buttonToggle2: ElementRef;
-    title = 'CWR';
+    @ViewChild('buttonReset') buttonReset: ElementRef;
+    title = 'MedInv';
     height = 700;
     width = 800;
     propertyFieldMap = {
@@ -75,6 +76,7 @@ export class PredectionsComponent implements OnInit{
 
     //model:any = new Covid19ModelIndia();
 		model:any = []
+		inddist:any = []
     
     paramsType:any=this.displayedTypes[0].id
     Sdate:DispDate;
@@ -83,7 +85,7 @@ export class PredectionsComponent implements OnInit{
 				
 				this.DataMp=this.getTdata();
 				this.ps.requestDataFromMultipleSources().subscribe(responseList => {
-						const inddist =  d3.json("assets/india-districts.json");//Fetch India Map JSON
+						this.inddist =  d3.json("assets/india-districts.json");//Fetch India Map JSON
 						
 						// responseList.forEach(function (resp,i) {
 						// 		console.log(i + ' : ' + resp)
@@ -100,11 +102,17 @@ export class PredectionsComponent implements OnInit{
 
 						//this.DataMp=this.getTdata(this.model);
 				//this.DataMp=this.getTdata();
-						this.renderView(this.model, inddist);
+						this.renderView(this.model, this.inddist);
 
 				});
 
     }
+
+		resetView() {
+				d3.select('svg').remove()
+				this.renderView(this.model, this.inddist)
+				
+		}
     // Render India Map
     renderView(model, mapdata){
 
@@ -128,6 +136,7 @@ export class PredectionsComponent implements OnInit{
 				let headD  = this.Thead;
 				let btn = this.buttonToggle.nativeElement;
 				let btn2 = this.buttonToggle2.nativeElement;
+				//let resetbtn = this.buttonReset.nativeElement;
 				let def_list = this.def_list
 				let cn_list = this.cn_list
 				let sa_list = this.sa_list
@@ -291,7 +300,7 @@ export class PredectionsComponent implements OnInit{
 				const date = data.map
 
 				this.cn_list = this.getCountryCrtical(this.model, date,this.paramsType)
-				console.log("change:" + date + "cn: " + this.cn_list)
+				//console.log("change:" + date + "cn: " + this.cn_list)
 				var maxInterpfactor = this.getMaxInterp(date,this.paramsType)
 
 				this.Sdate.date  = date
@@ -307,7 +316,7 @@ export class PredectionsComponent implements OnInit{
 				this.setMapColor(this.model, this.getDistricCrtical,this.getMaxd(this.model, date,this.paramsType),date,this.paramsType,maxInterpfactor)
 				this.dataSource =  this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
     }
-    // Handel Modrate and crtical
+    // Handle Modrate and crtical
     handleChangeParam(data){
 				this.paramsType = data.id;
 				const date = this.buttonToggle.nativeElement.querySelector('.active').getElementsByTagName('input')[0].value
@@ -315,7 +324,7 @@ export class PredectionsComponent implements OnInit{
 				var maxInterpfactor = this.getMaxInterp(date,this.paramsType)
 				this.cn_list = this.getCountryCrtical(this.model, date,this.paramsType)
 				//console.log("change:" + date + "cn: " + this.cn_list + data.id)
-				console.log(date + " (maxint): " + maxInterpfactor)
+				//console.log(date + " (maxint): " + maxInterpfactor)
 				
 				//If it has district name then
 				if(this.Thead.dname !==''){
@@ -343,7 +352,7 @@ export class PredectionsComponent implements OnInit{
 
     getSateCrtical(model, key,date,params){
 				//let model = new Covid19ModelIndia()
-				console.log("SC: " + model.lowParams)
+				//console.log("SC: " + model.lowParams)
 				const index =  model.indexStateName(key)
 				return index?model.stateStat("reported",index , params==="lowParams"?model.lowParams:model.highParams, new Date(date)):0; // Get  State Critical
     }
