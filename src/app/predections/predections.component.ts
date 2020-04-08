@@ -108,8 +108,9 @@ export class PredectionsComponent implements OnInit{
     }
 
 		resetView() {
-	  this.def_list = 0
-	  this.sa_list = 0
+				this.def_list = 0
+				this.sa_list = 0
+				this.Thead = {sname:'India', dname:''}
         d3.select('svg').remove()
         this.resetToggel(this.buttonToggle.nativeElement)
         this.resetToggel2(this.buttonToggle2.nativeElement)
