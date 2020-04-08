@@ -51,12 +51,12 @@ var seq2 = 0,
   if (isWindows) {
     // if we are on windows OS we activate the perfectScrollbar function
     if ($('.main-panel').length != 0) {
-      // var ps = new PerfectScrollbar('.main-panel', {
-      //   wheelSpeed: 2,
-      //   wheelPropagation: true,
-      //   minScrollbarLength: 20,
-      //   suppressScrollX: true
-      // });
+      var ps = new PerfectScrollbar('.main-panel', {
+        wheelSpeed: 2,
+        wheelPropagation: true,
+        minScrollbarLength: 20,
+        suppressScrollX: true
+      });
     }
 
     if ($('.sidebar .sidebar-wrapper').length != 0) {
@@ -66,9 +66,6 @@ var seq2 = 0,
         var ps2 = new PerfectScrollbar($(this)[0]);
       });
     }
-
-
-
     $html.addClass('perfect-scrollbar-on');
   } else {
     $html.addClass('perfect-scrollbar-off');
@@ -86,32 +83,37 @@ $(document).ready(function() {
     scroll_start = $(this).scrollTop();
 
     if (scroll_start > 50) {
-      $(".navbar-minimize-fixed").css('opacity', '1');
-    } else {
-      $(".navbar-minimize-fixed").css('opacity', '0');
+      $(".navbar-minimize-fixed").addClass('navbar-transparent');
+    } else{
+      $(".navbar-minimize-fixed").removeClass('navbar-transparent');
     }
   });
 
 
   $(document).scroll(function() {
     scroll_start = $(this).scrollTop();
+
     if (scroll_start > offset.top) {
-      $(".navbar-minimize-fixed").css('opacity', '1');
-    } else {
-      $(".navbar-minimize-fixed").css('opacity', '0');
+      $(".navbar-minimize-fixed").removeClass('navbar-transparent');
     }
+     else {
+      $(".navbar-minimize-fixed").addClass('navbar-transparent');
+    }
+
   });
 
+
   if ($('.full-screen-map').length == 0 && $('.bd-docs').length == 0) {
-   
     // On click navbar-collapse the menu will be white not transparent
     $('.collapse').on('show.bs.collapse', function() {
-      console.log("fikg")
       $(this).closest('.navbar').removeClass('navbar-transparent').addClass('bg-white');
+
     }).on('hide.bs.collapse', function() {
       $(this).closest('.navbar').addClass('navbar-transparent').removeClass('bg-white');
     });
   }
+
+
 
   blackDashboard.initMinimizeSidebar();
 
@@ -179,11 +181,18 @@ $(window).resize(function() {
   seq = seq2 = 0;
 
   if ($full_screen_map.length == 0 && $('.bd-docs').length == 0) {
+
     var isExpanded = $navbar.find('[data-toggle="collapse"]').attr("aria-expanded");
+
     if ($navbar.hasClass('bg-white') && $(window).width() > 991) {
+
       $navbar.removeClass('bg-white').addClass('navbar-transparent');
-    } else if ($navbar.hasClass('navbar-transparent') && $(window).width() < 991 && isExpanded != "false") {
+    }
+    else if ($navbar.hasClass('navbar-transparent') && $(window).width() < 991 && isExpanded != "false") {
+
       $navbar.addClass('bg-white').removeClass('navbar-transparent');
+
+
     }
   }
 });
