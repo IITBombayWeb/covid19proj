@@ -282,12 +282,13 @@ export class PredectionsComponent implements OnInit{
 						.append('g')
 						.attr('class', 'legendLinear')
 						.attr('fill','white')
-						.attr('transform', 'translate(-70, -60)');
+						.attr('transform', 'translate(-70, -80)');
 
 				const legendLinear = legendColor()
+							.title("Positive patients (district-wise)")
+							.titleWidth(600)
 							.shapeWidth(50)
 							.cells(cells)
-							.titleWidth(4)
 							.labels(label)
 							.orient('vertical')
 							.scale(color);
