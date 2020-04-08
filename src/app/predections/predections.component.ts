@@ -241,6 +241,11 @@ export class PredectionsComponent implements OnInit{
 
 
     }
+
+    removeColorLegend(){
+				d3.select('.legendLinear').remove() // Removes Color Bar From the Map
+    }
+		
     // Create color Bar Range
     createLegend(svg,maxd,maxInterpolation){
 				const color = d3
@@ -266,8 +271,8 @@ export class PredectionsComponent implements OnInit{
 
 				const numCells = 6;
 				const delta = Math.floor(
-						(maxd < numCells ? numCells : maxd) /
-								(numCells - 1)
+						(maxd < numCells ? numCells : maxd)
+								/ (numCells - 1)
 				);
 				//(max_d[index] < numCells ? numCells : max_d[index]) /
 
@@ -283,7 +288,6 @@ export class PredectionsComponent implements OnInit{
 							.shapeWidth(50)
 							.cells(cells)
 							.titleWidth(4)
-
 							.labels(label)
 							.orient('vertical')
 							.scale(color);
@@ -459,10 +463,6 @@ export class PredectionsComponent implements OnInit{
 				return factor 
     }
     
-
-    removeColorLegend(){
-				d3.select('.legendLinear').remove() // Removes Color Bar From the Map
-    }
 
     getstime(){
 				return new Date(this.buttonToggle.nativeElement.getElementsByTagName('input')[0].value) // Return time from Toggel Button
