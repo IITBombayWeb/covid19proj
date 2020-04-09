@@ -48,7 +48,8 @@
 
 
 \newcommand{\nd}{\ensuremath{N_{\mathrm{d}}}}
-\newcommand{\nc}{\ensuremath{N_{\mathrm{c}}}}
+\newcommand{\ncr}{\ensuremath{N_{\mathrm{cr}}}}
+\newcommand{\nca}{\ensuremath{N_{\mathrm{ca}}}}
 \newcommand{\ns}{\ensuremath{N_{\mathrm{s}}}}
 \newcommand{\nin}{\ensuremath{N_{\mathrm{i}}}}
 \newcommand{\nq}{\ensuremath{N_{\mathrm{q}}}}
@@ -96,8 +97,8 @@ table below:
   Mild & Symptomatic, Home Quarantine/isolation (out-patients) & 40\% & \nq \\
   Moderate & In-patient ward & 40\% & \nin \\
   Severe & Supportive care, oxygen therapy   & 15\% & \ns \\
-  Critical & ICU, mechanical ventilation & 5\% & \nc \\
-  Deaths & --  & 2.5\% & \nd \\
+  Critical & ICU, mechanical ventilation & 5\% & \ncr \\
+  Deceased & --  & 2.5\% & \nd \\
 \bottomrule  
 \end{tabularx}
 
@@ -119,8 +120,8 @@ website, some of the numbers are rounded higher to the nearest 10 or
   Mild & $\nq$ & 40 \\
   Moderate & $\nin$ & 40 \\
   Severe & $\ns$ & 15 \\
-  Critical & $\nc$ & 5\\
-  Deaths & $\nd$ & 2.5\\
+  Critical & $\ncr$ & 5\\
+  Deceased & $\nd$ & 2.5\\
   \bottomrule
 \end{tabular}
 
@@ -136,14 +137,14 @@ website, some of the numbers are rounded higher to the nearest 10 or
 Doctors [per day] & 2 per 12-hr shift for 10 critical and severe
 patients and 2 
 per 12-hr shift for 15 in-patients &
-$\frac{2}{5}\left(\nc+\ns+\frac{\nin}{1.5}\right)$ & 19 \\
+$\frac{2}{5}\left(\ncr+\ns+\frac{\nin}{1.5}\right)$ & 19 \\
 Nurses [per day] & 1 per 8-hr shift for 3 critical and severe patients
 and 1 per 8-hr shift for 5 in-patients &
-$\left(\nc+\ns+\frac{\nin}{1.5}\right)$ & 47\\
+$\left(\ncr+\ns+\frac{\nin}{1.5}\right)$ & 47\\
 % Janitors [per day] & 1 per 8-hr shift per 10 beds &
-% $3 \; \left(\nc+\ns+\nin\right)/10$ \\
+% $3 \; \left(\ncr+\ns+\nin\right)/10$ \\
 Total staff [per day]& Doctors, Nurses &
-$S \equiv \frac{7}{5} \left(\nc+\ns+\frac{\nin}{1.5}\right)$ & 66 \\
+$S \equiv \frac{7}{5} \left(\ncr+\ns+\frac{\nin}{1.5}\right)$ & 66 \\
 Staff PPE (Gowns, Masks, Goggles etc.) [per day]&
 Two per staff & $2 \, S$  & 132\\
 Patient PPE: Masks [per day] & 4 per severe and moderate patients &
@@ -151,12 +152,12 @@ $4 (\ns+\nin)$ & 220 \\
 Sterile gloves [per day]&
  3 per patient per 6-hr shift for critical and half that for severe and
  moderate &
-$12\nc + 6 (\ns+\nin)$ & 390 \\
+$12\ncr + 6 (\ns+\nin)$ & 390 \\
 Non-sterile gloves &
  6 per patient per 6-hr shift for critical and half that for severe and
  moderate &
-$24\nc + 12 (\ns+\nin)$ & 780 \\
-Dead body bags & 1 per death & $\nd$ & 3 \\
+$24\ncr + 12 (\ns+\nin)$ & 780 \\
+Dead body bags & 1 per deceased & $\nd$ & 3 \\
     \bottomrule
   \end{tabularx}
 \end{table}
@@ -172,16 +173,16 @@ Dead body bags & 1 per death & $\nd$ & 3 \\
     Item [Unit] & Estimate & Formula & $N=100$\\
     \midrule
     Ventilators, Ambu bags, Glass case & 1 per critical patient&
-    $\nc$ & 5 \\
+    $\ncr$ & 5 \\
     Laryngoscopes, Defibrillator & 3 per 10 critical patients &
-    $3 \nc/10$ & 2 \\
-    ECG & 1 per 20 critical patients& $\nc/20$ & 1\\
+    $3 \ncr/10$ & 2 \\
+    ECG & 1 per 20 critical patients& $\ncr/20$ & 1\\
     Arterial BP monitors & 1 per critical patient &
-    $\nc$ & 5 \\
+    $\ncr$ & 5 \\
     Arterial blood gas machine & 1 per 30 critical patients &
-    $\nc/30$ & 1 \\
-    Bedside X-ray & 1 per 20 critical patients & $\nc/20$ & 1\\
-    Infusion pumps & 3 per critical patient & $3 \nc$ & 15 \\
+    $\ncr/30$ & 1 \\
+    Bedside X-ray & 1 per 20 critical patients & $\ncr/20$ & 1\\
+    Infusion pumps & 3 per critical patient & $3 \ncr$ & 15 \\
     Oxymeter &  1 per 20 severe patients & $\ns/20$ & 1\\
     High flow nasal canula & 1 per severe patient & $\ns$ & 15\\
     Nebuliser & 1 per severe patient & $\ns$ & 15\\
@@ -189,7 +190,7 @@ Dead body bags & 1 per death & $\nd$ & 3 \\
     Patient cot & 1 per severe and moderate & $\ns+\nin$ & 55 \\
     Wheel chair & 1 per 20 severe patients & $\ns/20$ & 1\\
     Stretcher & 1 per critical and 3 per 20 severe patients &
-    $\nc + 3 \ns/20$ & 7\\
+    $\ncr + 3 \ns/20$ & 7\\
     Ambulance &  3 times total positive cases, each making 20 trips
     per day & $3 N / 20$ & 15\\
 \bottomrule
@@ -208,20 +209,20 @@ Dead body bags & 1 per death & $\nd$ & 3 \\
     Item [Unit] & Estimate & Formula & $N=100$ \\
     \midrule
 Needles [per day]& 10 per critical, 5 per severe, 2 per moderate&
-$10 \nc + 5 \ns + 2 \nin$ & 205 \\
+$10 \ncr + 5 \ns + 2 \nin$ & 205 \\
 Disposable Bags [per day] & 3 per critical 2 per severe and 1 per 4
-moderate & $ 3\nc + 2\ns + 0.25\nin$ & 55 \\
-Sanitizer [lt/day] & 250 ml per all in-patients & $0.25 (\nc+\ns+\nin)$
+moderate & $ 3\ncr + 2\ns + 0.25\nin$ & 55 \\
+Sanitizer [lt/day] & 250 ml per all in-patients & $0.25 (\ncr+\ns+\nin)$
 & 15 \\
 Endotracheal Tube [per day] & 1 per critical patients for 3 days &
-$\nc/3$ & 2 \\
+$\ncr/3$ & 2 \\
 Oxygen (medium) [cylinders per day] & 4 cylinders per critical patient
-& $4 \nc$  & 20 \\ 
+& $4 \ncr$  & 20 \\ 
 Central and Peripheral lines [per day] & 1 per critical patient for 3
-days & $\nc/3$ & 2 \\
+days & $\ncr/3$ & 2 \\
 IV Fluids [lt/day] & 5 bottles of 500 ml per critical patient &
-$2.5 \nc$ & 13 \\
-Suction catheter [per day] & 1 per critical patient & $\nc$ & 5 \\
+$2.5 \ncr$ & 13 \\
+Suction catheter [per day] & 1 per critical patient & $\ncr$ & 5 \\
 Test kits [per day] & 3 times the number of positive cases &
 $3 N$ & 300  \\
 \bottomrule
@@ -244,6 +245,63 @@ depending on the actual field data in India for the patients and the
 inventory usage pattern.  Please email your comments and suggestions
 with justifications to \email{p.sunthar@iitb.ac.in} for inclusion in the
 future updates of the software.
+
+\appendix
+\section{Patient projection model}
+The key formulae from patient prediction model \cite{ansualok20} is
+given here. Let the number of carriers be \nca. At any time the number
+of carriers in a district is related to the number
+of positive cases in that district $N$ by:
+\begin{equation}
+  \label{eq:1}
+  \nca = n_{s} N
+\end{equation}
+where $n_{s}$ is a factor that can be different for each state
+(denoted by index $s$), and is dependent on the number of deceased
+\nd:
+\begin{equation}
+  n_{s} =  \begin{cases}
+    \frac{118 + 97 \nd}{N}, &  1 \leq n_{s} \leq 5\\
+    2, & \nd < 5 \\
+    1, & n_{s} < 1 \\
+    5, & n_{s} > 5 \\
+  \end{cases}
+\end{equation}
+where \nd\ and $N$ denote the values for that state. In
+the absence of any deceased, the national numbers are used to obtain
+$n_{s}$.
+
+The number of critical patients is taken to be
+\begin{equation}
+  \ncr = f_{c} \nca
+\end{equation}
+where it is assumed that $f_{c} = 10\%$.
+
+\subsection{Growth predictions}
+The weekly growth of number of carriers is given by
+\begin{equation}
+  \nca(t+n) = g(n) \, \nca(t) 
+\end{equation}
+where $g$ is a weekly growth factor and $n$ is the number of weeks
+from a reference date at $t$.  There are two scenarios for the values
+of $g$: Moderate growth and Worst case growth.  The moderate growth
+factor for values of $n = \{1, 2, 3, 4\}$:
+\begin{equation}
+  g = \begin{cases}
+   \{3, 20, 70, 150\}  & \nd < 10 \\
+   \{4.5, 18.62, 62, 140\} & \nd \geq 10
+ \end{cases}
+\end{equation}
+Similarly the Worst-case growth factor for values of $n = \{1, 2, 3, 4\}$:
+\begin{equation}
+  g = \begin{cases}
+   \{7, 50, 120, 400\}  & \nd < 10 \\
+   \{8, 40, 118, 320\} & \nd \geq 10
+ \end{cases}
+\end{equation}
+These growth factors have been obtained by fitting data from across
+the world.
+
 
 
 \bibliography{covid19lit}
