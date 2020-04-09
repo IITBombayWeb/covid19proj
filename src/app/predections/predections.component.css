@@ -109,11 +109,11 @@ tfoot th:first-child {
   vertical-align: top;
 } */
 
-.hide{
+.hide-area{
     display:block !important;
 }
 @media screen and (max-width: 600px) {
-  .hide{
+  .hide-area{
       display:none !important;
   }
 }
