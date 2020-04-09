@@ -107,9 +107,32 @@ $(document).ready(function() {
     // On click navbar-collapse the menu will be white not transparent
     $('.collapse').on('show.bs.collapse', function() {
       $(this).closest('.navbar').removeClass('navbar-transparent').addClass('bg-white');
+      $(document).scroll(function() {
+        scroll_start = $(this).scrollTop();
 
+        if (scroll_start > offset.top) {
+          $(".navbar-minimize-fixed").removeClass('navbar-transparent');
+        }
+         else {
+          $(".navbar-minimize-fixed").removeClass('navbar-transparent');
+        }
+
+      });
     }).on('hide.bs.collapse', function() {
       $(this).closest('.navbar').addClass('navbar-transparent').removeClass('bg-white');
+
+        $(document).scroll(function() {
+          scroll_start = $(this).scrollTop();
+
+          if (scroll_start > offset.top) {
+            $(".navbar-minimize-fixed").removeClass('navbar-transparent');
+          }
+           else {
+            $(".navbar-minimize-fixed").addClass('navbar-transparent');
+          }
+
+        });
+
     });
   }
 

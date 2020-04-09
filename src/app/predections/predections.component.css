@@ -109,11 +109,11 @@ tfoot th:first-child {
   vertical-align: top;
 } */
 
-.hide{
+.hide-area{
     display:block !important;
 }
 @media screen and (max-width: 600px) {
-  .hide{
+  .hide-area{
       display:none !important;
   }
 }
@@ -131,4 +131,46 @@ tfoot th:first-child {
   .display{
       display:block !important;
   }
+}
+
+
+.btn.btn-linkedin {
+	background: top right/210% 210% space #0077b5;
+	background-image: linear-gradient(to bottom left, #0077b5, #00344f, #0077b5);
+	color: #fff
+}
+
+.btn.btn-linkedin:active,
+.btn.btn-linkedin:focus,
+.btn.btn-linkedin:hover {
+	background-color: #00669c;
+	background-image: linear-gradient(to bottom left, #0077b5, #00344f, #0077b5)!important;
+	background-image: -moz-linear-gradient(to bottom left, #0077b5, #00344f, #0077b5)!important;
+	color: #fff
+}
+
+.btn.btn-linkedin.btn-simple {
+	color: #00669c;
+	background-color: transparent;
+	background-image: none!important;
+	box-shadow: none;
+	border-color: #00669c
+}
+
+.btn.btn-linkedin.btn-simple:active,
+.btn.btn-linkedin.btn-simple:focus,
+.btn.btn-linkedin.btn-simple:hover {
+	color: #00669c;
+	border-color: #00669c
+}
+
+.btn.btn-linkedin.btn-neutral {
+	color: #0077b5;
+	background-color: #fff
+}
+
+.btn.btn-linkedin.btn-neutral:active,
+.btn.btn-linkedin.btn-neutral:focus,
+.btn.btn-linkedin.btn-neutral:hover {
+	color: #00669c
 }
