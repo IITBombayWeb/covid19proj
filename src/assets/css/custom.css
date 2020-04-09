@@ -1,0 +1,16 @@
+
+body {
+  font-size: 1.25rem;
+}
+
+@media screen and (max-width: 992px) {
+  body {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  body {
+    font-size: 0.8rem;
+  }
+}

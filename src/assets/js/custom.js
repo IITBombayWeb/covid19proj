@@ -19,3 +19,17 @@ jQuery(document).ready(function() {
  $(document).on('click','.navbar-collapse.show',function(e) {
   $(this).collapse('hide');
 });
+
+// $(document).ready(function(){
+//   $(window).scroll(function(){
+//   	var scroll = $(window).scrollTop();
+// 	  if (scroll > 100) {
+// 	    $(".navbar-minimize-fixed ").css("background" , "#fff");
+//
+// 	  }
+//
+// 	  else{
+// 		  $(".navbar-minimize-fixed ").css("background" , "#00000000");
+// 	  }
+//   })
+// })

@@ -5,66 +5,76 @@
     <div class="content col-lg-12 col-lg-12 col-md-12 col-sm-12">
       <div class="row">
 
-        
+
         <!-- App Notification -->
-        <app-notification class="col-md-12 col-sm-12"></app-notification>
+        <app-notification class="col-md-12 col-sm-12 hide-area"></app-notification>
 
 
+        <!-- Map - Open -->
+        <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 hide-area">
+          	<h3 class="card-title pl-20">Requirement Projection (District-wise) </h3>
+          <!--to hide map on mobile view add 'hide' to class here-->
+          <div class="card card-chart">
+            <div class="card-body">
+              <div id="main" class="svg-parent">
+                <div class="tooltip " id="tooltip"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Map - Close -->
 
 
-					<!-- Map - Open -->
-					<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 hide">
-						<!--to hide map on mobile view add 'hide' to class here-->
-						<div class="card card-chart">
-							<div class="card-body">
-								<div id="main" class="svg-parent">
-									<div class="tooltip " id="tooltip"></div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- Map - Close -->
-					
-					<!-- Drop Down - Open -->
-					<div class=" col-lg-12 col-md-12 col-sm-12 display ">
-						<!--to display dropdown on mobile view add 'display' to class here-->
-						<h4 class="card-title">Select State & City</h4>
-						<div class="row">
-							<div class="col-lg-6 col-md-6 col-sm-12">
-								<div >
-									<button class="dropdown-toggle btn btn-primary btn-block" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										State
-									</button>
-									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-										<h6 class="dropdown-header">Dropdown header</h6>
-										<a class="dropdown-item" href="#">Action</a>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-6 col-md-6 col-sm-12">
-								<div >
-									<button type="button" class="btn btn-danger btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										District
-									</button>
-									<div class="dropdown-menu">
-										<h6 class="dropdown-header">Dropdown header</h6>
-										<a class="dropdown-item" href="#">Action</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-        <!-- Drop Down - Close -->
 
 				<!-- <div class="row"> -->
 					<!-- <div class="col-sm-12 col-sm-12"> -->
-					
+
 
 					<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-					<h3 class="card-title pl-20">Medical Inventory Requirement Projection </h3> 
+					<h3 class="card-title pl-20">Medical Inventory Requirement Projection </h3>
+
+          <!-- Drop Down - Open -->
+          <div class=" col-lg-12 col-md-12 col-sm-12 mb-3">
+            <!--to display dropdown on mobile view add 'display' to class here-->
+            <h4 class="card-title">Select State & District</h4>
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-12">
+                <div>
+                  <!-- <button class="dropdown-toggle btn btn-primary btn-block" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    State
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <h6 class="dropdown-header">Dropdown header</h6>
+                    <a class="dropdown-item" href="#">Action</a>
+                  </div> -->
+                  <label for="">Choose State :</label>
+
+                  <select  #DropdownState *ngIf="dropDownListState.sname?.length  > 1" class="dropdown-toggle btn btn-block" type="button"  (change)="changeDropdownstate($event)" id="dropdownMenuButton" id="state">
+                    <!-- <option value="">Select State</option> -->
+                    <option *ngFor="let d of dropDownListState.sname;" [value]="d">{{d}}</option>
+                 
+                  </select>
+
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12" *ngIf="dropDownListdist.dname?.length  > 1">
+                <div>
+                  <label for="">Choose District :</label>
+
+                  <select class="dropdown-toggle btn btn-block" type="button"  (change)="changeDropdownDistrict($event)" id="dropdownMenuButton" id="district">
+               
+                    <option *ngFor="let d of dropDownListdist.dname" [attr.data-state]="d.sname" [value]="d.dname">{{d.dname}}</option>
+                  </select>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Drop Down - Close -->
+
 						<div class="card card-chart">
 							<div class="card-header col-12">
-								
+
 								<!-- Table - Header Open -->
 								<div class="row">
                 <!-- row start-->
@@ -88,8 +98,7 @@
                         <label *ngFor="let d of displayedTypes;let i =
 																			 index" class="btn btn-sm
 																										 btn-primary
-																										 btn-simple"
-															 [ngClass]="{'active': i==0}" id="{{d.id}}" (click)="handleChangeParam(d)">
+																										 btn-simple" [ngClass]="{'active': i==0}" id="{{d.id}}" (click)="handleChangeParam(d)">
                           <input type="radio" value="{{d.id}}" name="options">
                           <span class=" d-sm-block d-md-block d-lg-block d-xl-block">{{d.name}}</span>
                         </label>
@@ -97,14 +106,14 @@
                     </div>
 
                     <div class="col-12 mt-md-3 mt-sm-5 ">
-                      <div id="weeks" class="btn-group float-right"  data-toggle="buttons">
+                      <div id="weeks" class="btn-group float-right" data-toggle="buttons">
                         <label (click)="resetView()" class="btn btn-sm btn-primary btn-simple">
                           <span class=" d-sm-block d-md-block
                           d-lg-block d-xl-block">Reset all</span>
                         </label>
                       </div>
                     </div>
-										
+
                   </div><!-- row end-->
                 </div>
               </div><!-- row end-->
@@ -124,11 +133,11 @@
                     <div class="tab-content">
                       <div role="tabpanel" *ngFor="let D1 of DataTBL;let i=index" class="card-body tab-pane fade {{i==0?'show active':''}}" id="{{D1.id}}" role="tabpanel" [attr.aria-labelledby]="D1.id">
                         <div class="col-sm-12 text-left">
-                          <h2 class="card-title textMobile">{{D1.name}}</h2>
+                          <h3 class="card-title textMobile">{{D1.name}}</h3>
                         </div>
                         <div class="">
                           <div class="table-scroll ">
-                            <table class="table tablesorter" id="" style="max-height: 410px;">
+                            <table class="table tablesorter" id="">
                               <thead class=" text-primary">
                                 <tr>
                                   <th *ngFor="let  head of displayedColumns">
@@ -158,6 +167,3 @@
           </div>
         </div>
         <!-- </div> -->
-
-
-

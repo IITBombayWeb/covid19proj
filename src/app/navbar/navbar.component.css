@@ -1,40 +1,61 @@
 .navbar .navbar-brand{
     text-transform: none;
     font-size: 1.5rem;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
 }
+
+.navbar-minimize-fixed {
+  position: fixed;
+  opacity: 1;
+    margin-left: 0px !important;
+    margin-top: 0px !important;
+    padding-top: 14px;
+    padding-bottom: 14px !important;
+    -webkit-transition: background 300ms linear;
+  -moz-transition: background 300ms linear;
+  -o-transition: background 300ms linear;
+  -ms-transition: background 300ms linear;
+  transition: background 300ms linear;
+}
+
+
 @media only screen  and (max-width: 274px) {
     .navbar .navbar-brand{
         text-transform: none;
-        font-size: 5px;
+        font-size: 8px;
     }
+    .textMobile {
+      font-size: 4px;
+   }
   }
 @media only screen  and (min-width: 275px) and (max-width: 315px) {
-    .navbar .navbar-brand{
-        text-transform: none;
-        font-size: 5px;
-    }
-
-    .textMobile {
-        font-size: 10px;
-     }
-  }
-@media only screen  and (min-width: 316px) and (max-width: 336px) {
     .navbar .navbar-brand{
         text-transform: none;
         font-size: 8px;
     }
 
     .textMobile {
-        font-size: 13px;
+        font-size: 5px;
+     }
+  }
+@media only screen  and (min-width: 316px) and (max-width: 336px) {
+    .navbar .navbar-brand{
+        text-transform: none;
+        font-size: 12px;
+    }
+
+    .textMobile {
+        font-size: 6px;
      }
   }
   @media only screen and (min-width: 336px) and (max-width: 380px) {
     .navbar .navbar-brand{
         text-transform: none;
-        font-size: 9px;
+        font-size: 13px;
     }
     .textMobile {
-        font-size: 13px;
+        font-size: 6.5px;
      }
 
 
@@ -44,14 +65,18 @@
         text-transform: none;
         font-size: 11px;
     }
-
+    .textMobile {
+      font-size: 8px;
+   }
   }
   @media only screen and (min-width: 425px) and (max-width: 525px) {
     .navbar .navbar-brand{
         text-transform: none;
         font-size: 13px;
     }
-
+    .textMobile {
+      font-size: 8px;
+   }
 
   }
   @media only screen and (min-width: 526px) and (max-width: 625px) {
@@ -59,7 +84,9 @@
         text-transform: none;
         font-size: 16px;
     }
-
+    .textMobile {
+      font-size: 11px;
+   }
 
   }
   @media only screen and (min-width: 625px) and (max-width: 730px) {
@@ -67,7 +94,9 @@
         text-transform: none;
         font-size: 17px;
     }
-
+    .textMobile {
+      font-size: 15px;
+   }
 
   }
   @media only screen and (min-width: 731px) and (max-width: 800px) {
@@ -75,7 +104,9 @@
         text-transform: none;
         font-size: 19px;
     }
-
+    .textMobile {
+      font-size: 17px;
+   }
 
   }
   @media only screen and (min-width: 992px) and (max-width: 1064px) {
@@ -83,6 +114,8 @@
         text-transform: none;
         font-size: 1.3rem;
     }
-
+    .textMobile {
+      font-size: 0.875rem;
+   }
 
   }

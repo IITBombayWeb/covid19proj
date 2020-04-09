@@ -1,12 +1,12 @@
 
-<nav class="navbar navbar-expand-lg navbar-absolute navbar-transparent">
+<nav #navCollapse class="navbar navbar-expand-lg navbar-absolute navbar-minimize-fixed navbar-transparent">
   <div class="container-fluid">
     <div class="navbar-wrapper">
-      <a class="navbar-brand" href="/"><span class="textMobile">COVID-19 Medical Inventory</span> <br>
-        <sup>An Initiative of the Office of Principal Scientific Adviser (Govt. of India)</sup>
+      <a class="navbar-brand" href="/"><span class="">COVID-19 Medical Inventory</span> <br>
+        <sup class="textMobile">An Initiative of the Office of Principal Scientific Adviser (Govt. of India)</sup>
       </a>
     </div>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-expanded="true" aria-label="Toggle navigation">
+    <button  class="navbar-toggler" (click)="fun()"type="button" aria-expanded="false" >
       <span class="navbar-toggler-bar navbar-kebab"></span>
       <span class="navbar-toggler-bar navbar-kebab"></span>
       <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -14,17 +14,17 @@
     <div class="collapse navbar-collapse" id="navigation">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item  input-group">
-          <button class="btn" (click)="home()">
+          <button class="btn btn-block" (click)="home()">
             Home
           </button>
         </li>
         <li class=" nav-item input-group">
-          <button class="btn" (click)="faqs()">
+          <button class="btn btn-block" (click)="faqs()">
             FAQ
           </button>
         </li>
         <li class="nav-item input-group">
-          <button class="btn" (click)="about()">
+          <button class="btn btn-block" (click)="about()">
             About
           </button>
         </li>

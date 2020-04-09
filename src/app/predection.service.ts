@@ -11,7 +11,7 @@ import { TableData } from './table-data';
 
 export class PredectionService {
  
- 
+
   constructor(private http: HttpClient) { 
 
 
@@ -27,7 +27,7 @@ export class PredectionService {
 			
 			urls.push("https://api.covid19india.org/states_daily.json");
 			urls.push("https://api.covid19india.org/raw_data.json");
-
+    
 			// let hget = this.http.get
 			// urls.forEach(function(url,i,responses) {
 			// 		responses[i] = hget(url);
@@ -37,7 +37,7 @@ export class PredectionService {
 			// urls.forEach(urls, function(url,i,responses) {
 			// 		this.push(hget(url));
 			// }, responses)
-
+      
 			for (let i=0; i<urls.length; i++)
 					responses.push(this.http.get(urls[i]));
 			
