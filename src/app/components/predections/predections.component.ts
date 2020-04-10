@@ -325,12 +325,13 @@ export class PredectionsComponent implements OnInit {
 			{ id: "week_1", name: 'Week 1 ', type: '', map: this.getFDate(7) },
 			{ id: "week_2", name: 'Week 2 ', type: '', map: this.getFDate(14) },
 			{ id: "week_3", name: 'Week 3 ', type: '', map: this.getFDate(21) },
+			{ id: "week_4", name: 'Week 4 ', type: '', map: this.getFDate(28) },
 		]
 	}
 	getTPdata() {
 		return [
-			{ id: 'lowParams', name: 'Moderate', type: '', map: '' },
-				{id: 'highParams', name: 'Worst case', type: '',map: ''}
+			{ id: 'lowParams', name: 'Low rate', type: '', map: '' },
+				{id: 'highParams', name: 'High rate', type: '',map: ''}
 			 ]
 	}
 	getFDate(n) { // Return a future date from the base date
@@ -343,12 +344,7 @@ export class PredectionsComponent implements OnInit {
 	}
 	getBaseDate() {
 		let t0 = new Date();
-		t0.setDate(t0.getDate() - 0);
-		return t0
-	}
-	getCurrendata() {
-		let t0 = new Date();
-		t0.setDate(t0.getDate() - 0);
+		t0.setDate(t0.getDate() - 1);
 		return t0
 	}
 	getStatedata() {
