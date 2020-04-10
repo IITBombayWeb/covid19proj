@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin,Observable } from 'rxjs'; 
-import { TableData } from './table-data';
+import { TableData } from '../models/table-data';
 
 
 @Injectable({

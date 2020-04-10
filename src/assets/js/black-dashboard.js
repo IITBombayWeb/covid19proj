@@ -83,7 +83,7 @@ $(document).ready(function() {
     scroll_start = $(this).scrollTop();
 
     if (scroll_start > 50) {
-      $(".navbar-minimize-fixed").addClass('navbar-transparent');
+   //   $(".navbar-minimize-fixed").addClass('navbar-transparent');
     } else{
       $(".navbar-minimize-fixed").removeClass('navbar-transparent');
     }
@@ -97,7 +97,7 @@ $(document).ready(function() {
       $(".navbar-minimize-fixed").removeClass('navbar-transparent');
     }
      else {
-      $(".navbar-minimize-fixed").addClass('navbar-transparent');
+    //  $(".navbar-minimize-fixed").addClass('navbar-transparent');
     }
 
   });
@@ -128,7 +128,7 @@ $(document).ready(function() {
             $(".navbar-minimize-fixed").removeClass('navbar-transparent');
           }
            else {
-            $(".navbar-minimize-fixed").addClass('navbar-transparent');
+      //      $(".navbar-minimize-fixed").addClass('navbar-transparent');
           }
 
         });
@@ -209,7 +209,7 @@ $(window).resize(function() {
 
     if ($navbar.hasClass('bg-white') && $(window).width() > 991) {
 
-      $navbar.removeClass('bg-white').addClass('navbar-transparent');
+     // $navbar.removeClass('bg-white').addClass('navbar-transparent');
     }
     else if ($navbar.hasClass('navbar-transparent') && $(window).width() < 991 && isExpanded != "false") {
 

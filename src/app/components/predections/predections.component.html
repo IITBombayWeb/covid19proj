@@ -51,7 +51,7 @@
 
                   <select  #DropdownState *ngIf="dropDownListState.sname?.length  > 1" class="dropdown-toggle btn btn-block" type="button"  (change)="changeDropdownstate($event)" id="dropdownMenuButton" id="state">
                     <!-- <option value="">Select State</option> -->
-                    <option *ngFor="let d of dropDownListState.sname;" [value]="d">{{d}}</option>
+                    <option *ngFor="let d of dropDownListState.sname; let i = index" [selected]="d === Thead.sname" [value]="d">{{d}}</option>
                  
                   </select>
 
@@ -63,7 +63,7 @@
 
                   <select class="dropdown-toggle btn btn-block" type="button"  (change)="changeDropdownDistrict($event)" id="dropdownMenuButton" id="district">
                
-                    <option *ngFor="let d of dropDownListdist.dname" [attr.data-state]="d.sname" [value]="d.dname">{{d.dname}}</option>
+                    <option *ngFor="let d of dropDownListdist.dname" [selected]="d.dname === Thead.dname" [attr.data-state]="d.sname" [value]="d.dname">{{d.dname}}</option>
                   </select>
 
                 </div>
@@ -80,7 +80,7 @@
                 <!-- row start-->
                 <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12  text-left">
                   <h3 class="card-title">{{Thead.dname}} {{Thead.dname !==''?',':''}} {{Thead.sname}}</h3>
-                  <h3 class="card-title">{{Sdate?.date|date:'fullDate'}}</h3>
+                  <h3 class="card-title">{{Sdate|date:'fullDate'}}</h3>
                 </div>
                 <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 ">
                   <div class="row">
