@@ -48,6 +48,8 @@
 
 
 \newcommand{\nd}{\ensuremath{N_{\mathrm{d}}}}
+\newcommand{\ndl}{\ensuremath{N_{\mathrm{d,low}}}}
+\newcommand{\ndh}{\ensuremath{N_{\mathrm{d,high}}}}
 \newcommand{\ncr}{\ensuremath{N_{\mathrm{cr}}}}
 \newcommand{\nca}{\ensuremath{N_{\mathrm{ca}}}}
 \newcommand{\ns}{\ensuremath{N_{\mathrm{s}}}}
@@ -249,58 +251,51 @@ future updates of the software.
 \appendix
 \section{Patient projection model}
 The key formulae from patient prediction model \cite{ansualok20} is
-given here. Let the number of carriers be \nca. At any time the number
-of carriers in a district is related to the number
-of positive cases in that district $N$ by:
+given here. Let the case fatality rate (CFR) as defined by number
+deceased \nd\ to
+the total number of cases $N$ be
 \begin{equation}
-  \label{eq:1}
-  \nca = n_{s} N
+  m = \frac{\nd}{N}
 \end{equation}
-where $n_{s}$ is a factor that can be different for each state
-(denoted by index $s$), and is dependent on the number of deceased
-\nd:
-\begin{equation}
-  n_{s} =  \begin{cases}
-    \frac{118 + 97 \nd}{N}, &  1 \leq n_{s} \leq 5\\
-    2, & \nd < 5 \\
-    1, & n_{s} < 1 \\
-    5, & n_{s} > 5 \\
-  \end{cases}
-\end{equation}
-where \nd\ and $N$ denote the values for that state. In
-the absence of any deceased, the national numbers are used to obtain
-$n_{s}$.
+It is assumed that the CFR is same for all districts of a state.
 
-The number of critical patients is taken to be
+
+The number of critical patients \ncr\ is taken to be bounded by the
+two different death rates (as per predictions given under):
 \begin{equation}
-  \ncr = f_{c} \nca
+  2 \, \ndl \leq \ncr \leq 4 \, \ndh
 \end{equation}
-where it is assumed that $f_{c} = 10\%$.
+where the lower bound factor (of 2) is based on world averages\cite{who19mar} and
+the upper bound is based on ??. Here, \ndl\ and \ndh\ are the deaths predicted by
+the lower and higher death-growth rates, respectively (see below). 
 
 \subsection{Growth predictions}
-The weekly growth of number of carriers is given by
+The weekly growth of number of deaths is given by
 \begin{equation}
-  \nca(t+n) = g(n) \, \nca(t) 
+  \label{eq:gnd}
+  \nd(t+n) = g(n) \, \nd(t)  = g(n) \, m \, N(t)
 \end{equation}
 where $g$ is a weekly growth factor and $n$ is the number of weeks
 from a reference date at $t$.  There are two scenarios for the values
-of $g$: Moderate growth and Worst case growth.  The moderate growth
+of $g$: Low growth and High growth, which are bounds of the death
+growth rates obtained by fitting the growth rates across the
+world\cite{ansualok20}.  The low growth
 factor for values of $n = \{1, 2, 3, 4\}$:
 \begin{equation}
-  g = \begin{cases}
-   \{3, 20, 70, 150\}  & \nd < 10 \\
-   \{4.5, 18.62, 62, 140\} & \nd \geq 10
+  g_{\mathrm{low}} = \begin{cases}
+   \{4, 27.85, 85, 160\}  & \nd < 10 \\
+   \{5.5, 20. 70, 150\} & \nd \geq 10
  \end{cases}
 \end{equation}
-Similarly the Worst-case growth factor for values of $n = \{1, 2, 3, 4\}$:
+Similarly, the high growth factor for values of $n = \{1, 2, 3, 4\}$:
 \begin{equation}
-  g = \begin{cases}
-   \{7, 50, 120, 400\}  & \nd < 10 \\
-   \{8, 40, 118, 320\} & \nd \geq 10
+  g_{\mathrm{high}} = \begin{cases}
+   \{6.5, 42, 110, 300\}  & \nd < 10 \\
+   \{7.6, 35, 108, 230\} & \nd \geq 10
  \end{cases}
 \end{equation}
-These growth factors have been obtained by fitting data from across
-the world.
+These growth factors provide the corresponding projected $\ndl$ and $\ndh$ from
+Eq.~\eqref{eq:gnd}.
 
 
 

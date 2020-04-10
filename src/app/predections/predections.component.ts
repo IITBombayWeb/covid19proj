@@ -52,9 +52,9 @@ export class PredectionsComponent implements OnInit {
 	};
 	Gsvg: any;
 	displayedColumns: string[] = ['item', 'district', 'state', 'country', 'units'];
-	displayedTypes: DataMap[] = [{ id: 'lowParams', name: 'Moderate', type: '', map: '' },
+	displayedTypes: DataMap[] = [{ id: 'lowParams', name: 'Low rate', type: '', map: '' },
 	{
-		id: 'highParams', name: 'Worst case', type: '',
+		id: 'highParams', name: 'High rate', type: '',
 		map: ''
 	}];
 	Thead: TableHead = { sname: 'India', dname: '' };
@@ -106,6 +106,7 @@ export class PredectionsComponent implements OnInit {
 			//this.DataMp=this.getTdata(this.model);
 			//this.DataMp=this.getTdata();
 			this.renderView(this.model, this.inddist);
+
 		
 		}
 		
@@ -586,6 +587,7 @@ changeDropdownstate(d){
 			{ id: "week_1", name: 'Week 1 ', type: '', map: this.getFDate(7) },
 			{ id: "week_2", name: 'Week 2 ', type: '', map: this.getFDate(14) },
 			{ id: "week_3", name: 'Week 3 ', type: '', map: this.getFDate(21) },
+			{ id: "week_4", name: 'Week 4 ', type: '', map: this.getFDate(28) },
 		]
 	}
 
@@ -599,7 +601,7 @@ changeDropdownstate(d){
 	}
 	getBaseDate() {
 		let t0 = new Date();
-		t0.setDate(t0.getDate() - 0);
+		t0.setDate(t0.getDate() - 1);
 		return t0
 	}
 }
