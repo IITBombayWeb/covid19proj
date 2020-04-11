@@ -42,8 +42,7 @@ export class PredictionsComponent implements OnInit {
 	model: any = []
 	inddist: any = []
 	paramsType: any = this.displayedTypes[0].id
-	date0 = this.getFDate(0)
-	Sdate: any = this.date0
+	Sdate: any = this.getBaseDate()
   
 	constructor(private ps: PredictionService) { }
 	ngOnInit(): void {
@@ -68,7 +67,7 @@ export class PredictionsComponent implements OnInit {
 		this.DataTBL = this.ps.Tdata();
 		this.paramsType = this.displayedTypes[0].id
 		this.cnCount = this.getCountryCount()
-		this.Sdate =  this.date0
+		this.Sdate =  this.getBaseDate()
 		this.dataSource = this.ps.getTableData(this.distCount,this.stCount,
 		                                       this.cnCount,this.DataTBL); 
 		this.inddist.then(function (topology) {
@@ -111,6 +110,13 @@ export class PredictionsComponent implements OnInit {
 
   // Reset To Initial State
   resetView() {
+
+		// var t0 = this.getBaseDate()
+		// var date = new Date(t0)
+		this.Sdate =  this.getFDate(0)
+
+    
+    console.log('reset date: ' + this.Sdate)
 	  this.DropdownState.nativeElement
       .getElementsByTagName('option')[0].selected = true // Set to Postion 0
 	  this.distCount = 0
@@ -261,7 +267,7 @@ export class PredictionsComponent implements OnInit {
 	clickDistrict(n1,n2){
 		
 		//this.Sdate = this.getFDate(0).toString()
-		this.Sdate =  this.date0
+		this.Sdate =  this.getBaseDate()
 		//console.log(this.Sdate)
 		this.resetToggle()
 		this.Thead.dname = n2 
@@ -307,9 +313,12 @@ export class PredictionsComponent implements OnInit {
     console.log('Country: ' + this.Sdate)
 		
     // Always return the high parameter for country
-		return this.model.countryStat("reported",
+		let cn = this.model.countryStat("reported",
 			                            this.model.highParams,
-                                  new Date(this.Sdate)); 
+                                  this.Sdate); 
+
+    console.log('Country++: ' + this.Sdate + Math.ceil(cn*0.05))
+    return cn
 
 		// return this.model.countryStat("reported",
 		// 	                            this.paramsType === "lowParams" ?

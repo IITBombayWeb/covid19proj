@@ -72,6 +72,7 @@ class Covid19Model
     for (let i = 0; i < this.numStates; i++) {
       sum += this.stateStat(category, i, params, dateString);
     }
+    //console.log('cstat: ' + dateString)
     return sum;
   }
 
@@ -117,6 +118,7 @@ class Covid19Model
   {
     for (let i = 0; i < t.length; i++) {
       if (date <= t[i]) {
+      console.log('date,t: ' + date, t[i])
         return g(deceased0)[i];
       }
     }
@@ -139,6 +141,9 @@ class Covid19Model
     const reported      = Math.floor(carriers / n);
     const deceased      = Math.floor(reported * m);
     const critical      = Math.floor(params.y * deceased);
+
+    //console.log('dt ' + date )
+    
     //const critical      = Math.floor(0.01 * params.x * carriers);
     //m = state_deceased / state_reported
     //  = state_deceased / (state_carriers / n)
