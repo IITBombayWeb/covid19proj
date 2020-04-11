@@ -42,7 +42,7 @@ export class PredectionsComponent implements OnInit {
 	inddist: any = []
 	paramsType: any = this.displayedTypes[0].id
 	date0 = this.getFDate(0)
-	Sdate: any 
+	Sdate: any = this.date0
     
 	constructor(private ps: PredectionService) { }
 	ngOnInit(): void {
@@ -67,8 +67,8 @@ export class PredectionsComponent implements OnInit {
 		this.DataTBL = this.ps.Tdata();
 		this.paramsType = this.displayedTypes[0].id
 		this.cn_list = this.getCountryCrtical()
-		this.dataSource = this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
 		this.Sdate =  this.date0
+		this.dataSource = this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
 		this.inddist.then(function (topology) {
 		this.createLegend();
 			svgEle[1].selectAll('path')
@@ -294,6 +294,7 @@ export class PredectionsComponent implements OnInit {
 
 	getCountryCrtical() {
 		//let model = new Covid19ModelIndia()
+    console.log('Country: ' + this.Sdate)
 		
 		return this.model.countryStat("reported",
 			this.paramsType === "lowParams" ? this.model.lowParams : this.model.highParams, new Date(this.Sdate)); // Get Country Critical  
