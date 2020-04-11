@@ -49,7 +49,7 @@ export class PredectionsComponent implements OnInit {
 
 		this.DataMp = this.getTdata();
 		this.ps.requestDataFromMultipleSources().subscribe(responseList => {
-			this.inddist = d3.json("assets/india-districts.json");//Fetch India Map JSON
+			this.inddist = d3.json("assets/india-districts.json");
 			const t0 = this.getBaseDate()
 			const statesSeries = responseList[0].states_daily;
 			const caseSeries = responseList[1].raw_data;
@@ -66,9 +66,10 @@ export class PredectionsComponent implements OnInit {
 		let svgEle = this.createSvgElement();
 		this.DataTBL = this.ps.Tdata();
 		this.paramsType = this.displayedTypes[0].id
-		this.cn_list = this.getCountryCrtical()
+		this.cn_list = this.getCountryCount()
 		this.Sdate =  this.date0
-		this.dataSource = this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
+		this.dataSource = this.ps.getTableData(this.def_list,this.cn_list,
+		                                       this.sa_list,this.DataTBL); 
 		this.inddist.then(function (topology) {
 		this.createLegend();
 			svgEle[1].selectAll('path')
@@ -82,11 +83,11 @@ export class PredectionsComponent implements OnInit {
 					const n1 = d.properties.st_nm;
 					const n2 = d.properties.district;
 					const index_key = n2 + "." + n1
-					var numCritical = this.getDistricCrtical(index_key)
+					var numDistCount = this.getDistrictCount(index_key)
 					svgEle[3]
 						.html(d.properties.st_nm + "<br>" + "District: "
 							+ d.properties.district + "<br>" + "Qty: "
-							+ numCritical)
+							+ numDistCount)
 						.style("left",
 							(d3.event.pageX - document
 								.getElementById("main").offsetLeft - 120) + "px")
@@ -115,8 +116,8 @@ export class PredectionsComponent implements OnInit {
 	this.dropDownListdist.dname = []
 	this.Thead = { sname: 'India', dname: '' }
 	d3.select('svg').remove()
-	this.resetToggel()
-	this.resetToggel2()
+	this.resetToggle()
+	this.resetToggle2()
 	this.renderView()
 }
 
@@ -130,14 +131,14 @@ export class PredectionsComponent implements OnInit {
 				const n1 = d.properties.st_nm; // Select State name
 				const n2 = d.properties.district // Select District name
 				const key = n2 + "." + n1 // Create district and state key
-				const numCritical = this.getDistricCrtical(key) // Initializing and set default number of critical
+				const numDistCount = this.getDistrictCount(key) // Initializing and set default number of critical
 				const color = // Color Function to set color
-					numCritical === 0
+					numDistCount === 0
 						? '#ffffff' // White Color if its Zero
 						//: d3.interpolateReds(
 						: d3.interpolateYlOrRd(
 							//: d3.interpolatePurples(
-							(maxInterpolation * numCritical) / (maxD) // Color calculation
+							(maxInterpolation * numDistCount) / (maxD) // Color calculation
 						); // Return RGB Value
 				return color; // Return Color
 			})
@@ -149,11 +150,8 @@ export class PredectionsComponent implements OnInit {
 		const maxd = this.getMaxd()
 	//	console.log(maxd,maxInterpolation)
 		const color = d3
-			//.scaleSequential(d3.interpolateReds)
 			.scaleSequential(d3.interpolateYlOrRd)
-			//.scaleSequential(d3.interpolatePurples)
 			.domain([0, maxd / maxInterpolation || 10]);
-		//.domain([0, max_d[index] / 0.8 || 10]);
 
 		let cells = null;
 		let label = null;
@@ -174,7 +172,6 @@ export class PredectionsComponent implements OnInit {
 			(maxd < numCells ? numCells : maxd)
 			/ (numCells - 1)
 		);
-		//(max_d[index] < numCells ? numCells : max_d[index]) /
 
 		cells = Array.from(Array(numCells).keys()).map((i) => i * delta);
 
@@ -239,12 +236,12 @@ export class PredectionsComponent implements OnInit {
 	// Handle Change Of toggelButton
 	handleChange(data) {
 		this.Sdate = data.map
-		this.ChangeViewData()
+		this.changeViewData()
 	}
 	// Handle Modrate and crtical
 	handleChangeParam(data) {
 		this.paramsType = data.id;
-		this.ChangeViewData()
+		this.changeViewData()
 	}
 	// Handle Change Of Dropdown District
 	changeDropdownDistrict(d){
@@ -264,24 +261,26 @@ export class PredectionsComponent implements OnInit {
 		//this.Sdate = this.getFDate(0).toString()
 		this.Sdate =  this.date0
 		//console.log(this.Sdate)
-		this.resetToggel()
+		this.resetToggle()
 		this.Thead.dname = n2 
 		this.Thead.sname=  n1
-		this.ChangeViewData()
+		this.changeViewData()
 		
 	
 	}
 
-	getDistricCrtical(key) {
+	getDistrictCount(key) {
 		//let model = new Covid19ModelIndia()
 		//console.log("DC: " + model.lowParams)
 		const index = this.model.indexDistrictNameKey(key)
 		return index ?
 			this.model.districtStat("reported", index,
-				this.paramsType === "lowParams" ?this.model.lowParams : this.model.highParams,new Date(this.Sdate)): 0; // Get District Critical
+				this.paramsType === "lowParams" ?this.model.lowParams :
+	                            this.model.highParams,new
+	                            Date(this.Sdate)): 0; 
 	}
 
-	getSateCrtical(key) {
+	getStateCount(key) {
 		//let model = new Covid19ModelIndia()
 		//console.log("SC: " + model.lowParams)
 		const index = this.model.indexStateName(key)
@@ -289,10 +288,10 @@ export class PredectionsComponent implements OnInit {
 			this.model.stateStat("reported", index, this.paramsType === "lowParams" ?
 				this.model.lowParams : this.model.highParams,
 				new Date(this.Sdate))
-			: 0; // Get  State Critical
+			: 0; 
 	}
 
-	getCountryCrtical() {
+	getCountryCount() {
 		//let model = new Covid19ModelIndia()
     console.log('Country: ' + this.Sdate)
 		
@@ -307,22 +306,22 @@ export class PredectionsComponent implements OnInit {
 	}
 
 
-	ChangeViewData() {
+	changeViewData() {
 
 		this.createLegend()
 		this.setMapColor()
 		if (this.Thead.dname !== '') {
-			this.def_list =this.getDistricCrtical(this.Thead.dname + "."+ this.Thead.sname)
-			this.sa_list =this.getSateCrtical(this.Thead.sname)
+			this.def_list =this.getDistrictCount(this.Thead.dname + "."+ this.Thead.sname)
+			this.sa_list =this.getStateCount(this.Thead.sname)
 		}
-		this.cn_list = this.getCountryCrtical()
+		this.cn_list = this.getCountryCount()
 		this.dataSource = this.ps.getTableData(this.def_list,this.cn_list,this.sa_list, this.DataTBL)
 	}
 	removeColorLegend() {
 		d3.select('.legendLinear').remove() // Removes Color Bar From the Map
 	}
 
-	// Return Toggel Button
+	// Return Toggle Button
 	getTdata() {
 		return [
 			{ id: "week_0", name: 'Current ', type: true, map: this.getFDate(0) },
@@ -375,13 +374,17 @@ export class PredectionsComponent implements OnInit {
 		})
 	}
 
-	resetToggel() {
-		this.buttonToggle.nativeElement.querySelector(".active").classList.remove('active') // Select all DOM Element From Element
-		this.buttonToggle.nativeElement.children[0].classList.add('active') // Set Active to first DOM Element
+	resetToggle() {
+		this.buttonToggle.nativeElement.querySelector(".active")
+      .classList.remove('active') // Select all DOM Element From Element
+		this.buttonToggle.nativeElement.children[0]
+      .classList.add('active') // Set Active to first DOM Element
 	}
-	resetToggel2() {
-		this.buttonToggle2.nativeElement.querySelector(".active").classList.remove('active') // Select all DOM Element From Element
-		this.buttonToggle2.nativeElement.children[0].classList.add('active') // Set Active to first DOM Element
+	resetToggle2() {
+		this.buttonToggle2.nativeElement.querySelector(".active")
+      .classList.remove('active') // Select all DOM Element From Element
+		this.buttonToggle2.nativeElement.children[0]
+      .classList.add('active') // Set Active to first DOM Element
 	}
 	getMaxInterp() {
 
@@ -389,9 +392,10 @@ export class PredectionsComponent implements OnInit {
 
 		let d2ms = 1000 * 3600 * 24 // ms in a day
 		let d1 = new Date(this.Sdate).valueOf()
-		let d0 =  new Date("28 March 2020").valueOf()
+    let d0 = this.getBaseDate()
 		let factor = 1
-		factor = this.paramsType == "lowParams" ? 2 * ((d1 - d0) / 7 / d2ms + 1) / 4 :
+		factor = this.paramsType == "lowParams" ?
+      2 * ((d1 - d0) / 7 / d2ms + 1) / 4 :
 			3 * ((d1 - d0) / 7 / d2ms + 1) / 4
 
 		return factor
