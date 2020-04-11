@@ -41,7 +41,8 @@ export class PredectionsComponent implements OnInit {
 	model: any = []
 	inddist: any = []
 	paramsType: any = this.displayedTypes[0].id
-	Sdate: any;
+	date0 = this.getFDate(0)
+	Sdate: any 
     
 	constructor(private ps: PredectionService) { }
 	ngOnInit(): void {
@@ -61,13 +62,13 @@ export class PredectionsComponent implements OnInit {
 
 	// Render India Map
 	renderView() {
-		this.Sdate = this.getFDate(0).toLocaleDateString()
+
 		let svgEle = this.createSvgElement();
 		this.DataTBL = this.ps.Tdata();
 		this.paramsType = this.displayedTypes[0].id
 		this.cn_list = this.getCountryCrtical()
 		this.dataSource = this.ps.getTableData(this.def_list,this.cn_list,this.sa_list,this.DataTBL);
-		
+		this.Sdate =  this.date0
 		this.inddist.then(function (topology) {
 		this.createLegend();
 			svgEle[1].selectAll('path')
@@ -123,7 +124,7 @@ export class PredectionsComponent implements OnInit {
 	setMapColor() {
 		const maxD =  this.getMaxd()
 		const maxInterpolation = this.getMaxInterp()
-	
+		
 		d3.select('.map').selectAll('path') // Select all paths of the maps
 			.style("fill", (d) => {  // Set Color function
 				const n1 = d.properties.st_nm; // Select State name
@@ -259,7 +260,9 @@ export class PredectionsComponent implements OnInit {
 		
 		// Handle Click Function On district
 	clickDistrict(n1,n2){
-		this.Sdate = this.getFDate(0).toLocaleDateString()
+		
+		//this.Sdate = this.getFDate(0).toString()
+		this.Sdate =  this.date0
 		//console.log(this.Sdate)
 		this.resetToggel()
 		this.Thead.dname = n2 
@@ -298,7 +301,7 @@ export class PredectionsComponent implements OnInit {
 
 	getMaxd() {
 		//let model = new Covid19ModelIndia()
-	//	console.log(this.paramsType,this.Sdate)
+		//console.log(new Date(this.Sdate))
 		return this.model.districtStatMax("reported", this.paramsType === "lowParams" ? this.model.lowParams : this.model.highParams,new Date(this.Sdate)) // Get Maximum Number Of affected People
 	}
 
