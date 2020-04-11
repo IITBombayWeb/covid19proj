@@ -1,4 +1,5 @@
-import { Component, OnInit, ElementRef, ViewChild, ɵConsole } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, ɵConsole } from
+'@angular/core';  
 import * as d3 from 'd3';
 import * as t from 'topojson'
 import { PredectionService } from '../../services/predection.service';
@@ -43,7 +44,7 @@ export class PredectionsComponent implements OnInit {
 	paramsType: any = this.displayedTypes[0].id
 	date0 = this.getFDate(0)
 	Sdate: any = this.date0
-    
+  
 	constructor(private ps: PredectionService) { }
 	ngOnInit(): void {
 
@@ -56,8 +57,8 @@ export class PredectionsComponent implements OnInit {
 			this.model = new Covid19ModelIndia(t0, statesSeries, caseSeries);
 			this.renderView();
 		}
-		);
-      
+		                                                  );
+    
 	}
 
 	// Render India Map
@@ -71,7 +72,7 @@ export class PredectionsComponent implements OnInit {
 		this.dataSource = this.ps.getTableData(this.def_list,this.cn_list,
 		                                       this.sa_list,this.DataTBL); 
 		this.inddist.then(function (topology) {
-		this.createLegend();
+		  this.createLegend();
 			svgEle[1].selectAll('path')
 				.data(t.feature(topology, topology.objects.IND_adm2).features)
 				.enter()
@@ -86,40 +87,41 @@ export class PredectionsComponent implements OnInit {
 					var numDistCount = this.getDistrictCount(index_key)
 					svgEle[3]
 						.html(d.properties.st_nm + "<br>" + "District: "
-							+ d.properties.district + "<br>" + "Qty: "
-							+ numDistCount)
+							    + d.properties.district + "<br>" + "Qty: "
+							    + numDistCount)
 						.style("left",
-							(d3.event.pageX - document
-								.getElementById("main").offsetLeft - 120) + "px")
+							     (d3.event.pageX - document
+								    .getElementById("main").offsetLeft - 120) + "px")
 						.style("top",
-							(d3.event.pageY - document
-								.getElementById("main").offsetTop - 80) + "px")
+							     (d3.event.pageY - document
+								    .getElementById("main").offsetTop - 80) + "px")
 				})
 				.on("click", function (d) {
-				    this.getDistdata(d.properties.st_nm)
-				   this.clickDistrict(d.properties.st_nm,d.properties.district)
+				  this.getDistdata(d.properties.st_nm)
+				  this.clickDistrict(d.properties.st_nm,d.properties.district)
 
 				}.bind(this))
 				.on('mouseleave', (d) => {
 					svgEle[3].html("");
 				})
-				this.setMapColor();
-				this.dropDownListState.sname = this.getStatedata()
+			this.setMapColor();
+			this.dropDownListState.sname = this.getStatedata()
 		}.bind(this));	
 	}
 
-   // Reset To Initial State
-   resetView() {
-	this.DropdownState.nativeElement.getElementsByTagName('option')[0].selected = true // Set to Postion 0
-	this.def_list = 0
-	this.sa_list = 0
-	this.dropDownListdist.dname = []
-	this.Thead = { sname: 'India', dname: '' }
-	d3.select('svg').remove()
-	this.resetToggle()
-	this.resetToggle2()
-	this.renderView()
-}
+  // Reset To Initial State
+  resetView() {
+	  this.DropdownState.nativeElement
+      .getElementsByTagName('option')[0].selected = true // Set to Postion 0
+	  this.def_list = 0
+	  this.sa_list = 0
+	  this.dropDownListdist.dname = []
+	  this.Thead = { sname: 'India', dname: '' }
+	  d3.select('svg').remove()
+	  this.resetToggle()
+	  this.resetToggle2()
+	  this.renderView()
+  }
 
 	// This function will set color to district in the map
 	setMapColor() {
@@ -131,15 +133,15 @@ export class PredectionsComponent implements OnInit {
 				const n1 = d.properties.st_nm; // Select State name
 				const n2 = d.properties.district // Select District name
 				const key = n2 + "." + n1 // Create district and state key
-				const numDistCount = this.getDistrictCount(key) // Initializing and set default number of critical
+				const numDistCount = this.getDistrictCount(key) // Initializing 
 				const color = // Color Function to set color
-					numDistCount === 0
-						? '#ffffff' // White Color if its Zero
-						//: d3.interpolateReds(
-						: d3.interpolateYlOrRd(
-							//: d3.interpolatePurples(
-							(maxInterpolation * numDistCount) / (maxD) // Color calculation
-						); // Return RGB Value
+					    numDistCount === 0
+						  ? '#ffffff' // White Color if its Zero
+				//: d3.interpolateReds(
+						  : d3.interpolateYlOrRd(
+							  //: d3.interpolatePurples(
+							  (maxInterpolation * numDistCount) / (maxD) // Color calculation
+						  ); // Return RGB Value
 				return color; // Return Color
 			})
 	}
@@ -148,10 +150,10 @@ export class PredectionsComponent implements OnInit {
 	createLegend() {
 		const maxInterpolation = this.getMaxInterp();
 		const maxd = this.getMaxd()
-	//	console.log(maxd,maxInterpolation)
+	  //	console.log(maxd,maxInterpolation)
 		const color = d3
-			.scaleSequential(d3.interpolateYlOrRd)
-			.domain([0, maxd / maxInterpolation || 10]);
+			    .scaleSequential(d3.interpolateYlOrRd)
+			    .domain([0, maxd / maxInterpolation || 10]);
 
 		let cells = null;
 		let label = null;
@@ -170,7 +172,7 @@ export class PredectionsComponent implements OnInit {
 		const numCells = 6;
 		const delta = Math.floor(
 			(maxd < numCells ? numCells : maxd)
-			/ (numCells - 1)
+			  / (numCells - 1)
 		);
 
 		cells = Array.from(Array(numCells).keys()).map((i) => i * delta);
@@ -182,40 +184,40 @@ export class PredectionsComponent implements OnInit {
 			.attr('transform', 'translate(-70, -80)');
 
 		const legendLinear = legendColor()
-			.title("Positive patients (district-wise)")
-			.titleWidth(600)
-			.shapeWidth(50)
-			.cells(cells)
-			.labels(label)
-			.orient('vertical')
-			.scale(color);
-			this.Gsvg.select('.legendLinear').call(legendLinear);
+			    .title("Positive patients (district-wise)")
+			    .titleWidth(600)
+			    .shapeWidth(50)
+			    .cells(cells)
+			    .labels(label)
+			    .orient('vertical')
+			    .scale(color);
+		this.Gsvg.select('.legendLinear').call(legendLinear);
 	}
 	// Create Svg Element
 	createSvgElement() {
 		let projection = d3.geoMercator().center([88, 18])
-			.scale(1050)
-			.translate([this.width / 2, this.height / 2]);;
+			  .scale(1050)
+			  .translate([this.width / 2, this.height / 2]);;
 
 
 
 		let svg = d3.select("div.svg-parent")
 
-			.append("svg")
+			  .append("svg")
 
-			.attr('id', 'chart')
-			// Responsive SVG needs these 2 attributes and no width and height attr.
+			  .attr('id', 'chart')
+		// Responsive SVG needs these 2 attributes and no width and height attr.
 
-			.attr("preserveAspectRatio", "xMidYMid meet")
-			.attr("viewBox", "-100 -50 800 600")
-			// Class to make it responsive.
-			// Fill with a rectangle for visualization.
+			  .attr("preserveAspectRatio", "xMidYMid meet")
+			  .attr("viewBox", "-100 -50 800 600")
+		// Class to make it responsive.
+		// Fill with a rectangle for visualization.
 
-			.attr("width", this.width)
-			.attr("height", this.height);
+			  .attr("width", this.width)
+			  .attr("height", this.height);
 		this.Gsvg = svg
 		let path = d3.geoPath()
-			.projection(projection);
+			  .projection(projection);
 
 		let g = svg.append('g')
 
@@ -224,9 +226,9 @@ export class PredectionsComponent implements OnInit {
 		// create a tooltip
 		const tooltip = d3.select("#tooltip");
 		svg.call(d3.zoom()
-			.extent([[0, 0], [this.width, this.height]])
-			.scaleExtent([1, 8])
-			.on("zoom", zoomed));
+			       .extent([[0, 0], [this.width, this.height]])
+			       .scaleExtent([1, 8])
+			       .on("zoom", zoomed));
 
 		function zoomed() {
 			g.attr("transform", d3.event.transform);
@@ -249,13 +251,13 @@ export class PredectionsComponent implements OnInit {
 		const n2 = d.target.value;
 		this.clickDistrict(n1,n2)
 	}
-		// Handle Change Of Dropdown State
+	// Handle Change Of Dropdown State
 	changeDropdownstate(d){
 		const newVal = d.target.value;
-	    this.getDistdata(newVal)
+	  this.getDistdata(newVal)
 	}
-		
-		// Handle Click Function On district
+	
+	// Handle Click Function On district
 	clickDistrict(n1,n2){
 		
 		//this.Sdate = this.getFDate(0).toString()
@@ -266,7 +268,7 @@ export class PredectionsComponent implements OnInit {
 		this.Thead.sname=  n1
 		this.changeViewData()
 		
-	
+	  
 	}
 
 	getDistrictCount(key) {
@@ -275,9 +277,11 @@ export class PredectionsComponent implements OnInit {
 		const index = this.model.indexDistrictNameKey(key)
 		return index ?
 			this.model.districtStat("reported", index,
-				this.paramsType === "lowParams" ?this.model.lowParams :
-	                            this.model.highParams,new
-	                            Date(this.Sdate)): 0; 
+				                      this.paramsType === "lowParams" ?
+                              this.model.lowParams
+                              : this.model.highParams,
+                              new Date(this.Sdate))
+      : 0; 
 	}
 
 	getStateCount(key) {
@@ -285,9 +289,10 @@ export class PredectionsComponent implements OnInit {
 		//console.log("SC: " + model.lowParams)
 		const index = this.model.indexStateName(key)
 		return index ?
-			this.model.stateStat("reported", index, this.paramsType === "lowParams" ?
-				this.model.lowParams : this.model.highParams,
-				new Date(this.Sdate))
+			this.model.stateStat("reported", index,
+                           this.paramsType === "lowParams" ?
+				                   this.model.lowParams : this.model.highParams,
+				                   new Date(this.Sdate))
 			: 0; 
 	}
 
@@ -296,13 +301,19 @@ export class PredectionsComponent implements OnInit {
     console.log('Country: ' + this.Sdate)
 		
 		return this.model.countryStat("reported",
-			this.paramsType === "lowParams" ? this.model.lowParams : this.model.highParams, new Date(this.Sdate)); // Get Country Critical  
+			                            this.paramsType === "lowParams" ?
+			                            this.model.lowParams
+                                  : this.model.highParams,
+                                  new Date(this.Sdate)); 
 	}
 
-	getMaxd() {
-		//let model = new Covid19ModelIndia()
+	getMaxd() { // Get Maximum Number Of affected People
 		//console.log(new Date(this.Sdate))
-		return this.model.districtStatMax("reported", this.paramsType === "lowParams" ? this.model.lowParams : this.model.highParams,new Date(this.Sdate)) // Get Maximum Number Of affected People
+		return this.model.districtStatMax("reported",
+                                      this.paramsType === "lowParams" ?
+                                      this.model.lowParams
+                                      : this.model.highParams,
+                                      new Date(this.Sdate)) 
 	}
 
 
@@ -311,11 +322,14 @@ export class PredectionsComponent implements OnInit {
 		this.createLegend()
 		this.setMapColor()
 		if (this.Thead.dname !== '') {
-			this.def_list =this.getDistrictCount(this.Thead.dname + "."+ this.Thead.sname)
+			this.def_list =this.getDistrictCount(this.Thead.dname + "."+
+		                                       this.Thead.sname) 
 			this.sa_list =this.getStateCount(this.Thead.sname)
 		}
 		this.cn_list = this.getCountryCount()
-		this.dataSource = this.ps.getTableData(this.def_list,this.cn_list,this.sa_list, this.DataTBL)
+		this.dataSource = this.ps.getTableData(this.def_list,
+                                           this.cn_list,this.sa_list,
+		                                       this.DataTBL) 
 	}
 	removeColorLegend() {
 		d3.select('.legendLinear').remove() // Removes Color Bar From the Map
@@ -334,8 +348,8 @@ export class PredectionsComponent implements OnInit {
 	getTPdata() {
 		return [
 			{ id: 'lowParams', name: 'Low rate', type: '', map: '' },
-				{id: 'highParams', name: 'High rate', type: '',map: ''}
-			 ]
+			{id: 'highParams', name: 'High rate', type: '',map: ''}
+		]
 	}
 	getFDate(n) { // Return a future date from the base date
 		var t0 = this.getBaseDate()
@@ -358,20 +372,21 @@ export class PredectionsComponent implements OnInit {
 			data[i+1] = { sname: d.properties.st_nm }
 		})
 		
-		 state = data.map(dta => dta.sname);
-		 return state.filter((x, i, a) =>  x && a.indexOf(x) === i ).sort((a, b) => {
-					          return (b==="Select State")?1:a.localeCompare(b)})
+		state = data.map(dta => dta.sname);
+		return state.filter((x, i, a) =>  x && a.indexOf(x) === i ).sort((a, b) => {
+			return (b==="Select State")?1:a.localeCompare(b)})
 	}
 	getDistdata(name) {
 		let data = []
 		let state = []
 		data[0] = { sname: name ,dname:"Select District"}
 		d3.selectAll(".map").selectAll('path').each(function (d, i) {
-		data[i+1] = { sname: d.properties.st_nm, dname: d.properties.district }})
+		  data[i+1] = { sname: d.properties.st_nm, dname: d.properties.district }})
 		state = data.map(dta => dta.sname);
-		this.dropDownListdist.dname =  data.filter(element => element.sname == name).sort((a, b) => {
-			return (b.dname==="Select District")?1:a.dname.localeCompare(b.dname)
-		})
+		this.dropDownListdist.dname =  data.filter(element => element.sname == name)
+      .sort((a, b) => {
+        return (b.dname==="Select District")?1:a.dname.localeCompare(b.dname) 
+		  })
 	}
 
 	resetToggle() {
