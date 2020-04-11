@@ -35,9 +35,9 @@ export class PredictionsComponent implements OnInit {
 	dataSource = this.ELEMENT_DATA
 	DataMp: DataMap[]
 	DataTBL: any[] = []
-	def_list: number = 0
-	cn_list: number = 0
-	sa_list: number = 0
+	distCount: number = 0
+	cnCount: number = 0
+	stCount: number = 0
 	max_number: any = []
 	model: any = []
 	inddist: any = []
@@ -67,10 +67,10 @@ export class PredictionsComponent implements OnInit {
 		let svgEle = this.createSvgElement();
 		this.DataTBL = this.ps.Tdata();
 		this.paramsType = this.displayedTypes[0].id
-		this.cn_list = this.getCountryCount()
+		this.cnCount = this.getCountryCount()
 		this.Sdate =  this.date0
-		this.dataSource = this.ps.getTableData(this.def_list,this.cn_list,
-		                                       this.sa_list,this.DataTBL); 
+		this.dataSource = this.ps.getTableData(this.distCount,this.stCount,
+		                                       this.cnCount,this.DataTBL); 
 		this.inddist.then(function (topology) {
 		  this.createLegend();
 			svgEle[1].selectAll('path')
@@ -113,13 +113,13 @@ export class PredictionsComponent implements OnInit {
   resetView() {
 	  this.DropdownState.nativeElement
       .getElementsByTagName('option')[0].selected = true // Set to Postion 0
-	  this.def_list = 0
-	  this.sa_list = 0
+	  this.distCount = 0
+	  this.stCount = 0
 	  this.dropDownListdist.dname = []
 	  this.Thead = { sname: 'India', dname: '' }
 	  d3.select('svg').remove()
 	  this.resetToggle()
-	  this.resetToggle2()
+	  //this.resetToggle2()
 	  this.renderView()
   }
 
@@ -288,23 +288,34 @@ export class PredictionsComponent implements OnInit {
 		//let model = new Covid19ModelIndia()
 		//console.log("SC: " + model.lowParams)
 		const index = this.model.indexStateName(key)
+    // Always return the high param value for the state
 		return index ?
 			this.model.stateStat("reported", index,
-                           this.paramsType === "lowParams" ?
-				                   this.model.lowParams : this.model.highParams,
+				                   this.model.highParams,
 				                   new Date(this.Sdate))
 			: 0; 
+		// return index ?
+		// 	this.model.stateStat("reported", index,
+    //                        this.paramsType === "lowParams" ?
+		// 		                   this.model.lowParams : this.model.highParams,
+		// 		                   new Date(this.Sdate))
+		// 	: 0; 
 	}
 
 	getCountryCount() {
 		//let model = new Covid19ModelIndia()
     console.log('Country: ' + this.Sdate)
 		
+    // Always return the high parameter for country
 		return this.model.countryStat("reported",
-			                            this.paramsType === "lowParams" ?
-			                            this.model.lowParams
-                                  : this.model.highParams,
+			                            this.model.highParams,
                                   new Date(this.Sdate)); 
+
+		// return this.model.countryStat("reported",
+		// 	                            this.paramsType === "lowParams" ?
+		// 	                            this.model.lowParams
+    //                               : this.model.highParams,
+    //                               new Date(this.Sdate)); 
 	}
 
 	getMaxd() { // Get Maximum Number Of affected People
@@ -322,13 +333,13 @@ export class PredictionsComponent implements OnInit {
 		this.createLegend()
 		this.setMapColor()
 		if (this.Thead.dname !== '') {
-			this.def_list =this.getDistrictCount(this.Thead.dname + "."+
+			this.distCount =this.getDistrictCount(this.Thead.dname + "."+
 		                                       this.Thead.sname) 
-			this.sa_list =this.getStateCount(this.Thead.sname)
+			this.stCount =this.getStateCount(this.Thead.sname)
 		}
-		this.cn_list = this.getCountryCount()
-		this.dataSource = this.ps.getTableData(this.def_list,
-                                           this.cn_list,this.sa_list,
+		this.cnCount = this.getCountryCount()
+		this.dataSource = this.ps.getTableData(this.distCount,
+                                           this.stCount,this.cnCount,
 		                                       this.DataTBL) 
 	}
 	removeColorLegend() {

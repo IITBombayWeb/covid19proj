@@ -47,7 +47,7 @@ export class PredictionService {
     //return forkJoin([response1, response2,response3]);
   }
 
-public getTableData(dp:number,cn,sn,ilist){
+public getTableData(dp:number,sn,cn,ilist){
   let rVal:any= [];
  
   for (let i=0;i<ilist.length;i++) {
@@ -55,8 +55,8 @@ public getTableData(dp:number,cn,sn,ilist){
     for(let j=0;j<ilist[i].map.length;j++){
   
       ilist[i].map[j].district =   ilist[i].map[j].efun(dp) ;
-      ilist[i].map[j].state =   ilist[i].map[j].efun(sn) ;
-      ilist[i].map[j].country =   ilist[i].map[j].efun(cn) ;
+      ilist[i].map[j].state    =   ilist[i].map[j].efun(sn) ;
+      ilist[i].map[j].country  =   ilist[i].map[j].efun(cn) ;
      
     }
    
