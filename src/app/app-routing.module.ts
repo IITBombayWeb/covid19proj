@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PredectionsComponent } from './components/predections/predections.component';
+import { PredictionsComponent } from './components/predictions/predictions.component';
 import { AboutComponent } from './components/about/about.component';
 import { FaqsComponent } from './components/faqs/faqs.component';
 import { NavbarComponent } from './components/navbar/navbar.component';

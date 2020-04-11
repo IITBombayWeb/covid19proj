@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild, ɵConsole } from
 '@angular/core';  
 import * as d3 from 'd3';
 import * as t from 'topojson'
-import { PredectionService } from '../../services/predection.service';
+import { PredictionService } from '../../services/prediction.service';
 import { TableData } from '../../models/table-data';
 import { legendColor } from 'd3-svg-legend';
 import{DataMap} from '../../models/data-map'
@@ -11,12 +11,12 @@ import {TableHead} from '../../models/tabel-head'
 declare var Covid19ModelIndia: any;
 
 @Component({
-	selector: 'app-predections',
-	templateUrl: './predections.component.html',
-	styleUrls: ['./predections.component.css']
+	selector: 'app-predictions',
+	templateUrl: './predictions.component.html',
+	styleUrls: ['./predictions.component.css']
 })
 
-export class PredectionsComponent implements OnInit {
+export class PredictionsComponent implements OnInit {
 
 	@ViewChild('buttonToggle') buttonToggle: ElementRef;
 	@ViewChild('buttonToggle2') buttonToggle2: ElementRef;
@@ -45,7 +45,7 @@ export class PredectionsComponent implements OnInit {
 	date0 = this.getFDate(0)
 	Sdate: any = this.date0
   
-	constructor(private ps: PredectionService) { }
+	constructor(private ps: PredictionService) { }
 	ngOnInit(): void {
 
 		this.DataMp = this.getTdata();

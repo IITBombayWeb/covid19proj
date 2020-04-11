@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PredectionsComponent } from './components/predections/predections.component';
-import {PredectionService} from './services/predection.service'
+import { PredictionsComponent } from './components/predictions/predictions.component';
+import {PredictionService} from './services/prediction.service'
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AboutComponent } from './components/about/about.component';
 import { FaqsComponent } from './components/faqs/faqs.component';
@@ -13,7 +13,7 @@ import { NotificationComponent } from './components/notification/notification.co
 @NgModule({
   declarations: [
     AppComponent,
-    PredectionsComponent,
+    PredictionsComponent,
     NavbarComponent,
     AboutComponent,
     FaqsComponent,
@@ -24,7 +24,7 @@ import { NotificationComponent } from './components/notification/notification.co
     AppRoutingModule,
     HttpClientModule,
   ],
-  providers: [PredectionService],
+  providers: [PredictionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

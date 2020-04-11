@@ -9,7 +9,7 @@ import { TableData } from '../models/table-data';
 })
 
 
-export class PredectionService {
+export class PredictionService {
  
 
   constructor(private http: HttpClient) { 
