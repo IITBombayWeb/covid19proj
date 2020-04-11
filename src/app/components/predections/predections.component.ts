@@ -392,7 +392,7 @@ export class PredectionsComponent implements OnInit {
 
 		let d2ms = 1000 * 3600 * 24 // ms in a day
 		let d1 = new Date(this.Sdate).valueOf()
-    let d0 = this.getBaseDate()
+    let d0 = this.getBaseDate().valueOf()
 		let factor = 1
 		factor = this.paramsType == "lowParams" ?
       2 * ((d1 - d0) / 7 / d2ms + 1) / 4 :
