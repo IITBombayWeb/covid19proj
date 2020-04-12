@@ -72,7 +72,6 @@ class Covid19Model
     for (let i = 0; i < this.numStates; i++) {
       sum += this.stateStat(category, i, params, dateString);
     }
-    //console.log('cstat: ' + dateString)
     return sum;
   }
 
@@ -117,9 +116,9 @@ class Covid19Model
   interpolateAt(date, deceased0, g, t)
   {
     for (let i = 0; i < t.length; i++) {
-      console.log('date,i,t: ' + date, i, t[i])
-      if (date <= t[i]) {
-      //console.log('date,t: ' + date, t[i])
+      let nextDay = new Date(t[i]);
+      nextDay.setDate(nextDay.getDate()+1);
+      if (date < nextDay) {
         return g(deceased0)[i];
       }
     }
@@ -142,9 +141,6 @@ class Covid19Model
     const reported      = Math.floor(carriers / n);
     const deceased      = Math.floor(reported * m);
     const critical      = Math.floor(params.y * deceased);
-
-    //console.log('dt ' + date )
-    
     //const critical      = Math.floor(0.01 * params.x * carriers);
     //m = state_deceased / state_reported
     //  = state_deceased / (state_carriers / n)
@@ -371,7 +367,7 @@ class Covid19ModelIndia extends Covid19Model
 
     this.dates      = dates;
     this.lowParams  = { n : -1, m : -1, x : 10, y : 2, cg : lowCarrierGrowth,  dg : lowDeathGrowth, t : dates };
-    this.highParams = { n : -1, m : -1, x : 10, y : 8, cg : highCarrierGrowth, dg : highDeathGrowth, t : dates };
+    this.highParams = { n : -1, m : -1, x : 10, y : 2, cg : highCarrierGrowth, dg : highDeathGrowth, t : dates };
   }
 }
 
