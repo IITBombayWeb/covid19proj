@@ -117,8 +117,9 @@ class Covid19Model
   interpolateAt(date, deceased0, g, t)
   {
     for (let i = 0; i < t.length; i++) {
+      console.log('date,i,t: ' + date, i, t[i])
       if (date <= t[i]) {
-      console.log('date,t: ' + date, t[i])
+      //console.log('date,t: ' + date, t[i])
         return g(deceased0)[i];
       }
     }
@@ -323,7 +324,7 @@ class Covid19ModelIndia extends Covid19Model
     let dates = new Array(4);
     for (let i = 0; i <= 4; i++) {
       dates[i] = new Date(baseDate);
-      dates[i].setDate(baseDate.getDate() + i * 7);
+      dates[i].setDate(dates[i].getDate() + i * 7);
     }
 
     // carrier growth functions
