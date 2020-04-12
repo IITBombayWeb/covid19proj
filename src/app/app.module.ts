@@ -3,17 +3,17 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PredectionsComponent } from './predections/predections.component';
-import {PredectionService} from './predection.service'
-import { NavbarComponent } from './navbar/navbar.component';
-import { AboutComponent } from './about/about.component';
-import { FaqsComponent } from './faqs/faqs.component';
-import { NotificationComponent } from './notification/notification.component';
+import { PredictionsComponent } from './components/predictions/predictions.component';
+import {PredictionService} from './services/prediction.service'
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { AboutComponent } from './components/about/about.component';
+import { FaqsComponent } from './components/faqs/faqs.component';
+import { NotificationComponent } from './components/notification/notification.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PredectionsComponent,
+    PredictionsComponent,
     NavbarComponent,
     AboutComponent,
     FaqsComponent,
@@ -24,7 +24,7 @@ import { NotificationComponent } from './notification/notification.component';
     AppRoutingModule,
     HttpClientModule,
   ],
-  providers: [PredectionService],
+  providers: [PredictionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -37,10 +37,10 @@ fun(){
      this.navCollapse.nativeElement.getElementsByTagName('button')[0].setAttribute('aria-expanded','false')
      this.navCollapse.nativeElement.querySelector('#navigation').classList.remove("show");
      this.navCollapse.nativeElement.classList.remove('bg-white')
-     this.navCollapse.nativeElement.classList.add('navbar-transparent')
+     //this.navCollapse.nativeElement.classList.add('navbar-transparent')
  }else{
   this.navCollapse.nativeElement.classList.add('bg-white')
-  this.navCollapse.nativeElement.classList.remove('navbar-transparent')
+  //this.navCollapse.nativeElement.classList.remove('navbar-transparent')
   this.navCollapse.nativeElement.getElementsByTagName('button')[0].classList.remove("collapsed");
   this.navCollapse.nativeElement.getElementsByTagName('button')[0].setAttribute('aria-expanded','true')
  this.navCollapse.nativeElement.querySelector('#navigation').classList.add("show");

@@ -116,7 +116,9 @@ class Covid19Model
   interpolateAt(date, deceased0, g, t)
   {
     for (let i = 0; i < t.length; i++) {
-      if (date <= t[i]) {
+      let nextDay = new Date(t[i]);
+      nextDay.setDate(nextDay.getDate()+1);
+      if (date < nextDay) {
         return g(deceased0)[i];
       }
     }
@@ -127,18 +129,29 @@ class Covid19Model
   {
     const stateName     = this.districtParams[districtIndex].state;
     const stateIndex    = this.stateNameIndexMap.get(stateName);
-    const adjustedCount = this.districtAdjustedCount[districtIndex];
-    const reported0     = Math.floor(this.districtNewsCount[districtIndex]);
-    const deceased0     = Math.floor(this.stateParams[stateIndex].deceased);
     const n             = (params.n > 0 ? params.n : this.stateParams[stateIndex].n);
-    const growth        = this.interpolateAt(date, deceased0, params.g, params.t);
-    const carriers      = Math.floor(growth * n * adjustedCount);
-    const critical      = Math.floor(0.01 * params.x * carriers);
+    const m0            = (params.m > 0 ? params.m : this.stateParams[stateIndex].m);
+    const reported0     = Math.floor(this.districtNewsCount[districtIndex]);
+    const carriers0     = Math.floor(this.districtAdjustedCount[districtIndex] * n);
+    const deceased0     = Math.floor(this.stateParams[stateIndex].deceased);
+    const cgrowth       = this.interpolateAt(date, deceased0, params.cg, params.t);
+    const dgrowth       = this.interpolateAt(date, deceased0, params.dg, params.t);
+    const m             = dgrowth * m0 / cgrowth;
+    const carriers      = Math.floor(cgrowth * carriers0);
     const reported      = Math.floor(carriers / n);
+    const deceased      = Math.floor(reported * m);
+    const critical      = Math.floor(params.y * deceased);
+    //const critical      = Math.floor(0.01 * params.x * carriers);
+    //m = state_deceased / state_reported
+    //  = state_deceased / (state_carriers / n)
+    //  = (dgrowth * state_deceased0) / (cgrowth * state_carriers0 / n) 
+    //  = (dgrowth * state_deceased0) / (cgrowth * state_reported0)
+    //  = dgrowth * m0 / cgrowth
     switch (category) {
       case "reported" : return (date === this.t0 ? reported0 : reported); break;
       case "carriers" : return carriers; break;
       case "critical" : return critical; break;
+      case "deceased" : return deceased; break;
       default         : return this.itemStat(this.indexItemName(category), critical); break;
     }
   }
@@ -307,11 +320,11 @@ class Covid19ModelIndia extends Covid19Model
     let dates = new Array(4);
     for (let i = 0; i <= 4; i++) {
       dates[i] = new Date(baseDate);
-      dates[i].setDate(baseDate.getDate() + i * 7);
+      dates[i].setDate(dates[i].getDate() + i * 7);
     }
 
     // carrier growth functions
-    function lowGrowth(deceased) {
+    function lowCarrierGrowth(deceased) {
       if (deceased < 10) {
         return [1,3,20,70,150];
       } else {
@@ -319,11 +332,28 @@ class Covid19ModelIndia extends Covid19Model
       }
     }
 
-    function highGrowth(deceased) {
+    function highCarrierGrowth(deceased) {
       if (deceased < 10) {
         return [1,7,50,120,400];
       } else {
         return [1,8,40,118,320];
+      }
+    }
+
+    // death growth functions
+    function lowDeathGrowth(deceased) {
+      if (deceased < 10) {
+        return [1,4,27,85,160];
+      } else {
+        return [1,5.5,20,70,156];
+      }
+    }
+
+    function highDeathGrowth(deceased) {
+      if (deceased < 10) {
+        return [1,6.5,42,110,300];
+      } else {
+        return [1,7.6,35,108,230];
       }
     }
 
@@ -336,8 +366,8 @@ class Covid19ModelIndia extends Covid19Model
           itemParamsForCriticalUse);
 
     this.dates      = dates;
-    this.lowParams  = { n : -1, x : 10, g : lowGrowth,  t : dates };
-    this.highParams = { n : -1, x : 10, g : highGrowth, t : dates };
+    this.lowParams  = { n : -1, m : -1, x : 10, y : 2, cg : lowCarrierGrowth,  dg : lowDeathGrowth, t : dates };
+    this.highParams = { n : -1, m : -1, x : 10, y : 2, cg : highCarrierGrowth, dg : highDeathGrowth, t : dates };
   }
 }
 
@@ -353,6 +383,14 @@ function inflationFactor(confirmed, deceased)
   } else {
     return n;
   }
+}
+
+function deathsPerConfirmed(confirmed, deceased)
+{
+  if (confirmed == 0 || deceased == 0)
+    return 0.03;
+  else
+    return deceased / confirmed;
 }
 
 function binStateCountsTill(date, data)
@@ -386,7 +424,8 @@ function binStateCountsTill(date, data)
       id       : abbrv,
       name     : state,
       deceased : count(abbrv, deceased),
-      n        : inflationFactor(count(abbrv, confirmed), count(abbrv, deceased))
+      n        : inflationFactor(count(abbrv, confirmed), count(abbrv, deceased)),
+      m        : deathsPerConfirmed(count(abbrv, confirmed), count(abbrv, deceased))
     };
   };
 

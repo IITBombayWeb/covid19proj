@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PredectionsComponent } from './predections/predections.component';
-import { AboutComponent } from './about/about.component';
-import { FaqsComponent } from './faqs/faqs.component';
-import { NavbarComponent } from './navbar/navbar.component';
+import { PredictionsComponent } from './components/predictions/predictions.component';
+import { AboutComponent } from './components/about/about.component';
+import { FaqsComponent } from './components/faqs/faqs.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 const routes: Routes = [
   {path: '', component: NavbarComponent},
   {path: 'faqs', component:FaqsComponent },
