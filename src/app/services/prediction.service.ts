@@ -73,50 +73,27 @@ fi:any = 0.4;
 ff:any = this.fc+this.fs+this.fi/2;
 fd:any = 0.03;
 
-public ppe(){
+public icu(){
 
-  let fs = this.fs
   let fc = this.fc
-  let fi = this.fi
-  let ff = this.ff
   let fd = this.fd
 
   return [
       new TableData("ICU patients", function(n){
 	        return Math.ceil(n*fc);}),
-      new TableData("10-bed Dedicated COVID Hospitals", function(n){
-	        return Math.ceil(n*fc/10);}),
-      new TableData("Severe penumonia patients", function(n){
-	        return Math.ceil(n*fs);}),
-      new TableData("20-bed Dedicated COVID Health Centers", function(n){
-	        return Math.ceil(n*fs/20);}),
-      new TableData("Moderate pneumonia patients", function(n){
-	        return Math.ceil(n*fi);}),
-      new TableData("40-bed COVID Care Centers", function(n){
-	        return Math.ceil(n*fi/40);}),
       new TableData("COVID-19 related deaths", function(n){
 	        return Math.ceil(n*fd);}),
+      new TableData("10-bed Dedicated COVID Hospitals", function(n){
+	        return Math.ceil(n*fc/10);}),
+      new TableData("Doctors (Anes./Intensv.)", function(n){
+	return Math.ceil(8*n*fc/10)},  "on duty   per day"), 
+      new TableData("Nurses and Paramedics", function(n){
+	return Math.ceil(4*n*fc/10)},  "on duty   per day"), 
 
-    //   new TableData("Critical patients (ICU Beds)", function(n){
-	  // return Math.ceil(n*fc);}),
-    //   new TableData("Doctors", function(n){
-	  // return Math.ceil(2./5*n*ff/10)*10;},"on duty in a day"),
-    //   new TableData("Nurses", function(n){
-	  // return Math.ceil(n*ff/10)*10;},"on duty in a day"),
-    //   new TableData("Staff PPE: Gowns, Masks, Goggles", function(n){
-	  // return Math.ceil(14./5*n*ff/50)*50;},"per day"),
-    //   new TableData("Patient PPE: Masks", function(n){
-	  // return Math.ceil(4*n*(fs+fi)/50)*50;},"per day"),
-    //   new TableData("Gloves (sterile)", function(n){
-	  // return Math.ceil(n*(12*fc + 6*(fs+fi))/50)*50 ;}, "per day"),
-    //   new TableData("Gloves (non-sterile)", function(n){
-	  // return Math.ceil(n*(24*fc + 12*(fs+fi))/50)*50 ;}, "per day"),
-    //   new TableData("Dead body bags", function(n){
-	  // return Math.ceil(n*fc/2)} )
  
    ];
  }
- public med_equ(){
+ public acu(){
 
   let fs = this.fs
   let fc = this.fc
@@ -125,10 +102,10 @@ public ppe(){
   let fd = this.fd
 
    return [
-       new TableData("Doctors", function(n){
-	         return Math.ceil(2.*4/10*n*ff);},"on duty in a day"),
-       new TableData("Nurses", function(n){
-	         return Math.ceil(3.*4/10*n*ff);},"on duty in a day"),
+      new TableData("Acute care patients", function(n){
+	        return Math.ceil(n*fs);}),
+      new TableData("20-bed Dedicated COVID Health Centers", function(n){
+	        return Math.ceil(n*fs/20);}),
      //   new TableData("Laryngoscopes, Defibrillator", function(n){
 	   // return Math.ceil(n*fc*0.30);}), // 3 per 10
      //   new TableData("ECG", function(n){
@@ -160,19 +137,21 @@ public ppe(){
    ];
  
  }
- public med_con(){
+ public scu(){
 
-  let fs = this.fs
-  let fc = this.fc
   let fi = this.fi
-  let ff = this.ff
-  let fd = this.fd
 
    return [
-       new TableData("Ventilators, Ambu bags, Glass case", function(n){
-	   return Math.ceil(n*fc);}),
+      new TableData("Supportive care patients", function(n){
+	        return Math.ceil(n*fi);}),
+      new TableData("40-bed COVID Care Centers", function(n){
+	        return Math.ceil(n*fi/40);}),
+       new TableData("Doctors", function(n){
+	         return Math.ceil(2.*4/10*n*fi);},"on duty in a day"),
+       new TableData("Nurses", function(n){
+	         return Math.ceil(3.*4/10*n*fi);},"on duty in a day"),
        new TableData("Sanitizer", function(n){
-	   return Math.ceil(n*(fc+fs+fi)*0.25/10)*10;}, " lt / day"),
+	   return Math.ceil(n*(fi)*0.25/10)*10;}, " lt / day"),
      //   new TableData("Needles", function(n){
 	   // return Math.ceil(n*(10*fc + 5*fs+  2*fi)/50)*50 ;}, "per day"),
      //   new TableData("Disposable bags", function(n){
@@ -192,11 +171,30 @@ public ppe(){
    
  }
 
+ public sup() {
+
+  let fi = this.fi
+
+   return [
+      new TableData("Supportive care patients", function(n){
+	        return Math.ceil(n*fi);}),
+      new TableData("40-bed COVID Care Centers", function(n){
+	        return Math.ceil(n*fi/40);}),
+       new TableData("Doctors", function(n){
+	         return Math.ceil(2.*4/10*n*fi);},"on duty in a day"),
+       new TableData("Nurses", function(n){
+	         return Math.ceil(3.*4/10*n*fi);},"on duty in a day"),
+       new TableData("Sanitizer", function(n){
+	   return Math.ceil(n*(fi)*0.25/10)*10;}, " lt / day"),
+   ];
+ } 
+
  public Tdata(){
    return [
-    {id:"ppe", name: 'Patients and COVID centers', type: '',map: this.ppe()} ,
-    {id:"med_eqt", name: 'Key Personnel',  type: '',map:this.med_equ()},
-    {id:"med_consu", name: 'Key Medical Requirements',  type: '',map: this.med_con()},
+    {id:"icu", name: 'Intensive Care', type: '',map: this.icu()},
+    {id:"acu", name: 'Acute Care',     type: '',map: this.acu()},
+    {id:"scu", name: 'Supportive Care',type: '',map: this.scu()},
+    {id:"sup", name: 'Key Medical Supplies',type: '',map: this.sup()},
   ];
 
  }
