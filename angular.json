@@ -26,8 +26,8 @@
               "src/_redirects"
             ],
             "styles": [
-              "src/styles.css",
-             "src/assets/css/black-dashboard.css?v=1.0.0"
+             "src/assets/css/black-dashboard.css?v=1.0.0",
+             "src/styles.css"
             ],
             "scripts": [
               "src/assets/js/core/jquery.min.js",
