@@ -9,6 +9,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { AboutComponent } from './components/about/about.component';
 import { FaqsComponent } from './components/faqs/faqs.component';
 import { NotificationComponent } from './components/notification/notification.component';
+import { TableComponent } from './components/table/table.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { NotificationComponent } from './components/notification/notification.co
     AboutComponent,
     FaqsComponent,
     NotificationComponent,
+    TableComponent,
   ],
   imports: [
     BrowserModule,

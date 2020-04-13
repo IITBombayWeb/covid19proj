@@ -28,6 +28,11 @@
             About
           </button>
         </li>
+        <li class="nav-item input-group">
+          <button class="btn btn-block" (click)="table()">
+            table
+          </button>
+        </li>
         <li class="separator d-lg-none"></li>
       </ul>
     </div>
@@ -36,3 +41,4 @@
 <app-predictions  [hidden]="!viewmap"></app-predictions>
 <app-faqs [hidden]="!viewfaqs"></app-faqs>
 <app-about [hidden]="!viewabout"></app-about>
+<app-table  [hidden]="!viewtable"></app-table>
