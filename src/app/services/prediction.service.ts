@@ -105,22 +105,20 @@ public icu(){
   let fs = this.fs
 
    return [
-      new TableData("Acute care patients", function(n){
-	        return Math.ceil(n*fs);}),
-      new TableData("20-bed Dedicated COVID Health Centers", function(n){
-	        return Math.ceil(n*fs/20);}),
-      new TableData("Doctors (Anes./Intensv.)", function(n){
-	return Math.ceil(n*fs/20)*3},  "on duty per day"), 
-      new TableData("Nurses and Paramedics", function(n){
-	return Math.ceil(n*fs/20)*6},  "on duty per day"), 
-    new TableData("Infusion pumps", function(n){
-      return Math.ceil(n*fs/20)*5;}),
-      new TableData("Full PPEs (for frontline staff)", function(n){
-	return Math.ceil(n*fs/20)*20},  "per day"), 
-    new TableData("PPEs (for supporting staff)", function(n){
+     new TableData("Acute care patients", function(n){
+       return Math.ceil(n*fs);}),
+     new TableData("20-bed Dedicated COVID Health Centers", function(n){
+       return Math.ceil(n*fs/20);}),
+     new TableData("Doctors (Anes./Intensv.)", function(n){
+       return Math.ceil(n*fs/20)*3},  "on duty per day"), 
+     new TableData("Nurses and Paramedics", function(n){
+       return Math.ceil(n*fs/20)*6},  "on duty per day"), 
+     new TableData("Infusion pumps", function(n){
+       return Math.ceil(n*fs/20)*5;}),
+     new TableData("Full PPEs (for frontline staff)", function(n){
+       return Math.ceil(n*fs/20)*20},  "per day"), 
+     new TableData("PPEs (for supporting staff)", function(n){
       return Math.ceil(n*fs/20)*10},  "per day"), 
-     new TableData("Patient masks", function(n){
-       return Math.ceil(n*fs/20)*20*2},  "per day"), 
    ];
  
  }
@@ -139,8 +137,6 @@ public icu(){
        return Math.ceil(n*fi/40)*6},  "on duty per day"), 
      new TableData("PPEs", function(n){
        return Math.ceil(n*fi/40)*30},  "per day"), 
-     new TableData("Patient masks", function(n){
-       return Math.ceil(n*fi/40)*40*2},  "per day"), 
    ];
    
  }
@@ -158,7 +154,8 @@ public icu(){
        return Math.ceil(n*(5*fc + 0.5*fs + 0.06*fi));}, "per day"),
      new TableData("Tab HCQ", function(n){
        return Math.ceil(n*(40./5*fc + 2*(fs+fi)));}, "per day"),
-     // 1 per HC worker in the ICU; ACU and SCU 2 per patient
+     new TableData("Patient masks", function(n){
+       return Math.ceil(n*(2*fc + 3*fs + 3*fi))},  "per day"), 
    ];
  } 
 
