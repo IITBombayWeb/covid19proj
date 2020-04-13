@@ -6,9 +6,7 @@ import { TableData } from '../../models/table-data';
 import { legendColor } from 'd3-svg-legend';
 import{DataMap} from '../../models/data-map'
 import {TableHead} from '../../models/tabel-head'
-
 declare var Covid19ModelIndia: any;
-
 @Component({
 	selector: 'app-predictions',
 	templateUrl: './predictions.component.html',
@@ -43,7 +41,9 @@ export class PredictionsComponent implements OnInit {
 	paramsType: any = this.displayedTypes[0].id
 	Sdate: any = this.getBaseDate()
   
-	constructor(private ps: PredictionService) { }
+	constructor(private ps: PredictionService) {
+
+	 }
 	ngOnInit(): void {
 
 		this.DataMp = this.getTdata();

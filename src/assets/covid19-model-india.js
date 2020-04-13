@@ -1245,3 +1245,5 @@ const districtParamsForIndia = [
 { "id" : 763, "name" : "Unclassified", "state" : "Uttarakhand"},
 { "id" : 764, "name" : "Unclassified", "state" : "West Bengal"}
 ];
+
+//export default new Covid19ModelIndia()
