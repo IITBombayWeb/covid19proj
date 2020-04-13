@@ -9,6 +9,9 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { AboutComponent } from './components/about/about.component';
 import { FaqsComponent } from './components/faqs/faqs.component';
 import { NotificationComponent } from './components/notification/notification.component';
+import { IcuComponent } from './components/appendix/icu/icu.component';
+import { AcuComponent } from './components/appendix/acu/acu.component';
+import { ScuComponent } from './components/appendix/scu/scu.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +21,9 @@ import { NotificationComponent } from './components/notification/notification.co
     AboutComponent,
     FaqsComponent,
     NotificationComponent,
+    IcuComponent,
+    AcuComponent,
+    ScuComponent,
   ],
   imports: [
     BrowserModule,
