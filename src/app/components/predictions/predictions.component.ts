@@ -1,5 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, ɵConsole } from
-'@angular/core';  
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';  
 import * as d3 from 'd3';
 import * as t from 'topojson'
 import { PredictionService } from '../../services/prediction.service';

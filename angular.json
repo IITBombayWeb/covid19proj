@@ -29,7 +29,6 @@
              "src/styles.css"
             ],
             "scripts": [
-              "src/assets/covid19-model-india.js",
               "src/assets/covid19-patients-india.js"
             ]
           },
