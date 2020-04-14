@@ -85,7 +85,7 @@ export class PredictionsComponent implements OnInit {
 	  const n1 = d.properties.st_nm;
 	  const n2 = d.properties.district;
 	  const index_key = n2 + "." + n1
-	  var numDistCount = this.getDistrictCount(index_key)
+	  var numDistCount = this.getDistrictCount(index_key,"reported")
 	  svgEle[3]
 	    .html(d.properties.st_nm + "<br>" + "District: "
 		  + d.properties.district + "<br>" + "Qty: "
@@ -141,7 +141,7 @@ export class PredictionsComponent implements OnInit {
 	const n1 = d.properties.st_nm; // Select State name
 	const n2 = d.properties.district // Select District name
 	const key = n2 + "." + n1 // Create district and state key
-	const numDistCount = this.getDistrictCount(key) // Initializing 
+	const numDistCount = this.getDistrictCount(key,"reported") // Initializing 
 	const color = // Color Function to set color
 	      numDistCount === 0
 	      ? '#ffffff' // White Color if its Zero
@@ -158,10 +158,13 @@ export class PredictionsComponent implements OnInit {
   createLegend() {
     const maxInterpolation = this.getMaxInterp();
     const maxd = this.getMaxd()
-    //	console.log(maxd,maxInterpolation)
+    //console.log('maxd,maxint =' + maxd,maxInterpolation)
     const color = d3
-	  .scaleSequential(d3.interpolateYlOrRd)
-	  .domain([0, maxd / maxInterpolation || 10]);
+	  //.scaleLog(d3.interpolateYlOrRd)
+	  .scaleLog()
+	  .domain([1, 10, maxd / maxInterpolation]);
+	  // .scaleSequential(d3.interpolateYlOrRd)
+	  // .domain([0, maxd / maxInterpolation || 10]);
 
     let cells = null;
     let label = null;
@@ -177,13 +180,15 @@ export class PredictionsComponent implements OnInit {
       }
     };
 
-    const numCells = 6;
+    const numCells = 4;
     const delta = Math.floor(
       (maxd < numCells ? numCells : maxd)
 	/ (numCells - 1)
     );
 
     cells = Array.from(Array(numCells).keys()).map((i) => i * delta);
+    
+    cells = [1, 10, 100, 1000]
 
     this.Gsvg
       .append('g')
@@ -196,7 +201,7 @@ export class PredictionsComponent implements OnInit {
 	  .titleWidth(600)
 	  .shapeWidth(50)
 	  .cells(cells)
-	  .labels(label)
+	  //.labels(label)
 	  .orient('vertical')
 	  .scale(color);
     this.Gsvg.select('.legendLinear').call(legendLinear);
@@ -279,13 +284,19 @@ export class PredictionsComponent implements OnInit {
     
   }
 
-  getDistrictCount(key) {
+  getDistrictCount(key, category="deceased") {
     //let model = new Covid19ModelIndia()
     //console.log("DC: " + model.lowParams)
     const index = this.model.indexDistrictNameKey(key)
 
-    let clist = this.model.districtStatLimit("deceased", index,
+    let clist = this.model.districtStatLimit(category, index,
                                              new Date(this.Sdate)) 
+
+    // if (key=='Mumbai.Maharashtra') {
+    //   clist = this.model.districtStatLimit("deceased", index,
+    //                                new Date(this.Sdate)) 
+    //   console.log(this.Sdate + 'dist: ' + key + clist.min)
+    // }
 
     // for district use the minimum bound
     return index? clist.min : 0;
@@ -349,12 +360,16 @@ export class PredictionsComponent implements OnInit {
   }
 
   getMaxd() { // Get Maximum Number Of affected People
-    //console.log(new Date(this.Sdate))
-    return this.model.districtStatMax("reported",
-                                      this.paramsType === "lowParams" ?
-                                      this.model.lowParams
-                                      : this.model.highParams,
-                                      new Date(this.Sdate)) 
+    //console.log('maxd: ' + new Date(this.Sdate))
+    // moderate
+    let mod = this.model.districtStatMax("reported",
+                                     this.model.lowParams,
+                                     new Date(this.Sdate)) 
+    // extrapolated = true
+    let ext = this.model.districtStatMax("reported",
+                                     this.model.lowParams,
+                                     new Date(this.Sdate), true) 
+    return Math.min(mod,ext)
   }
 
 
@@ -450,9 +465,10 @@ export class PredictionsComponent implements OnInit {
     let d1 = new Date(this.Sdate).valueOf()
     let d0 = this.getBaseDate().valueOf()
     let factor = 1
-    factor = this.paramsType == "lowParams" ?
-      2 * ((d1 - d0) / 7 / d2ms + 1) / 4 :
-      3 * ((d1 - d0) / 7 / d2ms + 1) / 4
+    //factor =     ((d1 - d0) / 7 / d2ms + 1) / 4 
+    // factor = this.paramsType == "lowParams" ?
+    //   2 * ((d1 - d0) / 7 / d2ms + 1) / 4 :
+    //   3 * ((d1 - d0) / 7 / d2ms + 1) / 4
 
     return factor
   }
