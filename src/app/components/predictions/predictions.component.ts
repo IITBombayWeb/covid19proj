@@ -67,8 +67,8 @@ export class PredictionsComponent implements OnInit {
     this.DataTBL = this.ps.Tdata();
     this.paramsType = this.displayedTypes[0].id
     this.cnCount = this.getCountryCount()
-    // testing purpose
-    this.cnCount = 100
+    // DEBUG: testing purpose
+    this.cnCount = 2.5
     this.Sdate =  this.getBaseDate()
     this.dataSource = this.ps.getTableData(this.distCount,this.stCount,
 		                           this.cnCount,this.DataTBL); 
@@ -283,25 +283,39 @@ export class PredictionsComponent implements OnInit {
     //let model = new Covid19ModelIndia()
     //console.log("DC: " + model.lowParams)
     const index = this.model.indexDistrictNameKey(key)
-    return index ?
-      this.model.districtStat("reported", index,
-			      this.paramsType === "lowParams" ?
-                              this.model.lowParams
-                              : this.model.highParams,
-                              new Date(this.Sdate))
-      : 0; 
+
+    let clist = this.model.districtStatLimit("deceased", index,
+                                             new Date(this.Sdate)) 
+
+    // for district use the minimum bound
+    return index? clist.min : 0;
+    
+    // return index ?
+    //   this.model.districtStat("reported", index,
+    //     		      this.paramsType === "lowParams" ?
+    //                           this.model.lowParams
+    //                           : this.model.highParams,
+    //                           new Date(this.Sdate))
+    //   : 0; 
   }
 
   getStateCount(key) {
     //let model = new Covid19ModelIndia()
     //console.log("SC: " + model.lowParams)
     const index = this.model.indexStateName(key)
-    // Always return the high param value for the state
-    return index ?
-      this.model.stateStat("reported", index,
-			   this.model.highParams,
-			   new Date(this.Sdate))
-      : 0; 
+
+    let clist = this.model.stateStatLimit("deceased", index,
+                                             new Date(this.Sdate)) 
+    // for State return the mid value 
+    return index? clist.mid : 0;
+
+    
+    // // Always return the high param value for the state
+    // return index ?
+    //   this.model.stateStat("reported", index,
+    //     		   this.model.highParams,
+    //     		   new Date(this.Sdate))
+    //   : 0; 
     // return index ?
     // 	this.model.stateStat("reported", index,
     //                        this.paramsType === "lowParams" ?
@@ -314,13 +328,18 @@ export class PredictionsComponent implements OnInit {
     //let model = new Covid19ModelIndia()
     //console.log('Country: ' + this.Sdate)
     
-    // Always return the high parameter for country
-    let cn = this.model.countryStat("reported",
-			            this.model.highParams,
-                                    this.Sdate); 
+    let clist = this.model.countryStatLimit("deceased", new Date(this.Sdate)) 
+    // for the country return the mid value 
+    return clist.mid
 
-    //console.log('Country++: ' + this.Sdate + Math.ceil(cn*0.05))
-    return cn
+    
+    // // Always return the high parameter for country
+    // let cn = this.model.countryStat("reported",
+    //     		            this.model.highParams,
+    //                                 this.Sdate); 
+
+    // //console.log('Country++: ' + this.Sdate + Math.ceil(cn*0.05))
+    // return cn
 
     // return this.model.countryStat("reported",
     // 	                            this.paramsType === "lowParams" ?
