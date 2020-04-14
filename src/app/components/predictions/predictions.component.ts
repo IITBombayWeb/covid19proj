@@ -162,10 +162,27 @@ export class PredictionsComponent implements OnInit {
     const color = d3
 	  //.scaleLog(d3.interpolateYlOrRd)
 	  .scaleLog()
-	  .domain([1, 10, maxd / maxInterpolation]);
+	  .domain([1, maxd / maxInterpolation]);
 	  // .scaleSequential(d3.interpolateYlOrRd)
 	  // .domain([0, maxd / maxInterpolation || 10]);
 
+    const colscale = d3
+          .scaleLog()
+          .domain([1, maxd]);
+
+    let clist = []
+    let carr = [1, 3, 10, 30, 100, 300]
+
+    
+    
+    carr.forEach(function (item, index) {
+      clist.push(color(item))
+    })
+
+    //let clist = Array.from(, x => color(x))
+
+    //console.log(Array.from([0.01, 0.03, 0.1, 0.3, 1], x => color(x)))
+                 
     let cells = null;
     let label = null;
 
@@ -188,7 +205,7 @@ export class PredictionsComponent implements OnInit {
 
     cells = Array.from(Array(numCells).keys()).map((i) => i * delta);
     
-    cells = [1, 10, 100, 1000]
+   cells = [1, 10, 100, 1000]
 
     this.Gsvg
       .append('g')
