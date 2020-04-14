@@ -161,25 +161,29 @@ export class PredictionsComponent implements OnInit {
     //console.log('maxd,maxint =' + maxd,maxInterpolation)
     const color = d3
 	  //.scaleLog(d3.interpolateYlOrRd)
-	  .scaleLog()
-	  .domain([1, maxd / maxInterpolation]);
-	  // .scaleSequential(d3.interpolateYlOrRd)
-	  // .domain([0, maxd / maxInterpolation || 10]);
+	  //.scaleLog()
+	  //.domain([1, maxd / maxInterpolation]);
+	  .scaleSequential(d3.interpolateYlOrRd)
+	  .domain([0, maxd / maxInterpolation || 10]);
 
     const colscale = d3
           .scaleLog()
-          .domain([1, maxd]);
+          .domain([1, 10, 100,  maxd])
+          .range(["white", "yellow", "red", "black"]);
+          /* number of items in domain array is
+             a piece-wise function, the same is used for piecewise color 
+             in range
+          */
 
-    let clist = []
-    let carr = [1, 3, 10, 30, 100, 300]
+          //.range([0,1])
+          //.range(["yellow", "red"]);
+          //.range(["rgb(46, 73, 123)", "rgb(71, 187, 94)"]);
+          //.interpolate(d3.interpolateYlOrRd);
 
-    
-    
-    carr.forEach(function (item, index) {
-      clist.push(color(item))
-    })
-
-    //let clist = Array.from(, x => color(x))
+    /*
+    */
+   
+    let clist = Array.from([1, 3, 10, 30, 100, 300, 1000], x => colscale(x))
 
     //console.log(Array.from([0.01, 0.03, 0.1, 0.3, 1], x => color(x)))
                  
@@ -209,19 +213,28 @@ export class PredictionsComponent implements OnInit {
 
     this.Gsvg
       .append('g')
-      .attr('class', 'legendLinear')
+      .attr('class', 'legendLog')
       .attr('fill', 'white')
       .attr('transform', 'translate(-70, -80)');
 
+    // const legendLinear = legendColor()
+    //       .title("Positive patients (district-wise)")
+    //       .titleWidth(600)
+    //       .shapeWidth(50)
+    //       .cells(cells)
+    //       .labels(label)
+    //       .orient('vertical')
+    //       .scale(color)
+
+    
     const legendLinear = legendColor()
 	  .title("Positive patients (district-wise)")
-	  .titleWidth(600)
-	  .shapeWidth(50)
 	  .cells(cells)
-	  //.labels(label)
 	  .orient('vertical')
-	  .scale(color);
-    this.Gsvg.select('.legendLinear').call(legendLinear);
+	  .scale(colscale)
+          .labelFormat('d')
+    
+    this.Gsvg.select('.legendLog').call(legendLinear);
   }
   // Create Svg Element
   createSvgElement() {
