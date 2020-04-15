@@ -142,14 +142,24 @@ export class PredictionsComponent implements OnInit {
 	const n2 = d.properties.district // Select District name
 	const key = n2 + "." + n1 // Create district and state key
 	const numDistCount = this.getDistrictCount(key,"reported") // Initializing 
-	const color = // Color Function to set color
-	      numDistCount === 0
-	      ? '#ffffff' // White Color if its Zero
-	//: d3.interpolateReds(
-	      : d3.interpolateYlOrRd(
-		//: d3.interpolatePurples(
-		(maxInterpolation * numDistCount) / (maxD) // Color calculation
-	      ); // Return RGB Value
+
+        const colscale = d3
+              .scaleLog()
+              .domain([1, 3, 30,  maxD])
+              .range(["white", "yellow", "red", "black"]);
+
+        const color = numDistCount==0? '#ffffff': colscale(numDistCount)
+        
+        let breakpoint=1
+	// const color = // Color Function to set color
+	//       numDistCount === 0
+	//       ? '#ffffff' // White Color if its Zero
+	//       : d3.interpolateYlOrRd(
+	// 	(maxInterpolation * numDistCount) / (maxD) // Color calculation
+	//       ); // Return RGB Value
+		//: d3.interpolatePurples()
+	//: d3.interpolateReds()
+       
 	return color; // Return Color
       })
   }
@@ -168,7 +178,7 @@ export class PredictionsComponent implements OnInit {
 
     const colscale = d3
           .scaleLog()
-          .domain([1, 10, 100,  maxd])
+          .domain([1, 3, 30,  maxd])
           .range(["white", "yellow", "red", "black"]);
           /* number of items in domain array is
              a piece-wise function, the same is used for piecewise color 
