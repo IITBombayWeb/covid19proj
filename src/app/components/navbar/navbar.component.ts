@@ -10,6 +10,7 @@ export class NavbarComponent implements OnInit {
 viewmap:boolean=true;
 viewabout:boolean=false;
 viewfaqs:boolean=false;
+viewtable:boolean=false;
   constructor() { }
 
   ngOnInit(): void {
@@ -19,17 +20,26 @@ about(){
 this.viewmap = false
 this.viewabout = true
 this.viewfaqs = false
+this.viewtable = false
 }
 faqs(){
   this.viewmap = false
   this.viewabout = false
   this.viewfaqs = true
+  this.viewtable = false
 
 }
 home(){
   this.viewmap = true
   this.viewabout = false
   this.viewfaqs = false
+  this.viewtable = false
+}
+table(){
+  this.viewmap = false
+  this.viewabout = false
+  this.viewfaqs = false
+  this.viewtable = true
 }
 fun(){
   if(this.navCollapse.nativeElement.classList.contains('bg-white')) {
