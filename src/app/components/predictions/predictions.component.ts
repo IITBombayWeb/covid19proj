@@ -24,7 +24,7 @@ export class PredictionsComponent implements OnInit {
   width = 800;
   Gsvg: any;
   //displayedColumns: string[] = ['Item', 'District', 'State*', 'Country*', 'Units'];
-  displayedColumnLabels: string[] = ['Item', 'District* &dagger;',
+  displayedColumnLabels: string[] = ['Item', 'District <sup>&dagger;</sup>',
                                      'State*', 'Country*', 'Units']; 
   displayedColumns: string[] = ['item', 'district', 'state', 'country', 'units'];
   displayedTypes: DataMap[] = this.getTPdata();
@@ -177,7 +177,7 @@ export class PredictionsComponent implements OnInit {
       .attr('transform', 'translate(-70, -80)');
 
     const legendLog = legendColor()
-	  .title("Positive patients (district-wise)")
+	  .title("COVID-19 Positives (district-wise)")
 	  .cells(cells)
     .orient('vertical')
     .labelFormat(d3.format('d'))
@@ -186,8 +186,7 @@ export class PredictionsComponent implements OnInit {
        
     
     this.Gsvg.select('.legendLog').call(legendLog);
-  }
-
+  } 
   
   // Create Svg Element
   createSvgElement() {

@@ -113,8 +113,7 @@
                                 <tr>
                                   <th *ngFor="let  head of
                                               displayedColumnLabels">
-                                    
-                                    {{head}}
+                                    <div [innerHTML]="head"></div>
                                   </th>
                                 </tr>
                               </thead>
@@ -130,17 +129,24 @@
                         </div>
                       </div>
                     </div>
-                    <p>
-                      *The estimate for the district is based on the
-                      lower bound from the model, whereas for the
-                      state and the country the values shown are for a
-                      mid value between the bounds.
-                    </p>
-                    <p>
-                      &dagger; Several confirmed cases are not
-                      associated with a district, but only the state,
-                      eg. Delhi. 
-                    </p>
+                    <!--div style="padding-left:20em;
+                    text-indent=-20em;"--> 
+
+                      <div style="text-indent: -2ex; padding-left:2ex;
+                                  font-size:medium">
+                      <p>
+                        &dagger; Several confirmed cases are not
+                        associated with a district, but only the
+                        state, eg. in Delhi. Therefore, projections from
+                        the state must be used for planning. 
+                      </p>
+                      <p>
+                        * The projected estimates for a state and the
+                        country are more than that from the sum of the
+                        parts, providing for an additional central
+                        reserve that can be moved across places.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
