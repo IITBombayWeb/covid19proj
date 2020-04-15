@@ -143,6 +143,10 @@ export class PredictionsComponent implements OnInit {
       .scaleLog()
       .domain([1, 10, 100,  maxD])
       .range(["white", "yellow", "red", "black"]);
+    /* number of items in domain array is
+       a piece-wise function, the same is used for piecewise color 
+       in range
+    */
     
     
     
@@ -152,20 +156,7 @@ export class PredictionsComponent implements OnInit {
 	const n2 = d.properties.district // Select District name
 	const key = n2 + "." + n1 // Create district and state key
 	const numDistCount = this.getDistrictCount(key,"reported") // Initializing 
-
-
-        //const color = numDistCount==0? '#ffffff': colscale(numDistCount)
         const color = numDistCount==0? '#ffffff': this.colorScale(numDistCount)
-        
-        let breakpoint=1
-	// const color = // Color Function to set color
-	//       numDistCount === 0
-	//       ? '#ffffff' // White Color if its Zero
-	//       : d3.interpolateYlOrRd(
-	// 	(maxInterpolation * numDistCount) / (maxD) // Color calculation
-	//       ); // Return RGB Value
-		//: d3.interpolatePurples()
-	//: d3.interpolateReds()
        
 	return color; // Return Color
       })
@@ -175,60 +166,9 @@ export class PredictionsComponent implements OnInit {
   createLegend() {
     const maxInterpolation = this.getMaxInterp();
     const maxd = this.getMaxd()
-    //console.log('maxd,maxint =' + maxd,maxInterpolation)
-    const color = d3
-	  //.scaleLog(d3.interpolateYlOrRd)
-	  //.scaleLog()
-	  //.domain([1, maxd / maxInterpolation]);
-	  .scaleSequential(d3.interpolateYlOrRd)
-	  .domain([0, maxd / maxInterpolation || 10]);
-
-    const colscale = d3
-          .scaleLog()
-          .domain([1, 10, 100,  maxd])
-          .range(["white", "yellow", "red", "black"]);
-          /* number of items in domain array is
-             a piece-wise function, the same is used for piecewise color 
-             in range
-          */
-
-          //.range([0,1])
-          //.range(["yellow", "red"]);
-          //.range(["rgb(46, 73, 123)", "rgb(71, 187, 94)"]);
-          //.interpolate(d3.interpolateYlOrRd);
-
-    /*
-   
-    let clist = Array.from([1, 3, 10, 30, 100, 300, 1000], x => colscale(x))
-    */
-
-    //console.log(Array.from([0.01, 0.03, 0.1, 0.3, 1], x => color(x)))
                  
     let cells = null;
 
-    /*
-    let label = null;
-
-    label = ({ i, genLength, generatedLabels, labelDelimiter }) => {
-      if (i === genLength - 1) {
-	const n = Math.floor(generatedLabels[i]);
-	return `${n}+`;
-      } else {
-	const n1 = 1 + Math.floor(generatedLabels[i]);
-	const n2 = Math.floor(generatedLabels[i + 1]);
-	return `${n1} - ${n2}`;
-      }
-    };
-
-    const numCells = 4;
-    const delta = Math.floor(
-      (maxd < numCells ? numCells : maxd)
-	/ (numCells - 1)
-    );
-
-    cells = Array.from(Array(numCells).keys()).map((i) => i * delta);
-    */
-    
     cells = [1, 10, 100, 1000, 10000]
 
     this.Gsvg
@@ -237,25 +177,17 @@ export class PredictionsComponent implements OnInit {
       .attr('fill', 'white')
       .attr('transform', 'translate(-70, -80)');
 
-    // const legendLinear = legendColor()
-    //       .title("Positive patients (district-wise)")
-    //       .titleWidth(600)
-    //       .shapeWidth(50)
-    //       .cells(cells)
-    //       .labels(label)
-    //       .orient('vertical')
-    //       .scale(color)
-
-    
-    const legendLinear = legendColor()
+    const legendLog = legendColor()
 	  .title("Positive patients (district-wise)")
 	  .cells(cells)
 	  .orient('vertical')
 	  .scale(this.colorScale)
           .labelFormat('d')
     
-    this.Gsvg.select('.legendLog').call(legendLinear);
+    this.Gsvg.select('.legendLog').call(legendLog);
   }
+
+  
   // Create Svg Element
   createSvgElement() {
     let projection = d3.geoMercator().center([88, 18])
@@ -265,17 +197,13 @@ export class PredictionsComponent implements OnInit {
 
 
     let svg = d3.select("div.svg-parent")
-
 	.append("svg")
-
 	.attr('id', 'chart')
     // Responsive SVG needs these 2 attributes and no width and height attr.
-
 	.attr("preserveAspectRatio", "xMidYMid meet")
 	.attr("viewBox", "-100 -50 800 600")
     // Class to make it responsive.
     // Fill with a rectangle for visualization.
-
 	.attr("width", this.width)
 	.attr("height", this.height);
     this.Gsvg = svg
