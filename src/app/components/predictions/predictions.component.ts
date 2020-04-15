@@ -23,6 +23,9 @@ export class PredictionsComponent implements OnInit {
   height = 700;
   width = 800;
   Gsvg: any;
+  //displayedColumns: string[] = ['Item', 'District', 'State*', 'Country*', 'Units'];
+  displayedColumnLabels: string[] = ['Item', 'District* &dagger;',
+                                     'State*', 'Country*', 'Units']; 
   displayedColumns: string[] = ['item', 'district', 'state', 'country', 'units'];
   displayedTypes: DataMap[] = this.getTPdata();
   Thead: TableHead = { sname: 'India', dname: '' }

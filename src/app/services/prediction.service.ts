@@ -68,8 +68,8 @@ public getTableData(dp:number,sn,cn,ilist){
 
 
 fc:any = 2
-fs:any = 5.
-fi:any = 26.6
+fs:any = 15/2.5
+fi:any = 80/2.5
 fd:any = 1;
 
 // fc:any = 0.05;
@@ -156,7 +156,11 @@ public icu(){
      new TableData("Sanitizer", function(n){
        return Math.ceil(n*(fc + 0.2*fs + 0.1*fi));}, "lt / day"),
      new TableData("Oxygen (6000 lt) cylinders", function(n){
-       return Math.ceil(n*(10*fc + 0.5*fs + 0.0625*fi));}, "per day"),
+       return Math.ceil(n*(5*fc + 10./15*fs + 5/80.*fi));}, "per day"),
+     new TableData("Surgical gloves", function(n){
+       return Math.ceil(n*(4*fc + 2*fs + 5./8*fi));}, "pairs per day"),
+     new TableData("Nitrile gloves", function(n){
+       return Math.ceil(n*(fc + 0.2*fs + 0.025*fi));}, "boxes of 100 per day"),
      new TableData("Tab HCQ", function(n){
        return Math.ceil(n*(40./5*fc + 2*(fs+fi)));}, "per day"),
      new TableData("Patient masks", function(n){

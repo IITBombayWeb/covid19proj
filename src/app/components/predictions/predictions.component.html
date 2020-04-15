@@ -106,14 +106,13 @@
                   <div class="col-md-12">
                     <div class="tab-content">
                       <div role="tabpanel" *ngFor="let D1 of DataTBL;let i=index" class="card-body tab-pane fade {{i==0?'show active':''}}" id="{{D1.id}}" role="tabpanel" [attr.aria-labelledby]="D1.id">
-                        <div class="col-sm-12 text-left">
-                        </div>
                         <div class="">
                           <div class="table-scroll ">
                             <table class="table tablesorter" id="">
                               <thead class=" text-primary">
                                 <tr>
-                                  <th *ngFor="let  head of displayedColumns">
+                                  <th *ngFor="let  head of
+                                              displayedColumnLabels">
                                     
                                     {{head}}
                                   </th>
@@ -131,6 +130,17 @@
                         </div>
                       </div>
                     </div>
+                    <p>
+                      *The estimate for the district is based on the
+                      lower bound from the model, whereas for the
+                      state and the country the values shown are for a
+                      mid value between the bounds.
+                    </p>
+                    <p>
+                      &dagger; Several confirmed cases are not
+                      associated with a district, but only the state,
+                      eg. Delhi. 
+                    </p>
                   </div>
                 </div>
               </div>
