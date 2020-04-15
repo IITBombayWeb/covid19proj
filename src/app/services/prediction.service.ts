@@ -67,10 +67,15 @@ public getTableData(dp:number,sn,cn,ilist){
 }
 
 
-fc:any = 0.05;
-fs:any = 0.15
-fi:any = 0.8;
-fd:any = 0.03;
+fc:any = 2
+fs:any = 5.
+fi:any = 26.6
+fd:any = 1;
+
+// fc:any = 0.05;
+// fs:any = 0.15
+// fi:any = 0.8;
+// fd:any = 0.03;
 
 public icu(){
 
@@ -87,15 +92,15 @@ public icu(){
     new TableData("Doctors", function(n){
       return Math.ceil(n*fc/10)*8},  "on duty per day"), 
     new TableData("Nurses and Paramedics", function(n){
-      return Math.ceil(n*fc/10)*32},  "on duty per day"), 
+      return Math.ceil(n*fc/10)*16},  "on duty per day"), 
     new TableData("Ventilators", function(n){
       return Math.ceil(n*fc/10)*10;}),
     new TableData("Infusion pumps", function(n){
-      return Math.ceil(n*fc/10)*20;}),
+      return Math.ceil(n*fc/10)*40;}),
     new TableData("Full PPEs (for frontline staff)", function(n){
-      return Math.ceil(n*fc/10)*50},  "per day"), 
+      return Math.ceil(n*fc/10)*60},  "per day"), 
     new TableData("PPEs (for supporting staff)", function(n){
-      return Math.ceil(n*fc/10)*20},  "per day"), 
+      return Math.ceil(n*fc/10)*10},  "per day"), 
 
  
    ];
@@ -105,22 +110,20 @@ public icu(){
   let fs = this.fs
 
    return [
-      new TableData("Acute care patients", function(n){
-	        return Math.ceil(n*fs);}),
-      new TableData("20-bed Dedicated COVID Health Centers", function(n){
-	        return Math.ceil(n*fs/20);}),
-      new TableData("Doctors (Anes./Intensv.)", function(n){
-	return Math.ceil(n*fs/20)*3},  "on duty per day"), 
-      new TableData("Nurses and Paramedics", function(n){
-	return Math.ceil(n*fs/20)*6},  "on duty per day"), 
-    new TableData("Infusion pumps", function(n){
-      return Math.ceil(n*fs/20)*5;}),
-      new TableData("Full PPEs (for frontline staff)", function(n){
-	return Math.ceil(n*fs/20)*20},  "per day"), 
-    new TableData("PPEs (for supporting staff)", function(n){
+     new TableData("Acute care patients", function(n){
+       return Math.ceil(n*fs);}),
+     new TableData("20-bed Dedicated COVID Health Centers", function(n){
+       return Math.ceil(n*fs/20);}),
+     new TableData("Doctors (Anes./Intensv.)", function(n){
+       return Math.ceil(n*fs/20)*4},  "on duty per day"), 
+     new TableData("Nurses and Paramedics", function(n){
+       return Math.ceil(n*fs/20)*16},  "on duty per day"), 
+     new TableData("Infusion pumps", function(n){
+       return Math.ceil(n*fs/20)*5;}),
+     new TableData("Full PPEs (for frontline staff)", function(n){
+       return Math.ceil(n*fs/20)*40},  "per day"), 
+     new TableData("PPEs (for supporting staff)", function(n){
       return Math.ceil(n*fs/20)*10},  "per day"), 
-     new TableData("Patient masks", function(n){
-       return Math.ceil(n*fs/20)*20*2},  "per day"), 
    ];
  
  }
@@ -139,8 +142,6 @@ public icu(){
        return Math.ceil(n*fi/40)*6},  "on duty per day"), 
      new TableData("PPEs", function(n){
        return Math.ceil(n*fi/40)*30},  "per day"), 
-     new TableData("Patient masks", function(n){
-       return Math.ceil(n*fi/40)*40*2},  "per day"), 
    ];
    
  }
@@ -153,12 +154,13 @@ public icu(){
 
    return [
      new TableData("Sanitizer", function(n){
-       return Math.ceil(n*(fc + 0.25*fc + 0.1*fs));}, "lt / day"),
+       return Math.ceil(n*(fc + 0.2*fs + 0.1*fi));}, "lt / day"),
      new TableData("Oxygen (6000 lt) cylinders", function(n){
-       return Math.ceil(n*(5*fc + 0.5*fs + 0.06*fi));}, "per day"),
+       return Math.ceil(n*(10*fc + 0.5*fs + 0.0625*fi));}, "per day"),
      new TableData("Tab HCQ", function(n){
        return Math.ceil(n*(40./5*fc + 2*(fs+fi)));}, "per day"),
-     // 1 per HC worker in the ICU; ACU and SCU 2 per patient
+     new TableData("Patient masks", function(n){
+       return Math.ceil(n*(5*fc + 5*fs + 2.5*fi))},  "per day"), 
    ];
  } 
 
@@ -167,7 +169,7 @@ public icu(){
     {id:"icu", name: 'Intensive Care', type: '',map: this.icu()},
     {id:"acu", name: 'Acute Care',     type: '',map: this.acu()},
     {id:"scu", name: 'Supportive Care',type: '',map: this.scu()},
-    {id:"sup", name: 'Key Medical Supplies',type: '',map: this.sup()},
+    {id:"sup", name: 'Key Medical Supplies (total)',type: '',map: this.sup()},
   ];
 
  }

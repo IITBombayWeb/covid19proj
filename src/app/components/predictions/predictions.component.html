@@ -1,12 +1,9 @@
 <div class="wrapper">
   <div class="main-panel ps">
-    <!-- <app-navbar></app-navbar> -->
-    <!-- End Navbar -->
     <div class="content col-lg-12 col-lg-12 col-md-12 col-sm-12">
-      <div class="row">
-
-
-        <!-- App Notification -->
+      <div class="row justify-content-center">
+        
+        
         <app-notification class="col-md-12 col-sm-12 hide-area"></app-notification>
 
 
@@ -24,14 +21,9 @@
         <!-- Map - Close -->
 
 
-
-				<!-- <div class="row"> -->
-					<!-- <div class="col-sm-12 col-sm-12"> -->
-
-
-					<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-					<h3 class="card-title pl-20">Medical Inventory Requirement
-					Projection (Dummy data; to be revised) </h3>
+	<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+	  <h3 class="card-title pl-20">Medical Inventory Requirement
+	    Projection</h3>
 
           <!-- Drop Down - Open -->
           <div class=" col-lg-12 col-md-12 col-sm-12 mb-3">
@@ -40,19 +32,12 @@
             <div class="row">
               <div class="col-lg-6 col-md-6 col-sm-12">
                 <div>
-                  <!-- <button class="dropdown-toggle btn btn-primary btn-block" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    State
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <h6 class="dropdown-header">Dropdown header</h6>
-                    <a class="dropdown-item" href="#">Action</a>
-                  </div> -->
                   <label for="">Choose State :</label>
-
+                  
                   <select  #DropdownState *ngIf="dropDownListState.sname?.length  > 1" class="dropdown-toggle btn btn-block" type="button"  (change)="changeDropdownstate($event)" id="dropdownMenuButton" id="state">
                     <!-- <option value="">Select State</option> -->
                     <option *ngFor="let d of dropDownListState.sname; let i = index" [selected]="d === Thead.sname" [value]="d">{{d}}</option>
-                 
+                    
                   </select>
 
                 </div>
@@ -62,7 +47,7 @@
                   <label for="">Choose District :</label>
 
                   <select class="dropdown-toggle btn btn-block" type="button"  (change)="changeDropdownDistrict($event)" id="dropdownMenuButton" id="district">
-               
+                    
                     <option *ngFor="let d of dropDownListdist.dname" [selected]="d.dname === Thead.dname" [attr.data-state]="d.sname" [value]="d.dname">{{d.dname}}</option>
                   </select>
 
@@ -70,13 +55,13 @@
               </div>
             </div>
           </div>
-          <!-- Drop Down - Close -->
+              <!-- Drop Down - Close -->
 
-						<div class="card card-chart">
-							<div class="card-header col-12">
+	  <div class="card card-chart">
+	    <div class="card-header col-12">
 
-								<!-- Table - Header Open -->
-								<div class="row">
+	      <!-- Table - Header Open -->
+	      <div class="row">
                 <!-- row start-->
                 <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12  text-left">
                   <h3 class="card-title">{{Thead.dname}} {{Thead.dname !==''?',':''}} {{Thead.sname}}</h3>
@@ -93,29 +78,12 @@
                         </label>
                       </div>
                     </div>
-                    <!--div class="col-12 mt-md-3 mt-sm-5 ">
-                      <div #buttonToggle2 id="weeks" class="btn-group
-                      btn-group-toggle float-right"
-                      data-toggle="buttons"> 
-                        <label *ngFor="let d of displayedTypes;let i =
-																			 index" class="btn btn-sm
-																										 btn-primary
-																										 btn-simple"
-																			 [ngClass]="{'active': i==0}"
-																			 id="{{d.id}}"
-																			 (click)="handleChangeParam(d)"> 
-                          <input type="radio" value="{{d.id}}" name="options">
-                          <span class=" d-sm-block d-md-block
-                          d-lg-block d-xl-block">{{d.name}}</span> 
-                        </label>
-                      </div>
-                    </div!-->
 
                     <div class="col-12 mt-md-3 mt-sm-5 ">
                       <div id="weeks" class="btn-group float-right" data-toggle="buttons">
                         <label (click)="resetView()" class="btn btn-sm btn-primary btn-simple">
                           <span class=" d-sm-block d-md-block
-                          d-lg-block d-xl-block">Reset all</span>
+                                       d-lg-block d-xl-block">Reset all</span>
                         </label>
                       </div>
                     </div>
@@ -146,7 +114,7 @@
                               <thead class=" text-primary">
                                 <tr>
                                   <th *ngFor="let  head of displayedColumns">
-
+                                    
                                     {{head}}
                                   </th>
                                 </tr>
@@ -167,8 +135,35 @@
                 </div>
               </div>
               <!-- Table - Body Close -->
-
+              
             </div>
           </div>
         </div>
+
+        <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12">
+          <!--to hide map on mobile view add 'hide' to class here-->
+          <div class="card">
+              <h2>Specifications of Care Units</h2>
+            <div class="card-body">
+              <div class="typography-line">
+                <ul>
+                  <li><a href="appendix/icu" target="_blank">
+                      10-Bed Intensive Care Unit Specs.</a> </li>
+                  <!-- <li><a href="appendix/acu" target="_blank"> -->
+                  <!--     20-Bed Acute Care Unit Specs.</a> </li> -->
+                  <!-- <li><a href="appendix/scu" target="_blank"> -->
+                  <!--     40-Bed Supportive Care Unit Specs.</a> </li> -->
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+        
         <!-- </div> -->
+    </div>
+  </div>
+</div>

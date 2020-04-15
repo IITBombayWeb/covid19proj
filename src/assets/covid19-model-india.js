@@ -1,3 +1,40 @@
+// f(t) = A * exp(c * t)
+// log(f) = log(A) + c * t
+function expSlope(data)
+{
+  let countC = 0;
+  let avgFacC = 0.0;
+  for (let i = 0; i < data.length; i++) {
+    if (data[i] > 0 && data[i-1] > 0) {
+      let c = Math.log(data[i] / data[i-1]);
+      if (c < 0) c = 0;
+      if (c > 0.3) c = 0.3;
+      avgFacC += c;
+      countC++;
+    }
+  }
+  avgFacC = (countC > 0 ? avgFacC / (1.0 * countC) : 0);
+  return avgFacC;
+}
+
+function expMultiplier(data, c)
+{
+  let countA = 0;
+  let avgLogA = 0.0;
+  for (let i = 0; i < data.length; i++) {
+    const t = -data.length + i;
+    if (data[i] > 0) {
+      avgLogA += Math.log(data[i]) - c * t;
+      countA++;
+    }
+  }
+  avgLogA = (countA > 0 ? avgLogA / (1.0 * countA) : 0);
+  if (avgLogA > 0)
+    return Math.exp(avgLogA);
+  else
+    return 0;
+}
+
 class Covid19Model
 {
   constructor(patients, patientDateFormat, t0, stateParams, districtParams, itemParams)
@@ -37,24 +74,47 @@ class Covid19Model
       const district = this.districtNameKeyIndexMap.get(key);
       this.districtAdjustedCount[district] = 1;
     }
+
+  // set district-wise counts reported for last few days (from t0)
+  const numExtrapolPoints = 7;
+  this.districtPrevNewsCounts = new Array(numExtrapolPoints);
+  for (let i = 0; i < numExtrapolPoints; i++) {
+    let tillDate = new Date(this.t0);
+    tillDate.setDate(tillDate.getDate() - (numExtrapolPoints - i));
+    this.districtPrevNewsCounts[i] = this.binCountsByDistrict(patients, tillDate);
   }
 
-  listTopAffectedStates(category, params, date)
+  this.districtExtrapolFacA = new Array(this.numDistricts).fill(0);
+  this.districtExtrapolFacC = new Array(this.numDistricts).fill(0);
+  for (let district = 0; district < this.numDistricts; district++) {
+    let data = new Array(numExtrapolPoints).fill(0);
+    for (let i = 0; i < data.length; i++) {
+      data[i] = this.districtPrevNewsCounts[i][district];
+    }
+    const c = expSlope(data);
+    const A = expMultiplier(data, c);
+    this.districtExtrapolFacA[district] = A;
+    this.districtExtrapolFacC[district] = c;
+  }
+
+  } // constructor ends
+
+  listTopAffectedStates(category, params, date, extrapolation = false)
   {
     let stats = new Array(this.numStates);
     for (let state = 0; state < stats.length; state++) {
-      const stat = this.stateStat(category, state, params, date);
+      const stat = this.stateStat(category, state, params, date, extrapolation);
       stats[state] = { index : state, stat : stat };
     }
     stats.sort((a,b) => (b.stat - a.stat));
     return stats;
   }
 
-  listTopAffectedDistricts(category, params, date)
+  listTopAffectedDistricts(category, params, date, extrapolation = false)
   {
     let stats = new Array(this.numDistricts);
     for (let district = 0; district < stats.length; district++) {
-      const stat = this.districtStat(category, district, params, date);
+      const stat = this.districtStat(category, district, params, date, extrapolation);
       stats[district] = { index : district, stat : stat };
     }
     stats.sort((a,b) => (b.stat - a.stat));
@@ -66,11 +126,11 @@ class Covid19Model
     return Math.floor(this.itemParams[itemIndex].use * numCritical);
   }
 
-  countryStat(category, params, dateString)
+  countryStat(category, params, dateString, extrapolation = false)
   {
     let sum = 0;
     for (let i = 0; i < this.numStates; i++) {
-      sum += this.stateStat(category, i, params, dateString);
+      sum += this.stateStat(category, i, params, dateString, extrapolation);
     }
     return sum;
   }
@@ -84,12 +144,12 @@ class Covid19Model
     return sum;
   }
 
-  stateStat(category, stateIndex, params, dateString)
+  stateStat(category, stateIndex, params, dateString, extrapolation = false)
   {
     const districts = this.districtsOfStates[stateIndex];
     let sum = 0;
     for (let i = 0; i < districts.length; i++) {
-      sum += this.districtStat(category, districts[i], params, dateString);
+      sum += this.districtStat(category, districts[i], params, dateString, extrapolation);
     }
     return sum;
   }
@@ -104,13 +164,52 @@ class Covid19Model
     return sum;
   }
   
-  districtStatMax(category, params, date)
+  districtStatMax(category, params, date, extrapolation = false)
   {
     let maxValue = 0;
     for (let i = 0; i < this.numDistricts; i++) {
-      maxValue = Math.max(maxValue, this.districtStat(category, i, params, date));
+      maxValue = Math.max(maxValue, this.districtStat(category, i, params, date, extrapolation));
     }
     return maxValue;
+  }
+
+  districtStat(category, districtIndex, params, date, extrapolation = false)
+  {
+    if (extrapolation) {
+      return this.districtStatExtrapolate(category, districtIndex, params, date);
+    } else {
+      return this.districtStatDataCollapse(category, districtIndex, params, date);
+    }
+  }
+
+  districtStatExtrapolate(category, districtIndex, params, date)
+  {
+    // f(t) = A * exp(c * t)
+    const stateName     = this.districtParams[districtIndex].state;
+    const stateIndex    = this.stateNameIndexMap.get(stateName);
+    const n             = (params.n > 0 ? params.n : this.stateParams[stateIndex].n);
+    const m0            = (params.m > 0 ? params.m : this.stateParams[stateIndex].m);
+    const reported0     = Math.floor(this.districtNewsCount[districtIndex]);
+    const carriers0     = Math.floor(this.districtAdjustedCount[districtIndex] * n);
+    const deceased0     = Math.floor(this.stateParams[stateIndex].deceased);
+    const cgrowth       = this.interpolateAt(date, deceased0, params.cg, params.t);
+    const dgrowth       = this.interpolateAt(date, deceased0, params.dg, params.t);
+    const m             = dgrowth * m0 / cgrowth;
+    const seconds       = Math.abs(date - this.t0) / 1000;
+    const days          = seconds / 86400.0;
+    const facA          = this.districtExtrapolFacA[districtIndex];
+    const facC          = this.districtExtrapolFacC[districtIndex];
+    const reported      = Math.floor(facA * Math.exp(facC * days));
+    const carriers      = Math.floor(reported * n);
+    const deceased      = Math.floor(reported * m);
+    const critical      = Math.floor(params.y * deceased);
+    switch (category) {
+      case "reported" : return (date === this.t0 ? reported0 : reported); break;
+      case "carriers" : return carriers; break;
+      case "critical" : return critical; break;
+      case "deceased" : return deceased; break;
+      default         : return this.itemStat(this.indexItemName(category), critical); break;
+    }
   }
 
   interpolateAt(date, deceased0, g, t)
@@ -125,7 +224,7 @@ class Covid19Model
     return g(deceased0)[t.length - 1];
   }
 
-  districtStat(category, districtIndex, params, date)
+  districtStatDataCollapse(category, districtIndex, params, date)
   {
     const stateName     = this.districtParams[districtIndex].state;
     const stateIndex    = this.stateNameIndexMap.get(stateName);
@@ -314,7 +413,8 @@ class Covid19Model
 
 class Covid19ModelIndia extends Covid19Model
 {
-  constructor(baseDate, stateTimeSeries, caseTimeSeries) {
+  constructor(baseDate, stateTimeSeries, caseTimeSeries)
+  {
 
     // set base date and next four weeks
     let dates = new Array(4);
@@ -323,39 +423,59 @@ class Covid19ModelIndia extends Covid19Model
       dates[i].setDate(dates[i].getDate() + i * 7);
     }
 
-    // carrier growth functions
-    function lowCarrierGrowth(deceased) {
-      if (deceased < 10) {
-        return [1,3,20,70,150];
-      } else {
-        return [1,4.5,18,62,140];
-      }
-    }
+  function beta(d)
+  {
+    if      (   0 <= d && d <  100) return { min : 0.14, max : 0.17 };
+    else if ( 100 <= d && d <  500) return { min : 0.20, max : 0.23 };
+    else if ( 500 <= d && d < 1000) return { min : 0.18, max : 0.20 };
+    else if (1000 <= d && d < 2000) return { min : 0.17, max : 0.18 };
+    else if (2000 <= d)             return { min : 0.15, max : 0.17 };
+  }
 
-    function highCarrierGrowth(deceased) {
-      if (deceased < 10) {
-        return [1,7,50,120,400];
-      } else {
-        return [1,8,40,118,320];
-      }
+  // carrier growth functions
+  function lowCarrierGrowth(deceased) {
+    let cg = new Array(5).fill(0);
+    for (let w = 0; w <= 4; w++) {
+      cg[w] = Math.exp(beta(deceased).min * 7 * w);
     }
+    return cg;
+  }
 
-    // death growth functions
-    function lowDeathGrowth(deceased) {
-      if (deceased < 10) {
-        return [1,4,27,85,160];
-      } else {
-        return [1,5.5,20,70,156];
-      }
+  function highCarrierGrowth(deceased) {
+    let cg = new Array(5).fill(0);
+    for (let w = 0; w <= 4; w++) {
+      cg[w] = Math.exp(beta(deceased).max * 7 * w);
     }
+    return cg;
+  }
 
-    function highDeathGrowth(deceased) {
-      if (deceased < 10) {
-        return [1,6.5,42,110,300];
-      } else {
-        return [1,7.6,35,108,230];
-      }
+  function alpha(d)
+  {
+    if      (  0 <= d && d <  20) return { min : 0.17, max : 0.20 };
+    else if ( 20 <= d && d <  40) return { min : 0.15, max : 0.18 };
+    else if ( 40 <= d && d <  80) return { min : 0.13, max : 0.16 };
+    else if ( 80 <= d && d < 160) return { min : 0.13, max : 0.16 };
+    else if (160 <= d && d < 320) return { min : 0.14, max : 0.17 };
+    else if (320 <= d && d < 640) return { min : 0.15, max : 0.17 };
+    else if (640 <= d)            return { min : 0.13, max : 0.15 };
+  }
+
+  // death growth functions
+  function lowDeathGrowth(deceased) {
+    let dg = new Array(5).fill(0);
+    for (let w = 0; w <= 4; w++) {
+      dg[w] = Math.exp(alpha(deceased).min * 7 * w);
     }
+    return dg;
+  }
+
+  function highDeathGrowth(deceased) {
+    let dg = new Array(5).fill(0);
+    for (let w = 0; w <= 4; w++) {
+      dg[w] = Math.exp(alpha(deceased).max * 7 * w);
+    }
+    return dg;
+  }
 
     let stateParams = binStateCountsTill(dates[0], stateTimeSeries);
     super(caseTimeSeries,
@@ -368,6 +488,36 @@ class Covid19ModelIndia extends Covid19Model
     this.dates      = dates;
     this.lowParams  = { n : -1, m : -1, x : 10, y : 2, cg : lowCarrierGrowth,  dg : lowDeathGrowth, t : dates };
     this.highParams = { n : -1, m : -1, x : 10, y : 2, cg : highCarrierGrowth, dg : highDeathGrowth, t : dates };
+  }
+
+  countryStatLimit(category, date)
+  {
+    let values = new Array(3).fill(0);
+    values[0] = this.countryStat(category, this.lowParams, date);
+    values[1] = this.countryStat(category, this.highParams, date);
+    values[2] = this.countryStat(category, this.lowParams, date, true);
+    values.sort(function(a, b) {return a - b});
+    return { min : values[0], mid : values[1], max : values[2] };
+  }
+
+  stateStatLimit(category, stateIndex, date)
+  {
+    let values = new Array(3).fill(0);
+    values[0] = this.stateStat(category, stateIndex, this.lowParams, date);
+    values[1] = this.stateStat(category, stateIndex, this.highParams, date);
+    values[2] = this.stateStat(category, stateIndex, this.lowParams, date, true);
+    values.sort(function(a, b) {return a - b});
+    return { min : values[0], mid : values[1], max : values[2] };
+  }
+
+  districtStatLimit(category, districtIndex, date, limit)
+  {
+    let values = new Array(3).fill(0);
+    values[0] = this.districtStat(category, districtIndex, this.lowParams, date);
+    values[1] = this.districtStat(category, districtIndex, this.highParams, date);
+    values[2] = this.districtStat(category, districtIndex, this.lowParams, date, true);
+    values.sort(function(a, b) {return a - b});
+    return { min : values[0], mid : values[1], max : values[2] };
   }
 }
 
@@ -403,6 +553,7 @@ function binStateCountsTill(date, data)
   let confirmed = new Array(stateAbbrvs.length).fill(0);
   let recovered = new Array(stateAbbrvs.length).fill(0);
   let deceased  = new Array(stateAbbrvs.length).fill(0);
+
   for (let i = 0; i < data.length; i++) {
     const info = data[i];
     if (new Date(info.date) > date)
@@ -421,11 +572,12 @@ function binStateCountsTill(date, data)
 
   function pack(abbrv, state)
   { return {
-      id       : abbrv,
-      name     : state,
-      deceased : count(abbrv, deceased),
-      n        : inflationFactor(count(abbrv, confirmed), count(abbrv, deceased)),
-      m        : deathsPerConfirmed(count(abbrv, confirmed), count(abbrv, deceased))
+      id        : abbrv,
+      name      : state,
+      confirmed : count(abbrv, confirmed),
+      deceased  : count(abbrv, deceased),
+      n         : inflationFactor(count(abbrv, confirmed), count(abbrv, deceased)),
+      m         : deathsPerConfirmed(count(abbrv, confirmed), count(abbrv, deceased))
     };
   };
 
@@ -469,6 +621,8 @@ function binStateCountsTill(date, data)
   chart.push(pack("wb", "West Bengal"));
   return chart;
 }
+
+//module.exports = { Covid19ModelIndia, binStateCountsTill };
 
 const itemParamsForCriticalUse = [
 { "id" : 1, "name" : "ventilators",    "use" : 1   },

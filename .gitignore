@@ -44,3 +44,12 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# TeX aux
+src/doc/*.aux
+src/doc/*.bbl
+src/doc/*.blg
+src/doc/*.log
+src/doc/*.out
+src/doc
+

@@ -1,0 +1,7 @@
+file=https://github.com/mesoscalelab/covid19/raw/master/js/covid19-model-india.js
+
+file=covid19-model-india.js
+path=https://raw.githubusercontent.com/mesoscalelab/covid19/master/js
+
+rm -f $file
+wget  -c $path/$file
