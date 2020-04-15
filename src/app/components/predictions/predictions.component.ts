@@ -43,9 +43,11 @@ export class PredictionsComponent implements OnInit {
   inddist: any = []
   paramsType: any = this.displayedTypes[0].id
   Sdate: any = this.getBaseDate()
+  colorScale: any = []
   
   constructor(private ps: PredictionService) { }
   ngOnInit(): void {
+
 
     this.DataMp = this.getTdata();
     this.ps.requestDataFromMultipleSources().subscribe(responseList => {
@@ -73,7 +75,6 @@ export class PredictionsComponent implements OnInit {
     this.dataSource = this.ps.getTableData(this.distCount,this.stCount,
 		                           this.cnCount,this.DataTBL); 
     this.inddist.then(function (topology) {
-      this.createLegend();
       svgEle[1].selectAll('path')
 	.data(t.feature(topology, topology.objects.IND_adm2).features)
 	.enter()
@@ -106,6 +107,7 @@ export class PredictionsComponent implements OnInit {
 	  svgEle[3].html("");
 	})
       this.setMapColor();
+      this.createLegend();
       this.dropDownListState.sname = this.getStatedata()
     }.bind(this));	
   }
@@ -135,6 +137,14 @@ export class PredictionsComponent implements OnInit {
   setMapColor() {
     const maxD =  this.getMaxd()
     const maxInterpolation = this.getMaxInterp()
+
+    //Color scale to be used for map and its legend
+    this.colorScale = d3
+      .scaleLog()
+      .domain([1, 10, 100,  maxD])
+      .range(["white", "yellow", "red", "black"]);
+    
+    
     
     d3.select('.map').selectAll('path') // Select all paths of the maps
       .style("fill", (d) => {  // Set Color function
@@ -143,12 +153,9 @@ export class PredictionsComponent implements OnInit {
 	const key = n2 + "." + n1 // Create district and state key
 	const numDistCount = this.getDistrictCount(key,"reported") // Initializing 
 
-        const colscale = d3
-              .scaleLog()
-              .domain([1, 3, 30,  maxD])
-              .range(["white", "yellow", "red", "black"]);
 
-        const color = numDistCount==0? '#ffffff': colscale(numDistCount)
+        //const color = numDistCount==0? '#ffffff': colscale(numDistCount)
+        const color = numDistCount==0? '#ffffff': this.colorScale(numDistCount)
         
         let breakpoint=1
 	// const color = // Color Function to set color
@@ -178,7 +185,7 @@ export class PredictionsComponent implements OnInit {
 
     const colscale = d3
           .scaleLog()
-          .domain([1, 3, 30,  maxd])
+          .domain([1, 10, 100,  maxd])
           .range(["white", "yellow", "red", "black"]);
           /* number of items in domain array is
              a piece-wise function, the same is used for piecewise color 
@@ -191,13 +198,15 @@ export class PredictionsComponent implements OnInit {
           //.interpolate(d3.interpolateYlOrRd);
 
     /*
-    */
    
     let clist = Array.from([1, 3, 10, 30, 100, 300, 1000], x => colscale(x))
+    */
 
     //console.log(Array.from([0.01, 0.03, 0.1, 0.3, 1], x => color(x)))
                  
     let cells = null;
+
+    /*
     let label = null;
 
     label = ({ i, genLength, generatedLabels, labelDelimiter }) => {
@@ -218,8 +227,9 @@ export class PredictionsComponent implements OnInit {
     );
 
     cells = Array.from(Array(numCells).keys()).map((i) => i * delta);
+    */
     
-   cells = [1, 10, 100, 1000]
+    cells = [1, 10, 100, 1000, 10000]
 
     this.Gsvg
       .append('g')
@@ -241,7 +251,7 @@ export class PredictionsComponent implements OnInit {
 	  .title("Positive patients (district-wise)")
 	  .cells(cells)
 	  .orient('vertical')
-	  .scale(colscale)
+	  .scale(this.colorScale)
           .labelFormat('d')
     
     this.Gsvg.select('.legendLog').call(legendLinear);
@@ -415,8 +425,8 @@ export class PredictionsComponent implements OnInit {
 
   changeViewData() {
 
-    this.createLegend()
     this.setMapColor()
+    this.createLegend()
     if (this.Thead.dname !== '') {
       this.distCount =this.getDistrictCount(this.Thead.dname + "."+
 		                            this.Thead.sname) 
