@@ -69,7 +69,7 @@ export class PredictionsComponent implements OnInit {
     this.paramsType = this.displayedTypes[0].id
     this.cnCount = this.getCountryCount()
     // DEBUG: testing purpose
-    this.cnCount = 2.5
+    //this.cnCount = 2.5
     this.Sdate =  this.getBaseDate()
     this.dataSource = this.ps.getTableData(this.distCount,this.stCount,
 		                           this.cnCount,this.DataTBL); 
