@@ -56,15 +56,19 @@
 \newcommand{\nin}{\ensuremath{N_{\mathrm{i}}}}
 \newcommand{\nq}{\ensuremath{N_{\mathrm{q}}}}
 
+\newcommand{\fd}{\ensuremath{f_{\mathrm{d}}}}
 
+\newcommand{\nicu}{\ensuremath{N_{\mathrm{ICU}}}}
+\newcommand{\nacu}{\ensuremath{N_{\mathrm{ACU}}}}
+\newcommand{\nscu}{\ensuremath{N_{\mathrm{SCU}}}}
 
+\newcommand{\ma}{\ensuremath{m_{\mathrm{a}}}}
+\newcommand{\mi}{\ensuremath{m_{\mathrm{i}}}}
 
 \begin{document}
 \title{COVID-19 Medical Inventory Prediction}
 \date{\today}
-\author{Deepak Padmanabhan\thanks{MBBS, MD DM, Cardiologist, Sri Jayadeva
-    Institute of Cardiology, Bengaluru}
-  \and
+\author{
   P Sunthar\thanks{Professor, Department of Chemical Engineering, IIT
     Bombay, Mumbai \email{p.sunthar@iitb.ac.in}}
 }
@@ -127,115 +131,94 @@ website, some of the numbers are rounded higher to the nearest 10 or
   \bottomrule
 \end{tabular}
 
+ICU patients at a given day $t$
+\begin{equation}
+  \label{eq:nicu0}
+  \begin{split}
+  \nicu(t)
+  &= \text{New admissions on $t$}\\
+  & \quad - \text{Deaths on $t$}\\
+  & \quad - \text{Discharged on $t$ after $m$ days of admission}\\
+  & \quad + \text{Continuing on $t$ from the last $m-1$ days} \\
+   &= \Delta \ncr (t)
+    - \Delta \nd(t) 
+    - (1-\fd) \, \Delta \ncr(t-m)
+    + (1-\fd) \, \sum_{r=1}^{m-1} \, \Delta \ncr(t-r)
+  \end{split}
+\end{equation}
+where, the new ICU admissions, or deaths on a day is the increase in
+the number of critical patients from the previous day:
+\begin{align}
+  \Delta \ncr(t)  &= \ncr(t) - \ncr(t-1) \\
+  \Delta \nd(t)  &= \nd(t) - \nd(t-1)
+\end{align}
+The number of deaths on a given day is a fraction of the admissions
+$n$ days earlier:
+\begin{equation}
+  \Delta \nd(t) = \fd \, \Delta \ncr(t-n)
+\end{equation}
+or alternatively:
+\begin{equation}
+  \Delta \ncr(t) = \frac{1}{\fd} \, \Delta \nd(t+n)
+\end{equation}
+Since the model estimates the deaths correctly Eq.~\eqref{eq:nicu0} can be
+rewritten as:
+\begin{equation}
+  \label{eq:nicu}
+  \nicu(t)
+  = \frac{1}{\fd} \left( \Delta \nd (t+n)
+                       - \fd \Delta \nd(t) 
+                       - (1-\fd) \, \Delta \nd(t-m+n)
+                       + (1-\fd) \, \sum_{r=1}^{m-1} \, \Delta \nd(t-r+n)
+                       \right)
+\end{equation}
 
-\begin{landscape}
-\begin{table}
-  \caption{Persons and Protective Equipment. The last column is
-    rounded number assuming a total positive cases of $N=100$.}
-  \begin{tabularx}{\linewidth}{XXcl}
-    \toprule
-    Item [Unit] & Estimate & Formula & $N=100$ \\
-    \midrule
-Doctors [per day] & 2 per 12-hr shift for 10 critical and severe
-patients and 2 
-per 12-hr shift for 15 in-patients &
-$\frac{2}{5}\left(\ncr+\ns+\frac{\nin}{1.5}\right)$ & 19 \\
-Nurses [per day] & 1 per 8-hr shift for 3 critical and severe patients
-and 1 per 8-hr shift for 5 in-patients &
-$\left(\ncr+\ns+\frac{\nin}{1.5}\right)$ & 47\\
-% Janitors [per day] & 1 per 8-hr shift per 10 beds &
-% $3 \; \left(\ncr+\ns+\nin\right)/10$ \\
-Total staff [per day]& Doctors, Nurses &
-$S \equiv \frac{7}{5} \left(\ncr+\ns+\frac{\nin}{1.5}\right)$ & 66 \\
-Staff PPE (Gowns, Masks, Goggles etc.) [per day]&
-Two per staff & $2 \, S$  & 132\\
-Patient PPE: Masks [per day] & 4 per severe and moderate patients &
-$4 (\ns+\nin)$ & 220 \\
-Sterile gloves [per day]&
- 3 per patient per 6-hr shift for critical and half that for severe and
- moderate &
-$12\ncr + 6 (\ns+\nin)$ & 390 \\
-Non-sterile gloves &
- 6 per patient per 6-hr shift for critical and half that for severe and
- moderate &
-$24\ncr + 12 (\ns+\nin)$ & 780 \\
-Dead body bags & 1 per deceased & $\nd$ & 3 \\
-    \bottomrule
-  \end{tabularx}
-\end{table}
-\end{landscape}
-
-
-\begin{landscape}
-\begin{table}
-  \caption{Medical Equipment. The last column is
-    rounded number assuming a total positive cases of $N=100$.}
-  \begin{tabularx}{\linewidth}{XXcl}
-    \toprule
-    Item [Unit] & Estimate & Formula & $N=100$\\
-    \midrule
-    Ventilators, Ambu bags, Glass case & 1 per critical patient&
-    $\ncr$ & 5 \\
-    Laryngoscopes, Defibrillator & 3 per 10 critical patients &
-    $3 \ncr/10$ & 2 \\
-    ECG & 1 per 20 critical patients& $\ncr/20$ & 1\\
-    Arterial BP monitors & 1 per critical patient &
-    $\ncr$ & 5 \\
-    Arterial blood gas machine & 1 per 30 critical patients &
-    $\ncr/30$ & 1 \\
-    Bedside X-ray & 1 per 20 critical patients & $\ncr/20$ & 1\\
-    Infusion pumps & 3 per critical patient & $3 \ncr$ & 15 \\
-    Oxymeter &  1 per 20 severe patients & $\ns/20$ & 1\\
-    High flow nasal canula & 1 per severe patient & $\ns$ & 15\\
-    Nebuliser & 1 per severe patient & $\ns$ & 15\\
-    Non-contact Thermometer & 1 for 20 out-patients & $\nq$ & 2\\
-    Patient cot & 1 per severe and moderate & $\ns+\nin$ & 55 \\
-    Wheel chair & 1 per 20 severe patients & $\ns/20$ & 1\\
-    Stretcher & 1 per critical and 3 per 20 severe patients &
-    $\ncr + 3 \ns/20$ & 7\\
-    Ambulance &  3 times total positive cases, each making 20 trips
-    per day & $3 N / 20$ & 15\\
-\bottomrule
-\end{tabularx}
-\end{table}
-\end{landscape}
+Similarly, we can estimate the number of persons in acute care (ACU,
+for the severe cases) and supportive care (SCU for moderate and/or
+mild cases).  Assuming the residence time of Acute Care is $\ma$ and
+that for Supportive Care (in-patient) is $\mi$ current number of patients in each
+of these care units is:
+\begin{align}
+  \label{eq:nacu0}
+  \begin{split}
+  \nacu(t)
+  &= \text{New admissions on $t$}\\
+  & \quad - \text{Discharged on $t$ after $\ma$ days of admission}\\
+  & \quad + \text{Continuing on $t$ from the last $\ma-1$ days} \\
+   &= \Delta \ns (t)
+    - \Delta \ns(t-\ma)
+    + \sum_{r=1}^{\ma-1} \, \Delta \ns(t-r)
+  \end{split}
+\end{align}
+For ease The severe care patients are estimated directly from the reported
+cases and not from the 
 
 
+In the case of SCUs, in addition to the above, the
+patients discharged from the ICUs are recuperated for the same $\mi$
+days. However, this number is small compared to the number admitted
+afresh (3 against 40 to 80), therefore is ignored.
+\begin{align}
+  \label{eq:nscu0}
+  \begin{split}
+  \nscu(t)
+  &= \text{New admissions on $t$}\\
+  & \quad - \text{Discharged on $t$ after $\mi$ days of admission}\\
+  & \quad + \text{Continuing on $t$ from the last $\mi-1$ days} \\
+   &= \Delta \nin (t)
+    - \Delta \nin(t-\mi)
+    + \sum_{r=1}^{\mi-1} \, \Delta \nin(t-r)
+  \end{split}
+\end{align}
 
-\begin{landscape}
-\begin{table}
-  \caption{Medical Consumables. The last column is
-    rounded number assuming a total positive cases of $N=100$.}
-  \begin{tabularx}{\linewidth}{XXcl}
-    \toprule
-    Item [Unit] & Estimate & Formula & $N=100$ \\
-    \midrule
-Needles [per day]& 10 per critical, 5 per severe, 2 per moderate&
-$10 \ncr + 5 \ns + 2 \nin$ & 205 \\
-Disposable Bags [per day] & 3 per critical 2 per severe and 1 per 4
-moderate & $ 3\ncr + 2\ns + 0.25\nin$ & 55 \\
-Sanitizer [lt/day] & 250 ml per all in-patients & $0.25 (\ncr+\ns+\nin)$
-& 15 \\
-Endotracheal Tube [per day] & 1 per critical patients for 3 days &
-$\ncr/3$ & 2 \\
-Oxygen (medium) [cylinders per day] & 4 cylinders per critical patient
-& $4 \ncr$  & 20 \\ 
-Central and Peripheral lines [per day] & 1 per critical patient for 3
-days & $\ncr/3$ & 2 \\
-IV Fluids [lt/day] & 5 bottles of 500 ml per critical patient &
-$2.5 \ncr$ & 13 \\
-Suction catheter [per day] & 1 per critical patient & $\ncr$ & 5 \\
-Test kits [per day] & 3 times the number of positive cases &
-$3 N$ & 300  \\
-\bottomrule
-\end{tabularx}
-\end{table}
-\end{landscape}
+
+
+%  &= \text{Critical care patients discharged from ICU}
 
 \section{Acknowledgements}
-The authors thank Dr Santosh Ansumali (JNCASR) and Dr. Aloke Kumar
+The author thanks Dr Santosh Ansumali (JNCASR) and Dr. Aloke Kumar
 (IISc) for providing the projection maps, and Dr. Soumyadeep
-Bhattacharjee (Sankhyasutra Labs Pvt. Ltd) for data API. We also thank
+Bhattacharya (Sankhyasutra Labs Pvt. Ltd) for data API. We also thank
 the office of the Principal Scientific Advisor of Govt. of India for
 providing an elaborate list of inventory from which some critical ones
 have been used here.
