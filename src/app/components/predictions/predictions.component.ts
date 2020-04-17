@@ -272,10 +272,10 @@ export class PredictionsComponent implements OnInit {
     
     if (!index) return 0
     
-    c0 = this.model.districtStatLimit(category, index, ydate).min
+    let c0 = this.model.districtStatLimit(category, index, ydate).min
 
     for (let y=1; y<=m-1; y++) {
-      ydate.setDate(ydate.getDate+y)
+      ydate.setDate(ydate.getDate()+y)
       let c1 = this.model.districtStatLimit(category, index, ydate).min
       countlist.push(c1-c0)
       c0 = c1
