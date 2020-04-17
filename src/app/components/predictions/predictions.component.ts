@@ -262,6 +262,30 @@ export class PredictionsComponent implements OnInit {
     
   }
 
+  getDistrictDailyCountList(key, category="deceased") {
+    const index = this.model.indexDistrictNameKey(key)
+
+    let clist = []
+    let countlist = []
+    let ydate = new Date(this.Sdate)
+    let m = 7 // residence days in ICU before discharge
+    
+    if (!index) return 0
+    
+    c0 = this.model.districtStatLimit(category, index, ydate).min
+
+    for (let y=1; y<=m-1; y++) {
+      ydate.setDate(ydate.getDate+y)
+      let c1 = this.model.districtStatLimit(category, index, ydate).min
+      countlist.push(c1-c0)
+      c0 = c1
+    }
+
+    return countlist
+  }
+
+  
+
   getDistrictCount(key, category="deceased") {
     //let model = new Covid19ModelIndia()
     //console.log("DC: " + model.lowParams)
