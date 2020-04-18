@@ -47,6 +47,10 @@
 \cfoot{}
 
 
+\newcommand{\rmd}{{\mathrm{d}}}
+\newcommand{\der}[2]{\ensuremath{\frac{\rmd #1}{\rmd #2}}}
+
+
 \newcommand{\nd}{\ensuremath{N_{\mathrm{d}}}}
 \newcommand{\ndl}{\ensuremath{N_{\mathrm{d,low}}}}
 \newcommand{\ndh}{\ensuremath{N_{\mathrm{d,high}}}}
@@ -57,6 +61,9 @@
 \newcommand{\nq}{\ensuremath{N_{\mathrm{q}}}}
 
 \newcommand{\fd}{\ensuremath{f_{\mathrm{d}}}}
+\newcommand{\fc}{\ensuremath{f_{\mathrm{c}}}}
+\newcommand{\fa}{\ensuremath{f_{\mathrm{a}}}}
+\newcommand{\fs}{\ensuremath{f_{\mathrm{s}}}}
 
 \newcommand{\nicu}{\ensuremath{N_{\mathrm{ICU}}}}
 \newcommand{\nacu}{\ensuremath{N_{\mathrm{ACU}}}}
@@ -64,6 +71,14 @@
 
 \newcommand{\ma}{\ensuremath{m_{\mathrm{a}}}}
 \newcommand{\mi}{\ensuremath{m_{\mathrm{i}}}}
+
+
+\newcommand{\taud}{\ensuremath{\tau_{\mathrm{d}}}}
+\newcommand{\tauc}{\ensuremath{\tau_{\mathrm{c}}}}
+\newcommand{\taua}{\ensuremath{\tau_{\mathrm{a}}}}
+\newcommand{\taus}{\ensuremath{\tau_{\mathrm{s}}}}
+
+\newcommand{\Qi}{\ensuremath{Q_{\mathrm{I}}}}
 
 \begin{document}
 \title{COVID-19 Medical Inventory Prediction}
@@ -131,84 +146,63 @@ website, some of the numbers are rounded higher to the nearest 10 or
   \bottomrule
 \end{tabular}
 
-ICU patients at a given day $t$
+Let $C$ denote the number of patients currently in critical care, $A$
+for the number in acute care and $S$ in supportive care.  We assume
+the following scenario:
+\begin{enumerate}
+\item Critical care patients who are discharged spend $\tauc$ amount
+  of time in the ICU, following which they are taken to the supportive
+  care unit for recuperation.
+\item A fraction \fd\ of the critical care patients do not survive and
+  die in a time $\taud$.
+\item Acute care patients spend a time $\taua$ before recovering.
+  
+\item Supportive care patients spend a time $\taus$ before recovering.
+
+\item The fraction of infection persons who need critical, acute, and
+  supportive care are: \fc, \fa, and \fs\ respectively.
+
+\item The rate of infection is denoted by \Qi.
+ 
+\end{enumerate}
+
+The evolution of the critical care patients is given by:
 \begin{equation}
-  \label{eq:nicu0}
+  \label{eq:C}
   \begin{split}
-  \nicu(t)
-  &= \text{New admissions on $t$}\\
-  & \quad - \text{Deaths on $t$}\\
-  & \quad - \text{Discharged on $t$ after $m$ days of admission}\\
-  & \quad + \text{Continuing on $t$ from the last $m-1$ days} \\
-   &= \Delta \ncr (t)
-    - \Delta \nd(t) 
-    - (1-\fd) \, \Delta \ncr(t-m)
-    + (1-\fd) \, \sum_{r=1}^{m-1} \, \Delta \ncr(t-r)
+\der{C}{t}
+  &= \text{Rate of admissions}\\
+  & \quad - \text{Rate of discharge (to supportive care)}\\
+  & \quad + \text{Mortality rate} \\
+  & = \fc \, \Qi
+    - (1-\fd) \, \frac{C}{\tauc}
+    + \fd \, \frac{C}{\taud}
   \end{split}
 \end{equation}
-where, the new ICU admissions, or deaths on a day is the increase in
-the number of critical patients from the previous day:
+here, $C/\tau$ is the rate at which $C$ patients take a time $\tau$ to
+be out of critical care. Similar equations can be written for the
+acute and supportive care (taking into account influx from ICU):
 \begin{align}
-  \Delta \ncr(t)  &= \ncr(t) - \ncr(t-1) \\
-  \Delta \nd(t)  &= \nd(t) - \nd(t-1)
+  \der{A}{t} & = \fa \, \Qi - \frac{A}{\taua} \\
+  \der{S}{t} & = \fs \, \Qi - \frac{S}{\taus} + (1-\fd) \,
+               \frac{C}{\tauc} 
 \end{align}
-The number of deaths on a given day is a fraction of the admissions
-$n$ days earlier:
-\begin{equation}
-  \Delta \nd(t) = \fd \, \Delta \ncr(t-n)
-\end{equation}
-or alternatively:
-\begin{equation}
-  \Delta \ncr(t) = \frac{1}{\fd} \, \Delta \nd(t+n)
-\end{equation}
-Since the model estimates the deaths correctly Eq.~\eqref{eq:nicu0} can be
-rewritten as:
-\begin{equation}
-  \label{eq:nicu}
-  \nicu(t)
-  = \frac{1}{\fd} \left( \Delta \nd (t+n)
-                       - \fd \Delta \nd(t) 
-                       - (1-\fd) \, \Delta \nd(t-m+n)
-                       + (1-\fd) \, \sum_{r=1}^{m-1} \, \Delta \nd(t-r+n)
-                       \right)
-\end{equation}
-
-Similarly, we can estimate the number of persons in acute care (ACU,
-for the severe cases) and supportive care (SCU for moderate and/or
-mild cases).  Assuming the residence time of Acute Care is $\ma$ and
-that for Supportive Care (in-patient) is $\mi$ current number of patients in each
-of these care units is:
+Typical values for the residence times are
 \begin{align}
-  \label{eq:nacu0}
-  \begin{split}
-  \nacu(t)
-  &= \text{New admissions on $t$}\\
-  & \quad - \text{Discharged on $t$ after $\ma$ days of admission}\\
-  & \quad + \text{Continuing on $t$ from the last $\ma-1$ days} \\
-   &= \Delta \ns (t)
-    - \Delta \ns(t-\ma)
-    + \sum_{r=1}^{\ma-1} \, \Delta \ns(t-r)
-  \end{split}
+  \tauc &= 7 \quad\text{days} \\
+  \taud &= 9 \quad\text{days} \\
+  \taus &= 14 \quad\text{days} \\
+  \taua &= 14 \quad\text{days} 
 \end{align}
-For ease The severe care patients are estimated directly from the reported
-cases and not from the 
-
-
-In the case of SCUs, in addition to the above, the
-patients discharged from the ICUs are recuperated for the same $\mi$
-days. However, this number is small compared to the number admitted
-afresh (3 against 40 to 80), therefore is ignored.
+Assuming,
+\begin{equation}
+  \tau = \tauc \approx \taud \approx \frac{\taus}{2} \approx \frac{\taua}{2}
+\end{equation}
+the evolution equation can be simplified as
 \begin{align}
-  \label{eq:nscu0}
-  \begin{split}
-  \nscu(t)
-  &= \text{New admissions on $t$}\\
-  & \quad - \text{Discharged on $t$ after $\mi$ days of admission}\\
-  & \quad + \text{Continuing on $t$ from the last $\mi-1$ days} \\
-   &= \Delta \nin (t)
-    - \Delta \nin(t-\mi)
-    + \sum_{r=1}^{\mi-1} \, \Delta \nin(t-r)
-  \end{split}
+  \der{C}{t} & = \fc \, \Qi - \frac{C}{\tau} \\
+  \der{A}{t} & = \fa \, \Qi - \frac{A}{\tau} \\
+  \der{S}{t} & = \fs \, \Qi - \frac{S}{\taua} + (1-\fd) \frac{C}{\tau}
 \end{align}
 
 
