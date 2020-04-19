@@ -6,6 +6,9 @@ import { TableData } from '../../models/table-data';
 import { legendColor } from 'd3-svg-legend';
 import{DataMap} from '../../models/data-map'
 import {TableHead} from '../../models/tabel-head'
+
+declare var covidadd: any;
+
 declare var Covid19ModelIndia: any;
 @Component({
   selector: 'app-predictions',
@@ -67,6 +70,7 @@ export class PredictionsComponent implements OnInit {
 
   // Render India Map
   renderView() {
+    console.log('covid add ' + covidadd(3,2))
 
     let svgEle = this.createSvgElement();
     this.DataTBL = this.ps.Tdata();
@@ -277,13 +281,16 @@ export class PredictionsComponent implements OnInit {
     
     if (!index) return 0
 
+    console.log('dMor: ' + this.Sdate)
     let ydate = new Date(this.Sdate)
     let d0 = this.model.districtStatLimit("deceased", index, ydate).min
 
-    ydate.setDate(ydate.getDate()+1)
+    ydate.setDate(ydate.getDate()+2)
     let d1 = this.model.districtStatLimit("deceased", index, ydate).min
 
-    return d1-d0
+    console.log('dMor: ' + this.Sdate + " and " + ydate + ":" + d0+ " " + d1)
+
+    return (d1-d0)/2.
   
   }
 
