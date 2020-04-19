@@ -52,11 +52,16 @@ export class PredictionService {
   }
 
 
-  tau:any = 7; // mortality residence time in days
-  fc:any = 2*this.tau
-  fs:any = 15/2.5*this.tau
-  fi:any = 80/2.5*this.tau
-  fd:any = 1;
+  // tau:any = 7; // mortality residence time in days
+  // fc:any = 2*this.tau
+  // fs:any = 15/2.5*this.tau
+  // fi:any = 80/2.5*this.tau
+  // fd:any = 1;
+
+  fc:any = 0.05
+  fs:any = 0.15
+  fi:any = 0.8
+  fd:any = 0.025
   
   public icu(){
 

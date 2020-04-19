@@ -1,6 +1,3 @@
-function covidadd(a,b) {
-  return a+b
-}
 // f(t) = A * exp(c * t)
 // log(f) = log(A) + c * t
 function expSlope(data)

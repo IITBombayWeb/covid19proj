@@ -7,9 +7,11 @@ import { legendColor } from 'd3-svg-legend';
 import{DataMap} from '../../models/data-map'
 import {TableHead} from '../../models/tabel-head'
 
-declare var covidadd: any;
-
+// Functions from covid19-model-india.js to be delclared (for type)
+declare var binStateCountsTill: any;
+declare var binCountsByDistrict: any;
 declare var Covid19ModelIndia: any;
+
 @Component({
   selector: 'app-predictions',
   templateUrl: './predictions.component.html',
@@ -26,7 +28,6 @@ export class PredictionsComponent implements OnInit {
   height = 700;
   width = 800;
   Gsvg: any;
-  //displayedColumns: string[] = ['Item', 'District', 'State*', 'Country*', 'Units'];
   displayedColumnLabels: string[] = ['Item', 'District <sup>&dagger;</sup>',
                                      'State*', 'Country*', 'Units']; 
   displayedColumns: string[] = ['item', 'district', 'state', 'country', 'units'];
@@ -38,7 +39,7 @@ export class PredictionsComponent implements OnInit {
   dataSource = this.ELEMENT_DATA
   DataMp: DataMap[]
   DataTBL: any[] = []
-  distCount: number = 0
+  dtCount: number = 0
   cnCount: number = 0
   stCount: number = 0
   dtMortality: number = 0
@@ -49,8 +50,12 @@ export class PredictionsComponent implements OnInit {
   model: any = []
   inddist: any = []
   paramsType: any = this.displayedTypes[0].id
-  Sdate: any = this.getBaseDate()
+  baseDate: any = new Date()
+  Sdate: any = 0
   colorScale: any = []
+  districtTauChart: any = []
+  stateTauChart: any = []
+  countryTau: any = 0
   
   constructor(private ps: PredictionService) { }
   ngOnInit(): void {
@@ -62,6 +67,21 @@ export class PredictionsComponent implements OnInit {
       const statesSeries = responseList[0].states_daily;
       const caseSeries = responseList[1].raw_data;
       this.model = new Covid19ModelIndia(t0, statesSeries, caseSeries);
+
+      // data for states upto t0 - tau
+      let tau = 7
+      let t0mtau = this.getFDate(-tau)
+
+      this.districtTauChart = this.model.binCountsByDistrict(caseSeries, t0mtau)
+      this.stateTauChart = binStateCountsTill(t0mtau, statesSeries)
+
+      for (let i = 0; i<this.stateTauChart.length; i++) {
+        this.countryTau += this.stateTauChart[i].confirmed
+      }
+      //console.log('t - tau' + t0mtau)
+      //console.log('States chart: ' + this.statesChart[0])
+      //console.log('Dist chart: ' + this.districtsChart[0])
+      
       this.renderView();
     }
 		                                      );
@@ -70,20 +90,21 @@ export class PredictionsComponent implements OnInit {
 
   // Render India Map
   renderView() {
-    console.log('covid add ' + covidadd(3,2))
 
     let svgEle = this.createSvgElement();
+
+    this.Sdate =  this.getBaseDate()
     this.DataTBL = this.ps.Tdata();
     this.paramsType = this.displayedTypes[0].id
-    this.cnCount = this.getCountryCount()
+    //this.cnCount = this.getCountryCount()
+    this.cnCount = this.getCountryTauSum()
     this.cnMortality = this.getCountryMortality()
     // DEBUG: testing purpose
     //this.cnCount = 2.5
-    this.Sdate =  this.getBaseDate()
-    // this.dataSource = this.ps.getTableData(this.distCount,this.stCount,
-    //     	                           this.cnCount,this.DataTBL); 
-    this.dataSource = this.ps.getTableData(this.dtMortality,this.stMortality,
-         	                           this.cnMortality,this.DataTBL); 
+    this.dataSource = this.ps.getTableData(this.dtCount,this.stCount,
+        	                           this.cnCount,this.DataTBL); 
+    // this.dataSource = this.ps.getTableData(this.dtMortality,this.stMortality,
+    //      	                           this.cnMortality,this.DataTBL); 
     this.inddist.then(function (topology) {
       svgEle[1].selectAll('path')
 	.data(t.feature(topology, topology.objects.IND_adm2).features)
@@ -125,15 +146,13 @@ export class PredictionsComponent implements OnInit {
   // Reset To Initial State
   resetView() {
 
-    // var t0 = this.getBaseDate()
-    // var date = new Date(t0)
-    this.Sdate =  this.getFDate(0)
-
+    //this.Sdate =  this.getFDate(0)
+    this.Sdate =  this.getBaseDate()
     
     //console.log('reset date: ' + this.Sdate)
     this.DropdownState.nativeElement
       .getElementsByTagName('option')[0].selected = true // Set to Postion 0
-    this.distCount = 0
+    this.dtCount = 0
     this.stCount = 0
     this.dtMortality = 0
     this.stMortality = 0
@@ -149,7 +168,6 @@ export class PredictionsComponent implements OnInit {
   // This function will set color to district in the map
   setMapColor() {
     const maxD =  this.getMaxd()
-    const maxInterpolation = this.getMaxInterp()
 
     //Color scale to be used for map and its legend
     this.colorScale = d3
@@ -177,7 +195,6 @@ export class PredictionsComponent implements OnInit {
 
   // Create color Bar Range
   createLegend() {
-    const maxInterpolation = this.getMaxInterp();
     const maxd = this.getMaxd()
                  
     let cells = null;
@@ -265,9 +282,7 @@ export class PredictionsComponent implements OnInit {
   // Handle Click Function On district
   clickDistrict(n1,n2){
     
-    //this.Sdate = this.getFDate(0).toString()
     this.Sdate =  this.getBaseDate()
-    //console.log(this.Sdate)
     this.resetToggle()
     this.Thead.dname = n2 
     this.Thead.sname=  n1
@@ -281,14 +296,14 @@ export class PredictionsComponent implements OnInit {
     
     if (!index) return 0
 
-    console.log('dMor: ' + this.Sdate)
+    //console.log('dMor: ' + this.Sdate)
     let ydate = new Date(this.Sdate)
     let d0 = this.model.districtStatLimit("deceased", index, ydate).min
 
     ydate.setDate(ydate.getDate()+2)
     let d1 = this.model.districtStatLimit("deceased", index, ydate).min
 
-    console.log('dMor: ' + this.Sdate + " and " + ydate + ":" + d0+ " " + d1)
+    //console.log('dMor: ' + this.Sdate + " and " + ydate + ":" + d0+ " " + d1)
 
     return (d1-d0)/2.
   
@@ -322,35 +337,77 @@ export class PredictionsComponent implements OnInit {
   
   }
 
+
+  getDistrictTauSum(key, category="reported") {
+    const index = this.model.indexDistrictNameKey(key)
+    if (!index) return 0
+
+    let currCount = this.model.districtStatLimit(category, index, this.Sdate).min
+
+    let wkPast = new Date(this.Sdate)
+    wkPast.setDate(wkPast.getDate()-7)
+    
+    let t0 = this.getBaseDate()
+
+    let pastCount =  this.Sdate.getTime() == t0.getTime() ?
+      this.districtTauChart[index]
+      :  this.model.districtStatLimit(category, index, wkPast ).min
+
+    // for district use the minimum bound
+    return (currCount-pastCount)
+  }
+
+  getStateTauSum(key, category="reported") {
+    const index = this.model.indexStateName(key)
+
+    let currCount = this.model.stateStatLimit(category, index, this.Sdate).mid
+
+    let wkPast = new Date(this.Sdate)
+    wkPast.setDate(wkPast.getDate()-7)
+    
+    let t0 = this.getBaseDate()
+
+    let pastCount =  this.Sdate.getTime() == t0.getTime() ?
+      this.stateTauChart[index].confirmed
+      :  this.model.stateStatLimit(category, index, wkPast).mid
+
+    // for district use the minimum bound
+    return (currCount-pastCount)
+  }
+
+
+  getCountryTauSum(category="reported") {
+
+    let currCount = this.model.countryStatLimit(category, this.Sdate).mid
+
+    let wkPast = new Date(this.Sdate)
+    wkPast.setDate(wkPast.getDate()-7)
+    
+    let t0 = this.getBaseDate()
+
+    let pastCount =  this.Sdate.getTime() == t0.getTime() ?
+      this.countryTau
+      :  this.model.countryStatLimit(category, wkPast).mid
+
+    // for district use the minimum bound
+    return (currCount-pastCount)
+  }
+
+  
+  
   getDistrictCount(key, category="deceased") {
-    //let model = new Covid19ModelIndia()
-    //console.log("DC: " + model.lowParams)
     const index = this.model.indexDistrictNameKey(key)
 
     let clist = this.model.districtStatLimit(category, index,
                                              new Date(this.Sdate)) 
 
-    // if (key=='Mumbai.Maharashtra') {
-    //   clist = this.model.districtStatLimit("deceased", index,
-    //                                new Date(this.Sdate)) 
-    //   console.log(this.Sdate + 'dist: ' + key + clist.min)
-    // }
 
     // for district use the minimum bound
     return index? clist.min : 0;
     
-    // return index ?
-    //   this.model.districtStat("reported", index,
-    //     		      this.paramsType === "lowParams" ?
-    //                           this.model.lowParams
-    //                           : this.model.highParams,
-    //                           new Date(this.Sdate))
-    //   : 0; 
   }
 
   getStateCount(key) {
-    //let model = new Covid19ModelIndia()
-    //console.log("SC: " + model.lowParams)
     const index = this.model.indexStateName(key)
 
     let clist = this.model.stateStatLimit("deceased", index,
@@ -374,8 +431,6 @@ export class PredictionsComponent implements OnInit {
   }
 
   getCountryCount() {
-    //let model = new Covid19ModelIndia()
-    //console.log('Country: ' + this.Sdate)
     
     let clist = this.model.countryStatLimit("deceased", new Date(this.Sdate)) 
     // for the country return the mid value 
@@ -416,22 +471,26 @@ export class PredictionsComponent implements OnInit {
     this.setMapColor()
     this.createLegend()
     if (this.Thead.dname !== '') {
-      this.dtMortality =this.getDistrictMortality(this.Thead.dname + "."+
+      this.dtCount =this.getDistrictTauSum(this.Thead.dname + "."+
 		                            this.Thead.sname) 
+      this.stCount =this.getStateTauSum(this.Thead.sname)
+      // this.dtMortality =this.getDistrictMortality(this.Thead.dname + "."+
+      //   	                            this.Thead.sname) 
       this.stMortality =this.getStateMortality(this.Thead.sname)
-      // this.distCount =this.getDistrictCount(this.Thead.dname + "."+
+      // this.dtCount =this.getDistrictCount(this.Thead.dname + "."+
       //   	                            this.Thead.sname) 
       // this.stCount =this.getStateCount(this.Thead.sname)
     }
-    this.cnCount = this.getCountryCount()
+    //this.cnCount = this.getCountryCount()
+    this.cnCount = this.getCountryTauSum()
     this.cnMortality = this.getCountryMortality()
-    this.dataSource = this.ps.getTableData(this.dtMortality,
-                                           this.stMortality,
-                                           this.cnMortality,
-		                           this.DataTBL) 
-    // this.dataSource = this.ps.getTableData(this.distCount,
-    //                                        this.stCount,this.cnCount,
+    // this.dataSource = this.ps.getTableData(this.dtMortality,
+    //                                        this.stMortality,
+    //                                        this.cnMortality,
     //     	                           this.DataTBL) 
+    this.dataSource = this.ps.getTableData(this.dtCount,
+                                           this.stCount,this.cnCount,
+        	                           this.DataTBL) 
   }
   removeColorLegend() {
     d3.select('.legendLinear').remove() // Removes Color Bar From the Map
@@ -462,7 +521,7 @@ export class PredictionsComponent implements OnInit {
     return date;// return date object
   }
   getBaseDate() {
-    let t0 = new Date();
+    let t0 = new Date(this.baseDate);
     t0.setDate(t0.getDate() - 1);
     return t0
   }
@@ -507,21 +566,6 @@ export class PredictionsComponent implements OnInit {
       .classList.remove('active') // Select all DOM Element From Element
     this.buttonToggle2.nativeElement.children[0]
       .classList.add('active') // Set Active to first DOM Element
-  }
-  getMaxInterp() {
-
-    //let model = new Covid19ModelIndia()
-
-    let d2ms = 1000 * 3600 * 24 // ms in a day
-    let d1 = new Date(this.Sdate).valueOf()
-    let d0 = this.getBaseDate().valueOf()
-    let factor = 1
-    //factor =     ((d1 - d0) / 7 / d2ms + 1) / 4 
-    // factor = this.paramsType == "lowParams" ?
-    //   2 * ((d1 - d0) / 7 / d2ms + 1) / 4 :
-    //   3 * ((d1 - d0) / 7 / d2ms + 1) / 4
-
-    return factor
   }
   
 }
