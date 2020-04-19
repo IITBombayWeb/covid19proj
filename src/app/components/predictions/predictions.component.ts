@@ -390,6 +390,7 @@ export class PredictionsComponent implements OnInit {
       :  this.model.countryStatLimit(category, wkPast).mid
 
     // for district use the minimum bound
+    //console.log('curr, past: ', currCount, pastCount)
     return (currCount-pastCount)
   }
 

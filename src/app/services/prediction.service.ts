@@ -80,7 +80,7 @@ export class PredictionService {
       new TableData("Nurses and Paramedics", function(n){
         return Math.ceil(n*fc/10)*16},  "on duty per day"), 
       new TableData("Ventilators", function(n){
-        return Math.ceil(n*fc/10)*10;}),
+        return Math.ceil(n*fc/10)*7;}),
       new TableData("Infusion pumps", function(n){
         return Math.ceil(n*fc/10)*40;}),
       new TableData("Full PPEs (for frontline staff)", function(n){
