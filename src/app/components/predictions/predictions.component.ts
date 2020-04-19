@@ -38,6 +38,10 @@ export class PredictionsComponent implements OnInit {
   distCount: number = 0
   cnCount: number = 0
   stCount: number = 0
+  dtMortality: number = 0
+  stMortality: number = 0
+  cnMortality: number = 0
+  
   max_number: any = []
   model: any = []
   inddist: any = []
@@ -68,11 +72,14 @@ export class PredictionsComponent implements OnInit {
     this.DataTBL = this.ps.Tdata();
     this.paramsType = this.displayedTypes[0].id
     this.cnCount = this.getCountryCount()
+    this.cnMortality = this.getCountryMortality()
     // DEBUG: testing purpose
     //this.cnCount = 2.5
     this.Sdate =  this.getBaseDate()
-    this.dataSource = this.ps.getTableData(this.distCount,this.stCount,
-		                           this.cnCount,this.DataTBL); 
+    // this.dataSource = this.ps.getTableData(this.distCount,this.stCount,
+    //     	                           this.cnCount,this.DataTBL); 
+    this.dataSource = this.ps.getTableData(this.dtMortality,this.stMortality,
+         	                           this.cnMortality,this.DataTBL); 
     this.inddist.then(function (topology) {
       svgEle[1].selectAll('path')
 	.data(t.feature(topology, topology.objects.IND_adm2).features)
@@ -124,6 +131,9 @@ export class PredictionsComponent implements OnInit {
       .getElementsByTagName('option')[0].selected = true // Set to Postion 0
     this.distCount = 0
     this.stCount = 0
+    this.dtMortality = 0
+    this.stMortality = 0
+    
     this.dropDownListdist.dname = []
     this.Thead = { sname: 'India', dname: '' }
     d3.select('svg').remove()
@@ -262,29 +272,48 @@ export class PredictionsComponent implements OnInit {
     
   }
 
-  getDistrictDailyCountList(key, category="deceased") {
+  getDistrictMortality(key){ // Deceased per day
     const index = this.model.indexDistrictNameKey(key)
-
-    let clist = []
-    let countlist = []
-    let ydate = new Date(this.Sdate)
-    let m = 7 // residence days in ICU before discharge
     
     if (!index) return 0
-    
-    let c0 = this.model.districtStatLimit(category, index, ydate).min
 
-    for (let y=1; y<=m-1; y++) {
-      ydate.setDate(ydate.getDate()+y)
-      let c1 = this.model.districtStatLimit(category, index, ydate).min
-      countlist.push(c1-c0)
-      c0 = c1
-    }
+    let ydate = new Date(this.Sdate)
+    let d0 = this.model.districtStatLimit("deceased", index, ydate).min
 
-    return countlist
+    ydate.setDate(ydate.getDate()+1)
+    let d1 = this.model.districtStatLimit("deceased", index, ydate).min
+
+    return d1-d0
+  
   }
 
+
+  getStateMortality(key){ // Deceased per day
+    const index = this.model.indexStateName(key)
+    
+    if (!index) return 0
+
+    let ydate = new Date(this.Sdate)
+    let d0 = this.model.stateStatLimit("deceased", index, ydate).mid
+
+    ydate.setDate(ydate.getDate()+1)
+    let d1 = this.model.stateStatLimit("deceased", index, ydate).mid
+
+    return d1-d0
   
+  }
+
+  getCountryMortality(){ // Deceased per day
+    
+    let ydate = new Date(this.Sdate)
+    let d0 = this.model.countryStatLimit("deceased", ydate).mid
+
+    ydate.setDate(ydate.getDate()+1)
+    let d1 = this.model.countryStatLimit("deceased", ydate).mid
+
+    return d1-d0
+  
+  }
 
   getDistrictCount(key, category="deceased") {
     //let model = new Covid19ModelIndia()
@@ -380,14 +409,22 @@ export class PredictionsComponent implements OnInit {
     this.setMapColor()
     this.createLegend()
     if (this.Thead.dname !== '') {
-      this.distCount =this.getDistrictCount(this.Thead.dname + "."+
+      this.dtMortality =this.getDistrictMortality(this.Thead.dname + "."+
 		                            this.Thead.sname) 
-      this.stCount =this.getStateCount(this.Thead.sname)
+      this.stMortality =this.getStateMortality(this.Thead.sname)
+      // this.distCount =this.getDistrictCount(this.Thead.dname + "."+
+      //   	                            this.Thead.sname) 
+      // this.stCount =this.getStateCount(this.Thead.sname)
     }
     this.cnCount = this.getCountryCount()
-    this.dataSource = this.ps.getTableData(this.distCount,
-                                           this.stCount,this.cnCount,
+    this.cnMortality = this.getCountryMortality()
+    this.dataSource = this.ps.getTableData(this.dtMortality,
+                                           this.stMortality,
+                                           this.cnMortality,
 		                           this.DataTBL) 
+    // this.dataSource = this.ps.getTableData(this.distCount,
+    //                                        this.stCount,this.cnCount,
+    //     	                           this.DataTBL) 
   }
   removeColorLegend() {
     d3.select('.legendLinear').remove() // Removes Color Bar From the Map

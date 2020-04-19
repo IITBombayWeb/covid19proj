@@ -203,7 +203,15 @@ the evolution equation can be simplified as
   \der{C}{t} & = \fc \, \Qi - \frac{C}{\tau} \\
   \der{A}{t} & = \fa \, \Qi - \frac{A}{\tau} \\
   \der{S}{t} & = \fs \, \Qi - \frac{S}{\taua} + (1-\fd) \frac{C}{\tau}
+  \\
+  \label{eq:ddt}
+  \der{D}{t} & = \fd \, \frac{C}{\tau} 
 \end{align}
+Eq.~\eqref{eq:ddt} can be used to estimate the current ICU requirement
+from a model for the mortality rate:
+\begin{equation}
+  C = \frac{\tau}{\fd} \der{D}{t} 
+\end{equation}
 
 
 

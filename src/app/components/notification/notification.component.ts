@@ -5,8 +5,9 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
   styleUrls: ['./notification.component.css']
 })
 export class NotificationComponent implements OnInit {
-    text:any=["Zoom and click on a district map to get the estimates"] 
+    text:any=[""] 
 	     
+//    text:any=["Zoom and click on a district map to get the estimates"] 
 //text:any=["Going out to buy essentials? Social Distancing is KEY! Maintain at least 2 metres distance between each other in the line.","TPanic mode : OFF! ❌ ESSENTIALS ARE ON! ✔️ ","If you have any medical queries, reach out to your district administration or doctors!  "]
 title:any=this.text[0];
 count:any=0
