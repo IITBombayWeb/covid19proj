@@ -394,7 +394,7 @@ export class PredictionsComponent implements OnInit {
     return (currCount-pastCount)
   }
 
-  
+   
   
   getDistrictCount(key, category="deceased") {
     const index = this.model.indexDistrictNameKey(key)
