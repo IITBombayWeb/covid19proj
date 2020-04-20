@@ -27,9 +27,6 @@
             ],
             "styles": [
              "src/styles.css"
-            ],
-            "scripts": [
-              "src/assets/covid19-patients-india.js"
             ]
           },
           "configurations": {
