@@ -59,8 +59,8 @@ export class PredictionService {
   // fd:any = 1;
 
   fc:any = 0.05
-  fs:any = 0.15
-  fi:any = 0.8
+  fs:any = 0.15*2 // twice residence time
+  fi:any = 0.8*2 // twice residence time
   fd:any = 0.025
   
   public icu(){
