@@ -103,8 +103,10 @@ export class PredictionsComponent implements OnInit {
     this.cnMortality = this.getCountryMortality()
     // DEBUG: testing purpose
     //this.cnCount = 2.5
+    let retString = "--"
     this.dataSource = this.ps.getTableData(this.dtCount,this.stCount,
-        	                           this.cnCount,this.DataTBL); 
+        	                           this.cnCount,this.DataTBL,
+                                          retString); 
     // this.dataSource = this.ps.getTableData(this.dtMortality,this.stMortality,
     //      	                           this.cnMortality,this.DataTBL); 
     this.inddist.then(function (topology) {
@@ -210,7 +212,7 @@ export class PredictionsComponent implements OnInit {
       .attr('transform', 'translate(-70, -80)');
 
     const legendLog = legendColor()
-	  .title("COVID-19 Positives (district-wise)")
+	  .title("Projected COVID-19 Positives (district-wise)")
 	  .cells(cells)
     .orient('vertical')
     .labelFormat(d3.format('d'))
@@ -285,6 +287,7 @@ export class PredictionsComponent implements OnInit {
   clickDistrict(n1,n2){
     
     this.Sdate =  this.getBaseDate()
+    //this.Sdate =  this.getFDate(7)
     this.resetToggle()
     this.Thead.dname = n2 
     this.Thead.sname=  n1
@@ -490,9 +493,17 @@ export class PredictionsComponent implements OnInit {
     //                                        this.stMortality,
     //                                        this.cnMortality,
     //     	                           this.DataTBL) 
+
+    let retString = '--'
+    //console.log('retstring ', this.Sdate.valueOf(), this.getBaseDate().valueOf())
+    if (this.Sdate > this.getBaseDate()) 
+      retString = ""
+    
+    
     this.dataSource = this.ps.getTableData(this.dtCount,
                                            this.stCount,this.cnCount,
-        	                           this.DataTBL) 
+        	                           this.DataTBL,
+                                           retString) 
   }
   removeColorLegend() {
     d3.select('.legendLinear').remove() // Removes Color Bar From the Map

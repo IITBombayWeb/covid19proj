@@ -30,22 +30,35 @@ export class PredictionService {
   }
 
   //public getTableData(dp:number,sn,cn,ilist){
-  public getTableData(dn,sn,cn,ilist){
+  public getTableData(dn,sn,cn,ilist,retString){
     let rVal:any= [];
+
+    if (retString != "") {
+      for (let i=0;i<ilist.length;i++) {
+        for(let j=0;j<ilist[i].itemCounts.length;j++){
+          ilist[i].itemCounts[j].district =   retString ;
+          ilist[i].itemCounts[j].state    =   retString;
+          ilist[i].itemCounts[j].country  =   retString ;
+        }
+        rVal[i] = ilist[i].itemCounts
+      }
+      return  rVal
+    }
+  
 
     console.log('dn,sn,cn: ', dn,sn,cn)
     
     for (let i=0;i<ilist.length;i++) {
       rVal[i] = []
-      for(let j=0;j<ilist[i].map.length;j++){
+      for(let j=0;j<ilist[i].itemCounts.length;j++){
         
-        ilist[i].map[j].district =   ilist[i].map[j].efun(dn) ;
-        ilist[i].map[j].state    =   ilist[i].map[j].efun(sn) ;
-        ilist[i].map[j].country  =   ilist[i].map[j].efun(cn) ;
+        ilist[i].itemCounts[j].district =   ilist[i].itemCounts[j].efun(dn) ;
+        ilist[i].itemCounts[j].state    =   ilist[i].itemCounts[j].efun(sn) ;
+        ilist[i].itemCounts[j].country  =   ilist[i].itemCounts[j].efun(cn) ;
         
       }
       
-      rVal[i] = ilist[i].map
+      rVal[i] = ilist[i].itemCounts
     }
 
     return rVal;
@@ -156,10 +169,10 @@ export class PredictionService {
 
   public Tdata(){
     return [
-      {id:"icu", name: 'Intensive Care', type: '',map: this.icu()},
-      {id:"acu", name: 'Acute Care',     type: '',map: this.acu()},
-      {id:"scu", name: 'Supportive Care',type: '',map: this.scu()},
-      {id:"sup", name: 'Key Medical Supplies (total)',type: '',map: this.sup()},
+      {id:"icu", name: 'Intensive Care', type: '', itemCounts: this.icu()},
+      {id:"acu", name: 'Acute Care',     type: '', itemCounts: this.acu()},
+      {id:"scu", name: 'Supportive Care',type: '', itemCounts: this.scu()},
+      {id:"sup", name: 'Key Medical Supplies (total)',type: '', itemCounts: this.sup()},
     ];
 
   }

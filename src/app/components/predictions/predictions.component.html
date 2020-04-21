@@ -11,10 +11,11 @@
 	  <h3 class="card-title pl-20">Medical Inventory Requirement
 	    Projection </h3>
 
-          <div style="text-indent: -2ex; padding-left:2ex;
-                      font-size:medium">
-            <p>This site will currently not work on iOS devices and on
-              Safari on macOS. Please bear with us till we fix this.</p>
+          <div class="alert alert-info">
+            <div class="font-size:small">
+              <p>This site will currently not work on iOS devices and on
+                Safari on macOS. Please bear with us till we fix this.</p>
+            </div>
           </div>
 
           <!-- Drop Down - Open -->
@@ -65,7 +66,7 @@
                     <div class="col-12">
                       <div #buttonToggle id="weeks" class="btn-group btn-group-toggle float-right" data-toggle="buttons">
                         <label *ngFor="let d of DataMp;let i = index" class="btn btn-sm btn-primary btn-simple" [ngClass]="{'active': d.type}" id="{{d.id}}" (click)="handleChange(d)">
-                          <input type="radio" value="{{d.map}}" name="options">
+                          <input type="radio" value="{{d.itemCounts}}" name="options">
                           <span class="d-sm-block d-md-block d-lg-block d-xl-block">{{d.name}}</span>
                         </label>
                       </div>
@@ -100,7 +101,7 @@
                       <div role="tabpanel" *ngFor="let D1 of DataTBL;let i=index" class="card-body tab-pane fade {{i==0?'show active':''}}" id="{{D1.id}}" role="tabpanel" [attr.aria-labelledby]="D1.id">
                         <div class="">
                           <div class="table-scroll ">
-                            <div class="display alert alert-success">
+                            <div class="display alert alert-warning">
                               Swipe the table to the left to see the
                               numbers on mobile
                             </div>
