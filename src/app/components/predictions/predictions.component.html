@@ -12,7 +12,7 @@
 	    Projection </h3>
 
           <div class="alert alert-info">
-            <div class="font-size:small">
+            <div style="font-size:medium">
               <p>This site will currently not work on iOS devices and on
                 Safari on macOS. Please bear with us till we fix this.</p>
             </div>
@@ -101,6 +101,12 @@
                       <div role="tabpanel" *ngFor="let D1 of DataTBL;let i=index" class="card-body tab-pane fade {{i==0?'show active':''}}" id="{{D1.id}}" role="tabpanel" [attr.aria-labelledby]="D1.id">
                         <div class="">
                           <div class="table-scroll ">
+                            <div style="font-size:medium">
+                              <p>The numbers shown below are the
+                              projected load and requirements on the
+                              selected future date, not a cumulative
+                              sum from the past.</p>
+                            </div>
                             <div class="display alert alert-warning">
                               Swipe the table to the left to see the
                               numbers on mobile
