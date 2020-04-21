@@ -94,6 +94,10 @@
                       <div role="tabpanel" *ngFor="let D1 of DataTBL;let i=index" class="card-body tab-pane fade {{i==0?'show active':''}}" id="{{D1.id}}" role="tabpanel" [attr.aria-labelledby]="D1.id">
                         <div class="">
                           <div class="table-scroll ">
+                            <div class="display">
+                              Swipe the table to the left to see the
+                              numbers on mobile
+                            </div>
                             <table class="table tablesorter" id="">
                               <thead class=" text-primary">
                                 <tr>

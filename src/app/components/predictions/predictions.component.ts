@@ -126,10 +126,10 @@ export class PredictionsComponent implements OnInit {
 		  + numDistCount)
 	    .style("left",
 		   (d3.event.pageX - document
-		    .getElementById("main").offsetLeft - 120) + "px")
+		    .getElementById("main").offsetLeft - 1074) + "px")
 	    .style("top",
 		   (d3.event.pageY - document
-		    .getElementById("main").offsetTop - 80) + "px")
+		    .getElementById("main").offsetTop - 230) + "px")
 	})
 	.on("click", function (d) {
 	  this.getDistdata(d.properties.st_nm)
