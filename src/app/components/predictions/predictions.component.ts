@@ -72,6 +72,8 @@ export class PredictionsComponent implements OnInit {
       let tau = 7
       let t0mtau = this.getFDate(-tau)
 
+      console.log('t0tau = ' + t0mtau)
+
       this.districtTauChart = this.model.binCountsByDistrict(caseSeries, t0mtau)
       this.stateTauChart = binStateCountsTill(t0mtau, statesSeries)
 
@@ -389,8 +391,7 @@ export class PredictionsComponent implements OnInit {
       this.countryTau
       :  this.model.countryStatLimit(category, wkPast).mid
 
-    // for district use the minimum bound
-    //console.log('curr, past: ', currCount, pastCount)
+    console.log('curr, past: ', wkPast, currCount, pastCount)
     return (currCount-pastCount)
   }
 

@@ -37,7 +37,7 @@ function expMultiplier(data, c)
 
 class Covid19Model
 {
-  constructor(patients, patientDateFormat, t0, stateParams, districtParams, itemParams)
+  constructor(patients, patientDateFormat, t0, stateParams, districtParams, itemParams, stateSeries = [])
   {
     this.patientDateFormat       = patientDateFormat;
     this.t0                      = t0;
@@ -95,6 +95,26 @@ class Covid19Model
     const A = expMultiplier(data, c);
     this.districtExtrapolFacA[district] = A;
     this.districtExtrapolFacC[district] = c;
+  }
+
+  this.statePrevNewsDeceasedCounts = new Array(numExtrapolPoints);
+  for (let i = 0; i < numExtrapolPoints; i++) {
+    let tillDate = new Date(this.t0);
+    tillDate.setDate(tillDate.getDate() - (numExtrapolPoints - i));
+    this.statePrevNewsDeceasedCounts[i] = binStateCountsTill(tillDate, stateSeries);
+  }
+
+  this.stateDeceasedExtrapolFacA = new Array(this.numStates).fill(0);
+  this.stateDeceasedExtrapolFacC = new Array(this.numStates).fill(0);
+  for (let state = 0; state < this.numStates; state++) {
+    let data = new Array(numExtrapolPoints).fill(0);
+    for (let i = 0; i < data.length; i++) {
+      data[i] = this.statePrevNewsDeceasedCounts[i][state].deceased;
+    }
+    const c = expSlope(data);
+    const A = expMultiplier(data, c);
+    this.stateDeceasedExtrapolFacA[state] = A;
+    this.stateDeceasedExtrapolFacC[state] = c;
   }
 
   } // constructor ends
@@ -184,6 +204,42 @@ class Covid19Model
 
   districtStatExtrapolate(category, districtIndex, params, date)
   {
+    if (date < this.t0) {
+      let msg = "Cannot request stats for " + date + " which is earlier than t0 = " + this.t0;
+      throw RangeError(msg);
+    }
+    // f(t) = A * exp(c * t)
+    // d0_district / r0_district = d0_state / r0_state = m
+    const stateName     = this.districtParams[districtIndex].state;
+    const stateIndex    = this.stateNameIndexMap.get(stateName);
+    const n             = (params.n > 0 ? params.n : this.stateParams[stateIndex].n);
+    const m0            = (params.m > 0 ? params.m : this.stateParams[stateIndex].m);
+    const reported0     = Math.floor(this.districtNewsCount[districtIndex]);
+    const deceased0     = reported0 * m0;
+    const carriers0     = reported0 * n;
+    const seconds       = Math.abs(date - this.t0) / 1000;
+    const days          = seconds / 86400.0;
+    const facCDeceased  = this.stateDeceasedExtrapolFacC[stateIndex];
+    const deceased      = Math.floor(deceased0 * Math.exp(facCDeceased * days));
+    const facCCarriers  = this.districtExtrapolFacC[districtIndex];
+    const carriers      = Math.floor(carriers0 * Math.exp(facCCarriers * days));
+    const reported      = Math.floor(carriers / n);
+    const critical      = Math.floor(params.y * deceased);
+    switch (category) {
+      case "reported" : return reported; break;
+      case "carriers" : return carriers; break;
+      case "critical" : return critical; break;
+      case "deceased" : return deceased; break;
+      default         : return this.itemStat(this.indexItemName(category), critical); break;
+    }
+  }
+
+  districtStatExtrapolateNotUsed(category, districtIndex, params, date)
+  {
+    if (date < this.t0) {
+      let msg = "Cannot request stats for " + date + " which is earlier than t0 = " + this.t0;
+      throw RangeError(msg);
+    }
     // f(t) = A * exp(c * t)
     const stateName     = this.districtParams[districtIndex].state;
     const stateIndex    = this.stateNameIndexMap.get(stateName);
@@ -199,7 +255,7 @@ class Covid19Model
     const days          = seconds / 86400.0;
     const facA          = this.districtExtrapolFacA[districtIndex];
     const facC          = this.districtExtrapolFacC[districtIndex];
-    const reported      = Math.floor(facA * Math.exp(facC * days));
+    const reported      = Math.floor(reported0 * Math.exp(facC * days));
     const carriers      = Math.floor(reported * n);
     const deceased      = Math.floor(reported * m);
     const critical      = Math.floor(params.y * deceased);
@@ -211,6 +267,7 @@ class Covid19Model
       default         : return this.itemStat(this.indexItemName(category), critical); break;
     }
   }
+
 
   interpolateAt(date, deceased0, g, t)
   {
@@ -417,9 +474,13 @@ class Covid19ModelIndia extends Covid19Model
   {
 
     // set base date and next four weeks
+    const day = baseDate.getDate();
+    const month = baseDate.getMonth();
+    const year = baseDate.getFullYear();
+    const roundBaseDate = new Date(year, month, day);
     let dates = new Array(4);
     for (let i = 0; i <= 4; i++) {
-      dates[i] = new Date(baseDate);
+      dates[i] = new Date(roundBaseDate);
       dates[i].setDate(dates[i].getDate() + i * 7);
     }
 
@@ -483,7 +544,8 @@ class Covid19ModelIndia extends Covid19Model
           dates[0],
           stateParams,
           districtParamsForIndia,
-          itemParamsForCriticalUse);
+          itemParamsForCriticalUse,
+          stateTimeSeries);
 
     this.dates      = dates;
     this.lowParams  = { n : -1, m : -1, x : 10, y : 2, cg : lowCarrierGrowth,  dg : lowDeathGrowth, t : dates };
@@ -554,9 +616,15 @@ function binStateCountsTill(date, data)
   let recovered = new Array(stateAbbrvs.length).fill(0);
   let deceased  = new Array(stateAbbrvs.length).fill(0);
 
+  let dateParser = function (dateString)
+  {
+    let p = dateString.split("-");
+    return new Date(p[0] + " " + p[1] + " " + "20" + p[2]);
+  }
+
   for (let i = 0; i < data.length; i++) {
     const info = data[i];
-    if (new Date(info.date) > date)
+    if (dateParser(info.date) > date)
       continue;
     for (let j = 0; j < stateAbbrvs.length; j++) {
       if (info.status === "Confirmed")
@@ -622,7 +690,46 @@ function binStateCountsTill(date, data)
   return chart;
 }
 
-//module.exports = { Covid19ModelIndia, binStateCountsTill };
+function apiNewDistricts(caseSeries)
+{
+  let dateParser = function (dateString)
+  {
+    let p = dateString.split("/");
+    return new Date(p[2], p[1] - 1, p[0]);
+  }
+
+  let apiMap = new Map();
+  for (let i = 0; i < caseSeries.length; i++) {
+    const date = dateParser(caseSeries[i].dateannounced);
+    const stateName = caseSeries[i].detectedstate;
+    if (stateName === "")
+      continue;
+    let districtName = caseSeries[i].detecteddistrict;
+    if (districtName === "")
+      continue;
+    let nameKey = districtName + "." + stateName;
+    if (!apiMap.has(nameKey))
+      apiMap.set(nameKey, "absent");
+  }
+
+  for (let i = 0; i < districtParamsForIndia.length; i++) {
+    let districtName = districtParamsForIndia[i].name;
+    let stateName = districtParamsForIndia[i].state;
+    if (districtName == "Unclassified")
+      continue;
+    let nameKey = districtName + "." + stateName;
+    if (apiMap.has(nameKey))
+      apiMap.set(nameKey, "present");
+  }
+  
+  let diff = [];
+  for (const [key, value] of apiMap.entries()) {
+    if (value == "absent") {
+      diff.push(key);
+    }
+  }
+  return diff;
+}  
 
 const itemParamsForCriticalUse = [
 { "id" : 1, "name" : "ventilators",    "use" : 1   },
@@ -1400,4 +1507,4 @@ const districtParamsForIndia = [
 { "id" : 764, "name" : "Unclassified", "state" : "West Bengal"}
 ];
 
-//export default new Covid19ModelIndia()
+//module.exports = { Covid19ModelIndia, binStateCountsTill };
