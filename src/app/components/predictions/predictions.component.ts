@@ -52,7 +52,7 @@ export class PredictionsComponent implements OnInit {
   inddist: any = []
   paramsType: any = this.displayedTypes[0].id
   baseDate: any = new Date()
-  Sdate: any = 0
+  Sdate: any = new Date() // otherwise init shows 1 Jan 1970 till page refresh
   colorScale: any = []
   districtTauChart: any = []
   stateTauChart: any = []
@@ -96,7 +96,8 @@ export class PredictionsComponent implements OnInit {
 
     let svgEle = this.createSvgElement();
 
-    this.Sdate =  this.getBaseDate()
+    //this.Sdate =  this.getBaseDate()
+    this.Sdate =  this.getFDate(7)
     this.DataTBL = this.ps.Tdata();
     this.paramsType = this.displayedTypes[0].id
     //this.cnCount = this.getCountryCount()
@@ -104,7 +105,8 @@ export class PredictionsComponent implements OnInit {
     this.cnMortality = this.getCountryMortality()
     // DEBUG: testing purpose
     //this.cnCount = 2.5
-    let retString = "--"
+    //let retString = "--"
+    let retString = ""
     this.dataSource = this.ps.getTableData(this.dtCount,this.stCount,
         	                           this.cnCount,this.DataTBL,
                                           retString); 
@@ -152,7 +154,8 @@ export class PredictionsComponent implements OnInit {
   resetView() {
 
     //this.Sdate =  this.getFDate(0)
-    this.Sdate =  this.getBaseDate()
+    //this.Sdate =  this.getBaseDate()
+    this.Sdate =  this.getFDate(7)
     
     //console.log('reset date: ' + this.Sdate)
     this.DropdownState.nativeElement
@@ -287,8 +290,8 @@ export class PredictionsComponent implements OnInit {
   // Handle Click Function On district
   clickDistrict(n1,n2){
     
-    this.Sdate =  this.getBaseDate()
-    //this.Sdate =  this.getFDate(7)
+    //this.Sdate =  this.getBaseDate()
+    this.Sdate =  this.getFDate(7)
     this.resetToggle()
     this.Thead.dname = n2 
     this.Thead.sname=  n1
@@ -513,8 +516,8 @@ export class PredictionsComponent implements OnInit {
   // Return Toggle Button
   getTdata() {
     return [
-      { id: "week_0", name: 'Current ', type: true, map: this.getFDate(0) },
-      { id: "week_1", name: 'Week 1 ', type: '', map: this.getFDate(7) },
+      //{ id: "week_0", name: 'Current ', type: true, map: this.getFDate(0) },
+      { id: "week_1", name: 'Week 1 ', type: true, map: this.getFDate(7) },
       { id: "week_2", name: 'Week 2 ', type: '', map: this.getFDate(14) },
       { id: "week_3", name: 'Week 3 ', type: '', map: this.getFDate(21) },
       { id: "week_4", name: 'Week 4 ', type: '', map: this.getFDate(28) },
