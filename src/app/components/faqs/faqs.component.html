@@ -1,27 +1,27 @@
 <div class="wrapper">
-    <div class="main-panel">
-      <!-- <app-navbar></app-navbar> -->
-       <!-- End Navbar -->
-        <div class="content">
-          <div class="row justify-content-center">
-            <!-- <app-notification class="col-md-12">
+  <div class="main-panel">
+    <!-- <app-navbar></app-navbar> -->
+    <!-- End Navbar -->
+    <div class="content">
+      <div class="row justify-content-center">
+        <!-- <app-notification class="col-md-12">
 
-            </app-notification> -->
+             </app-notification> -->
 
-            <div class="col-xl-6 col-lg-8 col-md-10 col-sm-12 ">
+        <div class="col-xl-6 col-lg-8 col-md-10 col-sm-12 ">
 
-              <div class="card">
+          <div class="card">
 
-                <div class="card-body">
-                  <div class="typography-line">
-                    <h1 class="card-title">Frequently Asked Questions</h1>
-                  </div>
-                  <ol >
-                  <li><div class="typography-line">
-                    <p> How do I rely on the accuracy of the
-                    predictions?</p>
+            <div class="card-body">
+              <div class="typography-line">
+                <h1 class="card-title">Frequently Asked Questions</h1>
+              </div>
+              <ol >
+                <li><div class="typography-line">
+                     How do I rely on the accuracy of the
+                      predictions?
                     <ol type="a">
-                      <li><p> As with any statistical model, here too
+                      <li> As with any statistical model, here too
 			  we cannot assure exactness of the
 			  prediction. The model is more accurate in
 			  places having more than 10 deceased, and
@@ -33,103 +33,133 @@
 			  fresh data becomes available.  A sample
 			  historical performance of the model is
 			  shown below.
-                        </p>
+                        
                         <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12 ">
-                            <figure class="figure">
-                              <img
-                                 src="assets/images/India-deceased.png"
-                                   class="figure-img img-fluid rounded"
-                                   alt="Model predictions for India"> 
-                              <figcaption class="figure-caption">
-                                Figure shows how the model predictions
-                                improve with time. The large coloured
-                                dots indicate the dates of prediction and
-                                the correspondingly colored band is the
-                                4-week prediction from that day.
-                              </figcaption>
-                            </figure>
-                          </div>
+                          <figure class="figure">
+                            <img
+                              src="assets/images/India-deceased.png"
+                              class="figure-img img-fluid rounded"
+                              alt="Model predictions for India"> 
+                            <figcaption class="figure-caption">
+                              Figure shows how the model predictions
+                              improve with time. The large coloured
+                              dots indicate the dates of prediction and
+                              the correspondingly colored band is the
+                              4-week prediction from that day.
+                            </figcaption>
+                          </figure>
+                        </div>
 
-                          <p>
+                        
                           Details of the model can be found in the
 			  "About" section . Please write to
 			  <a class="text-success"
 			     href="http://www.jncasr.ac.in/ansumali/"
 			     target="blank">ansumali at jncasr . ac
 			    . in </a> for technical clarifications on
-			     the model. 
-			  </p></li>
+			  the model. 
+		      </li>
                     </ol>
                   </div>
                 </li>
 		<li><div class="typography-line">
-                    <p>I think the inventory estimate for item XYZ is
+                      How is the inventory/resources estimate
+                      obtained?
+                    
+                  </div>
+                  This is obtained from the model for the
+                    projected positive cases, and the typical
+                    distribution of severity of cases and the hospital
+                    stay time for each case. The specific assumption
+                    are:
+                  <ol type="a">
+                    <li> 5% of the total cases are critical and need an
+                    ICU.</li>
+                    <li> 15% of the total cases are severe and need an
+                    acute care unit (ACU).</li>
+                    <li>  80% of the total cases are mild or
+                    moderate and need to be quarantined in a
+                    supportive care unit (SCU). </li>
+                    <li> 50% of those admitted to an ICU
+                      survive. </li>
+                    <li> 70% of the of patients in an ICU require a
+                    ventilator </li>
+                    <li> The typical treatment time in an ICU is 7 days
+                      (both for survival and mortality). </li>
+                    <li> The treatment time in an ACU or SCU is about
+                      14 days. </li>
+                    <li> Patients discharged from an ICU are treated
+                    in an SCU for recuperation. </li>
+                  </ol>
+                </li>
+		<li><div class="typography-line">
+                    I think the inventory estimate for item XYZ is
                       wrong or I want to see the estimate of item ABC. Whom
-                      to contact?</p> <ol type="a">
-                      <li><p>Please provide some justifications,
+                      to contact? <ol type="a">
+                      <li>Please provide some justifications,
 			  along with your professional experience and affiliation
 			  in an email to
 			  <a class="text-success"
 			     href="https://www.che.iitb.ac.in/faculty/p-sunthar"
 			     target="_blank">p.sunthar at iitb . ac
-			    . in </a></p>
+			    . in </a>
 		      </li>
 		    </ol>
 		  </div>
 		<li><div class="typography-line">
-		    <p>I know that my district has more than <i>N</i>
-		    positive cases. Still, there are no projections,
-		    why?</p>
+		    I know that my district has more than <i>N</i>
+		      positive cases. Still, there are no projections,
+		      why?
 		    <ol type="a">
-		      <li> <p> For several confirmed cases, the data
+		      <li>  For several confirmed cases, the data
                           available publicly do not have a district
                           associated with them. Please write to us
                           at <a class="text-success">sbhtta at
-                          sankhyasutralabs . com</a> 
+                            sankhyasutralabs . com</a> 
                           with the details of the number and the dates
                           they were discovered. We will update the
                           predictions after verification from reliable
                           sources.
-		      </p></li>
+		      </li>
 		    </ol>
 		  </div>
 		</li>
 		<li><div class="typography-line">
-		    <p>Why is the current date older than today's date?</p>
+		    Why is the current date older than today's date?
 		    <ol type="a">
-		      <li><p>The data for a day is usually confirmed
-		      by the end of the day. Therefore the "current"
-		      date is set to yesterday.
-                      </p></li>
+		      <li>The data for a day is usually confirmed
+		          by the end of the day. Therefore the "current"
+		          date is set to yesterday.
+                      </li>
 		    </ol>
 		  </div>
 		</li>
 		<li><div class="typography-line">
-		    <p> How do I obtain district level predictions</p>
+		     How do I obtain district level predictions
 		    <ol type="a">
-                      <li><p>Use keyboard to select the state and
-                          district from the drop down. OR </p></li>
-		      <li><p>Use the India map on the left to zoom
+                      <li>Use keyboard to select the state and
+                          district from the drop down. OR </li>
+		      <li>Use the India map on the left to zoom
 			  into the state and
-			  district.</p></li>
-                      <li><p>Hover the mouse on the district to see
-			  the name. </p></li>
-		      <li><p>Click on the chosen district.</p></li>
-		      <li><p>The data for the inventory will appear on
-			  the right. </p></li>
-                      <li><p>On the top, choose the Week in future to
+			  district.</li>
+                      <li>Hover the mouse on the district to see
+			  the name. </li>
+		      <li>Click on the chosen district.</li>
+		      <li>The data for the inventory will appear on
+			  the right. </li>
+                      <li>On the top, choose the Week in future to
 			  get the projected numbers for that
-			  week.</p></li>
+			  week.</li>
 		    </ol>
 		  </div>
 		</li>
 		<li><div class="typography-line">
-		    <p>How do I obtain a state and India level data?</p>
+		    How do I obtain a state and India level data?
 		    <ol type="a">
-		      <li><p>Click on any district of the state.</p></li>
-		      <li><p>The data for that district and the state and
+		      <li>Click on any district of the state.</li>
+		      <li>The data for that district and the state and
 			  national level will be displayed in the inventory
-			  table.</p></li>
+			  table.</li>
 		    </ol>
 		  </div>
 		</li>
