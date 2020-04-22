@@ -1518,6 +1518,6 @@ const districtParamsForIndia = [
 { "id" : 764, "name" : "Unclassified", "state" : "West Bengal"}
 ];
 
-// if (typeof module !== "undefined") {
-//   module.exports = { Covid19ModelIndia, binStateCountsTill };
-// }
+if (typeof module !== "undefined") {
+  module.exports = { Covid19ModelIndia, binStateCountsTill };
+}

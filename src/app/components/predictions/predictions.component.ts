@@ -7,10 +7,11 @@ import { legendColor } from 'd3-svg-legend';
 import{DataMap} from '../../models/data-map'
 import {TableHead} from '../../models/tabel-head'
 
+
 // Functions from covid19-model-india.js to be delclared (for type)
-declare var binStateCountsTill: any;
-declare var binCountsByDistrict: any;
-declare var Covid19ModelIndia: any;
+import {Covid19ModelIndia, binStateCountsTill} from "../../../assets/covid19-model-india.js" 
+//declare var binStateCountsTill: any;
+//declare var Covid19ModelIndia: any;
 
 @Component({
   selector: 'app-predictions',
