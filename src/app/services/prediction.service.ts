@@ -83,19 +83,19 @@ export class PredictionService {
 
     return [
       new TableData("ICU patients", function(n){
-        return Math.ceil(n*fc);}),
+        return Math.ceil(n*fc);}, "on this day"),
       new TableData("COVID-19 related deaths", function(n){
-        return Math.ceil(n*fd);}),
+        return Math.ceil(n*fd);}, "per week"),
       new TableData("10-bed Dedicated COVID Hospitals", function(n){
-        return Math.ceil(n*fc/10);}),
+        return Math.ceil(n*fc/10);}, "on this a day"),
       new TableData("Doctors", function(n){
-        return Math.ceil(n*fc/10)*8},  "on duty per day"), 
+        return Math.ceil(n*fc/10)*8},  "on duty this day"), 
       new TableData("Nurses and Paramedics", function(n){
-        return Math.ceil(n*fc/10)*16},  "on duty per day"), 
+        return Math.ceil(n*fc/10)*16},  "on duty this day"), 
       new TableData("Ventilators", function(n){
-        return Math.ceil(n*fc/10)*7;}),
+        return Math.ceil(n*fc/10)*7;}, "on this day"),
       new TableData("Infusion pumps", function(n){
-        return Math.ceil(n*fc/10)*40;}),
+        return Math.ceil(n*fc/10)*40;}, "on this day"),
       new TableData("Full PPEs (for frontline staff)", function(n){
         return Math.ceil(n*fc/10)*60},  "per day"), 
       new TableData("PPEs (for supporting staff)", function(n){
@@ -110,15 +110,15 @@ export class PredictionService {
 
     return [
       new TableData("Acute care patients", function(n){
-        return Math.ceil(n*fs);}),
+        return Math.ceil(n*fs);}, "on this day"),
       new TableData("20-bed Dedicated COVID Health Centers", function(n){
-        return Math.ceil(n*fs/20);}),
+        return Math.ceil(n*fs/20);}, "on this day"),
       new TableData("Doctors (Anes./Intensv.)", function(n){
-        return Math.ceil(n*fs/20)*4},  "on duty per day"), 
+        return Math.ceil(n*fs/20)*4},  "on duty this day"), 
       new TableData("Nurses and Paramedics", function(n){
-        return Math.ceil(n*fs/20)*16},  "on duty per day"), 
+        return Math.ceil(n*fs/20)*16},  "on duty this day"), 
       new TableData("Infusion pumps", function(n){
-        return Math.ceil(n*fs/20)*5;}),
+        return Math.ceil(n*fs/20)*5;}, "on this day"),
       new TableData("Full PPEs (for frontline staff)", function(n){
         return Math.ceil(n*fs/20)*40},  "per day"), 
       new TableData("PPEs (for supporting staff)", function(n){
@@ -132,13 +132,13 @@ export class PredictionService {
     
     return [
       new TableData("Supportive care patients", function(n){
-        return Math.ceil(n*fi);}),
+        return Math.ceil(n*fi);}, "on this day"),
       new TableData("40-bed COVID Care Centers", function(n){
-        return Math.ceil(n*fi/40);}),
+        return Math.ceil(n*fi/40);}, "on this day"),
       new TableData("Doctors (Anes./Intensv.)", function(n){
-        return Math.ceil(n*fi/40)*3},  "on duty per day"), 
+        return Math.ceil(n*fi/40)*3},  "on this day"), 
       new TableData("Nurses and Paramedics", function(n){
-        return Math.ceil(n*fi/40)*6},  "on duty per day"), 
+        return Math.ceil(n*fi/40)*6},  "on this day"), 
       new TableData("PPEs", function(n){
         return Math.ceil(n*fi/40)*30},  "per day"), 
     ];
