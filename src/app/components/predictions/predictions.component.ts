@@ -180,9 +180,17 @@ export class PredictionsComponent implements OnInit {
     //Color scale to be used for map and its legend
     this.colorScale = d3
       .scaleLog()
-      .domain([1, 10, 100, 1000, maxD])
-      .range(["white", "yellow", "red", "purple", "black"]); // magma
+      .domain([1, 3, 10, 30, 100,
+               300, 1000, 3000, 10000, 30000 ])
+      .range( ["#ffffff", "#d2eeef", "#c1caf3", "#cf9cda", "#d07e93",
+               "#a07949", "#54792f", "#1f6642", "#163d4e", "#1a1530",
+               "#000000"]) // CubehelixDefault 
+    // click copied from https://observablehq.com/@d3/color-schemes
+
+    //  .interpolate(d3.interpolateCubehelix.gamma(3));
+    //.interpolate(d3.interpolateCubehelixDefault());
       //.range(["white", "yellow", "red", "black"]);
+      //.range(["white", "yellow", "red", "purple", "black"]) // magma
     /* number of items in domain array is
        a piece-wise function, the same is used for piecewise color 
        in range
