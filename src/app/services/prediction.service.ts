@@ -84,7 +84,7 @@ export class PredictionService {
     return [
       new TableData("ICU patients", function(n){
         return Math.ceil(n*fc);}, "on this day"),
-      new TableData("COVID-19 related deaths", function(n){
+      new TableData("COVID-19 mortality rate", function(n){
         return Math.ceil(n*fd);}, "per week"),
       new TableData("10-bed Dedicated COVID Hospitals", function(n){
         return Math.ceil(n*fc/10);}, "on this a day"),
