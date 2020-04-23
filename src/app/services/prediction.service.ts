@@ -83,11 +83,11 @@ export class PredictionService {
 
     return [
       new TableData("ICU patients", function(n){
-        return Math.ceil(n*fc);}, "on this day"),
+        return Math.round(n*fc);}, "on this day"),
       new TableData("COVID-19 mortality rate", function(n){
-        return Math.ceil(n*fd);}, "per week"),
+        return Math.floor(n*fd/7);}, "per day"),
       new TableData("10-bed Dedicated COVID Hospitals", function(n){
-        return Math.ceil(n*fc/10);}, "on this a day"),
+        return Math.ceil(n*fc/10);}, "on this day"),
       new TableData("Doctors", function(n){
         return Math.ceil(n*fc/10)*8},  "on duty this day"), 
       new TableData("Nurses and Paramedics", function(n){

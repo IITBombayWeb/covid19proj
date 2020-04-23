@@ -180,8 +180,9 @@ export class PredictionsComponent implements OnInit {
     //Color scale to be used for map and its legend
     this.colorScale = d3
       .scaleLog()
-      .domain([1, 10, 100,  maxD])
-      .range(["white", "yellow", "red", "black"]);
+      .domain([1, 10, 100, 1000, maxD])
+      .range(["white", "yellow", "red", "purple", "black"]); // magma
+      //.range(["white", "yellow", "red", "black"]);
     /* number of items in domain array is
        a piece-wise function, the same is used for piecewise color 
        in range

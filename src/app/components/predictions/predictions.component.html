@@ -73,7 +73,7 @@
                     <!-- row start-->
                     <div class="col-12" >
                       <div style="font-size:small; text-align:right">
-                        Select the week ahead from yesterday
+                        Select a week ahead from yesterday
                       </div>
                       <div #buttonToggle id="weeks" class="btn-group btn-group-toggle float-right" data-toggle="buttons">
                         <label *ngFor="let d of DataMp;let i = index" class="btn btn-sm btn-primary btn-simple" [ngClass]="{'active': d.type}" id="{{d.id}}" (click)="handleChange(d)">
