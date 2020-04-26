@@ -462,6 +462,11 @@ class Covid19ModelIndia extends Covid19Model
   // death growth exp(alpha * t)
   function alpha(d)
   {
+    return { min : 0.042, max : 0.125 };
+  }
+
+  function alphaOld(d)
+  {
     if      (  0 <= d && d <  20) return { min : 0.17, max : 0.20 };
     else if ( 20 <= d && d <  40) return { min : 0.15, max : 0.18 };
     else if ( 40 <= d && d <  80) return { min : 0.13, max : 0.16 };
@@ -473,6 +478,11 @@ class Covid19ModelIndia extends Covid19Model
 
   // carrier growth exp(beta * t)
   function beta(d)
+  {
+    return { min : 0.042, max : 0.125 };
+  }
+
+  function betaOld(d)
   {
     if      (   0 <= d && d <  100) return { min : 0.14, max : 0.17 };
     else if ( 100 <= d && d <  500) return { min : 0.20, max : 0.23 };
@@ -501,6 +511,8 @@ class Covid19ModelIndia extends Covid19Model
     values[0] = this.countryStat(category, this.lowParams, date);
     values[1] = this.countryStat(category, this.highParams, date);
     values[2] = this.countryStat(category, this.lowParams, date, true);
+    if (values[2] > values[1])
+      values[2] = values[1];
     values.sort(function(a, b) {return a - b});
     return { min : values[0], mid : values[1], max : values[2] };
   }
@@ -511,6 +523,8 @@ class Covid19ModelIndia extends Covid19Model
     values[0] = this.stateStat(category, stateIndex, this.lowParams, date);
     values[1] = this.stateStat(category, stateIndex, this.highParams, date);
     values[2] = this.stateStat(category, stateIndex, this.lowParams, date, true);
+    if (values[2] > values[1])
+      values[2] = values[1];
     values.sort(function(a, b) {return a - b});
     return { min : values[0], mid : values[1], max : values[2] };
   }
@@ -521,6 +535,8 @@ class Covid19ModelIndia extends Covid19Model
     values[0] = this.districtStat(category, districtIndex, this.lowParams, date);
     values[1] = this.districtStat(category, districtIndex, this.highParams, date);
     values[2] = this.districtStat(category, districtIndex, this.lowParams, date, true);
+    if (values[2] > values[1])
+      values[2] = values[1];
     values.sort(function(a, b) {return a - b});
     return { min : values[0], mid : values[1], max : values[2] };
   }
@@ -1018,7 +1034,7 @@ const districtParamsForIndia = [
 { "id" : 331, "name" : "Dewas", "state" : "Madhya Pradesh"},
 { "id" : 332, "name" : "Dhar", "state" : "Madhya Pradesh"},
 { "id" : 333, "name" : "Dindori", "state" : "Madhya Pradesh"},
-{ "id" : 334, "name" : "East Nimar", "state" : "Madhya Pradesh"},
+{ "id" : 334, "name" : "Khandwa", "state" : "Madhya Pradesh"},
 { "id" : 335, "name" : "Guna", "state" : "Madhya Pradesh"},
 { "id" : 336, "name" : "Gwalior", "state" : "Madhya Pradesh"},
 { "id" : 337, "name" : "Harda", "state" : "Madhya Pradesh"},
@@ -1052,7 +1068,7 @@ const districtParamsForIndia = [
 { "id" : 365, "name" : "Ujjain", "state" : "Madhya Pradesh"},
 { "id" : 366, "name" : "Umaria", "state" : "Madhya Pradesh"},
 { "id" : 367, "name" : "Vidisha", "state" : "Madhya Pradesh"},
-{ "id" : 368, "name" : "West Nimar", "state" : "Madhya Pradesh"},
+{ "id" : 368, "name" : "Khargone", "state" : "Madhya Pradesh"},
 { "id" : 369, "name" : "Ahmadnagar", "state" : "Maharashtra"},
 { "id" : 370, "name" : "Akola", "state" : "Maharashtra"},
 { "id" : 371, "name" : "Amravati", "state" : "Maharashtra"},
@@ -1325,7 +1341,7 @@ const districtParamsForIndia = [
 { "id" : 638, "name" : "Deoria", "state" : "Uttar Pradesh"},
 { "id" : 639, "name" : "Etah", "state" : "Uttar Pradesh"},
 { "id" : 640, "name" : "Etawah", "state" : "Uttar Pradesh"},
-{ "id" : 641, "name" : "Faizabad", "state" : "Uttar Pradesh"},
+{ "id" : 641, "name" : "Ayodhya", "state" : "Uttar Pradesh"},
 { "id" : 642, "name" : "Farrukhabad", "state" : "Uttar Pradesh"},
 { "id" : 643, "name" : "Fatehpur", "state" : "Uttar Pradesh"},
 { "id" : 644, "name" : "Firozabad", "state" : "Uttar Pradesh"},
@@ -1381,7 +1397,7 @@ const districtParamsForIndia = [
 { "id" : 694, "name" : "Chamoli", "state" : "Uttarakhand"},
 { "id" : 695, "name" : "Champawat", "state" : "Uttarakhand"},
 { "id" : 696, "name" : "Dehradun", "state" : "Uttarakhand"},
-{ "id" : 697, "name" : "Hardwar", "state" : "Uttarakhand"},
+{ "id" : 697, "name" : "Haridwar", "state" : "Uttarakhand"},
 { "id" : 698, "name" : "Nainital", "state" : "Uttarakhand"},
 { "id" : 699, "name" : "Pauri Garhwal", "state" : "Uttarakhand"},
 { "id" : 700, "name" : "Pithoragarh", "state" : "Uttarakhand"},
@@ -1455,7 +1471,7 @@ const districtParamsForIndia = [
 { "id" : 769, "name" : "Kallakurichi", "state" : "Tamil Nadu"},
 { "id" : 770, "name" : "Ranipet", "state" : "Tamil Nadu"},
 { "id" : 771, "name" : "Tenkasi", "state" : "Tamil Nadu"},
-{ "id" : 772, "name" : "Tirupathur", "state" : "Tamil Nadu"},
+{ "id" : 772, "name" : "Tirupathur", "state" : "Tamil Nadu"}
 ];
 
 if (typeof module !== "undefined") {
