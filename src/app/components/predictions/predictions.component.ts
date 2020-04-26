@@ -124,7 +124,17 @@ export class PredictionsComponent implements OnInit {
 	  const n1 = d.properties.st_nm;
 	  const n2 = d.properties.district;
 	  const index_key = n2 + "." + n1
-	  var numDistCount = this.getDistrictCount(index_key,"reported")
+	  //var numDistCount = this.getDistrictCount(index_key,"reported")
+
+          // display 2 significant digits
+	  var numDistCount =
+                Number(
+                  Number(
+                    this.getDistrictCount(index_key,"reported")
+                      .toPrecision(2)
+                  ).toFixed()
+                ).toLocaleString("en-IN")
+          
 	  svgEle[3]
 	    .html(d.properties.st_nm + "<br>" + "District: "
 		  + d.properties.district + "<br>" + "Qty: "
@@ -204,6 +214,7 @@ export class PredictionsComponent implements OnInit {
 	const n2 = d.properties.district // Select District name
 	const key = n2 + "." + n1 // Create district and state key
 	const numDistCount = this.getDistrictCount(key,"reported") // Initializing 
+
         const color = numDistCount==0? '#ffffff': this.colorScale(numDistCount)
        
 	return color; // Return Color
