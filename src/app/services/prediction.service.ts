@@ -45,7 +45,7 @@ export class PredictionService {
     }
   
 
-    console.log('dn,sn,cn: ', dn,sn,cn)
+    //console.log('dn,sn,cn: ', dn,sn,cn)
     
     for (let i=0;i<ilist.length;i++) {
       rVal[i] = []
@@ -108,7 +108,9 @@ export class PredictionService {
       new TableData("Full PPEs (for frontline staff)", function(n){
         return numfmt(n*fc/10*60)},  "per day"), 
       new TableData("PPEs (for supporting staff)", function(n){
-        return numfmt(n*fc/10*10)},  "per day"), 
+        return numfmt(n*fc)},  "per day"), 
+      new TableData("Body bags", function(n){
+        return numfmt(n*fd/7*2)},  "per day"), 
 
       
     ];

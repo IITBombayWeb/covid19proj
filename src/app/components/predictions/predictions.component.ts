@@ -409,7 +409,7 @@ export class PredictionsComponent implements OnInit {
 
     let currCount = this.model.countryStatLimit(category, this.Sdate)
 
-    console.log('country: ', this.Sdate, currCount.min, currCount.mid, currCount.max) 
+    //console.log('country: ', this.Sdate, currCount.min, currCount.mid, currCount.max) 
     currCount = currCount.mid
     
 
