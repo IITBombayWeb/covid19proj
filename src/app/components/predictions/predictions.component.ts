@@ -102,7 +102,7 @@ export class PredictionsComponent implements OnInit {
     this.paramsType = this.displayedTypes[0].id
     //this.cnCount = this.getCountryCount()
     this.cnCount = this.getCountryTauSum()
-    this.cnMortality = this.getCountryMortality()
+    //this.cnMortality = this.getCountryMortality()
     // DEBUG: testing purpose
     //this.cnCount = 2.5
     //let retString = "--"
@@ -172,8 +172,8 @@ export class PredictionsComponent implements OnInit {
       .getElementsByTagName('option')[0].selected = true // Set to Postion 0
     this.dtCount = 0
     this.stCount = 0
-    this.dtMortality = 0
-    this.stMortality = 0
+    //this.dtMortality = 0
+    //this.stMortality = 0
     
     this.dropDownListdist.dname = []
     this.Thead = { sname: 'India', dname: '' }
@@ -407,7 +407,11 @@ export class PredictionsComponent implements OnInit {
 
   getCountryTauSum(category="reported") {
 
-    let currCount = this.model.countryStatLimit(category, this.Sdate).mid
+    let currCount = this.model.countryStatLimit(category, this.Sdate)
+
+    console.log('country: ', this.Sdate, currCount.min, currCount.mid, currCount.max) 
+    currCount = currCount.mid
+    
 
     let wkPast = new Date(this.Sdate)
     wkPast.setDate(wkPast.getDate()-7)
@@ -463,6 +467,7 @@ export class PredictionsComponent implements OnInit {
     
     let clist = this.model.countryStatLimit("deceased", new Date(this.Sdate)) 
     // for the country return the mid value 
+
     return clist.mid
 
     
@@ -505,14 +510,14 @@ export class PredictionsComponent implements OnInit {
       this.stCount =this.getStateTauSum(this.Thead.sname)
       // this.dtMortality =this.getDistrictMortality(this.Thead.dname + "."+
       //   	                            this.Thead.sname) 
-      this.stMortality =this.getStateMortality(this.Thead.sname)
+      //this.stMortality =this.getStateMortality(this.Thead.sname)
       // this.dtCount =this.getDistrictCount(this.Thead.dname + "."+
       //   	                            this.Thead.sname) 
       // this.stCount =this.getStateCount(this.Thead.sname)
     }
     //this.cnCount = this.getCountryCount()
     this.cnCount = this.getCountryTauSum()
-    this.cnMortality = this.getCountryMortality()
+    //this.cnMortality = this.getCountryMortality()
     // this.dataSource = this.ps.getTableData(this.dtMortality,
     //                                        this.stMortality,
     //                                        this.cnMortality,

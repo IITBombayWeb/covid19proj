@@ -45,7 +45,7 @@ export class PredictionService {
     }
   
 
-    //console.log('dn,sn,cn: ', dn,sn,cn)
+    console.log('dn,sn,cn: ', dn,sn,cn)
     
     for (let i=0;i<ilist.length;i++) {
       rVal[i] = []
