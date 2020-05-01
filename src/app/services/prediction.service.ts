@@ -70,8 +70,8 @@ export class PredictionService {
   // fi:any = 80/2.5*this.tau
   // fd:any = 1;
 
-  fc:any = 0.05
-  fs:any = 0.15*2 // twice residence time
+  fc:any = 0.03
+  fs:any = 0.17*2 // twice residence time
   fi:any = 0.8*2 // twice residence time
   fd:any = 0.025
 
@@ -102,7 +102,7 @@ export class PredictionService {
       new TableData("Nurses and Paramedics", function(n){
         return numfmt(n*fc/10*16)},  "on duty this day"), 
       new TableData("Ventilators", function(n){
-        return numfmt(n*fc/10*7);}, "on this day"),
+        return numfmt(n*fc*0.7);}, "on this day"), // only 7 in 10 icu need
       new TableData("Infusion pumps", function(n){
         return numfmt(n*fc/10*40);}, "on this day"),
       new TableData("Full PPEs (for frontline staff)", function(n){
