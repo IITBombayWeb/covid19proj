@@ -66,7 +66,11 @@ export class PredictionsComponent implements OnInit {
       this.inddist = d3.json("assets/india-districts.json");
       const t0 = this.getBaseDate()
       const statesSeries = responseList[0].states_daily;
-      const caseSeries = responseList[1].raw_data;
+      let caseSeries = []
+
+      for (let i = 1; i<responseList.length;i++) 
+        caseSeries = caseSeries.concat(responseList[i].raw_data)
+
       this.model = new Covid19ModelIndia(t0, statesSeries, caseSeries);
 
       // data for states upto t0 - tau
@@ -84,6 +88,15 @@ export class PredictionsComponent implements OnInit {
       //console.log('t - tau' + t0mtau)
       //console.log('States chart: ' + this.statesChart[0])
       //console.log('Dist chart: ' + this.districtsChart[0])
+
+      this.colorScale = d3
+        .scaleLog()
+        .domain([0.1, 1, 3, 10, 30,
+                 100, 300, 1000, 3000 ])
+        .range(['#006837', '#1a9850', '#66bd63', '#a6d96a', '#d9ef8b',
+                '#fdae61', '#f46d43', '#d73027', '#a50026']) // RdYlGn
+      // click copied from https://observablehq.com/@d3/color-schemes
+      
       
       this.renderView();
     }
@@ -188,12 +201,12 @@ export class PredictionsComponent implements OnInit {
     const maxD =  this.getMaxd()
 
     //Color scale to be used for map and its legend
-    this.colorScale = d3
-      .scaleLog()
-      .domain([0.1, 1, 3, 10, 30,
-               100, 300, 1000, 3000 ])
-      .range(['#006837', '#1a9850', '#66bd63', '#a6d96a', '#d9ef8b',
-              '#fdae61', '#f46d43', '#d73027', '#a50026']) // RdYlGn
+    // this.colorScale = d3
+    //   .scaleLog()
+    //   .domain([0.1, 1, 3, 10, 30,
+    //            100, 300, 1000, 3000 ])
+    //   .range(['#006837', '#1a9850', '#66bd63', '#a6d96a', '#d9ef8b',
+    //           '#fdae61', '#f46d43', '#d73027', '#a50026']) // RdYlGn
     
       // .range( ["#ffffff", "#d2eeef", "#c1caf3", "#cf9cda", "#d07e93",
       //          "#a07949", "#54792f", "#1f6642", "#163d4e", "#1a1530",
