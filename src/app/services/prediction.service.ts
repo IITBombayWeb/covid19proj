@@ -20,7 +20,9 @@ export class PredictionService {
     let responses = [];
     
     urls.push("https://api.covid19india.org/states_daily.json");
-    urls.push("https://api.covid19india.org/raw_data.json");
+    urls.push("https://api.covid19india.org/raw_data1.json");
+    urls.push("https://api.covid19india.org/raw_data2.json");
+    urls.push("https://api.covid19india.org/raw_data3.json");
     
     
     for (let i=0; i<urls.length; i++)
