@@ -190,11 +190,14 @@ export class PredictionsComponent implements OnInit {
     //Color scale to be used for map and its legend
     this.colorScale = d3
       .scaleLog()
-      .domain([1, 3, 10, 30, 100,
-               300, 1000, 3000, 10000, 30000 ])
-      .range( ["#ffffff", "#d2eeef", "#c1caf3", "#cf9cda", "#d07e93",
-               "#a07949", "#54792f", "#1f6642", "#163d4e", "#1a1530",
-               "#000000"]) // CubehelixDefault 
+      .domain([0.1, 1, 3, 10, 30,
+               100, 300, 1000, 3000 ])
+      .range(['#006837', '#1a9850', '#66bd63', '#a6d96a', '#d9ef8b',
+              '#fdae61', '#f46d43', '#d73027', '#a50026']) // RdYlGn
+    
+      // .range( ["#ffffff", "#d2eeef", "#c1caf3", "#cf9cda", "#d07e93",
+      //          "#a07949", "#54792f", "#1f6642", "#163d4e", "#1a1530",
+      //          "#000000"]) // CubehelixDefault 
     // click copied from https://observablehq.com/@d3/color-schemes
 
     //  .interpolate(d3.interpolateCubehelix.gamma(3));
@@ -213,9 +216,11 @@ export class PredictionsComponent implements OnInit {
 	const n1 = d.properties.st_nm; // Select State name
 	const n2 = d.properties.district // Select District name
 	const key = n2 + "." + n1 // Create district and state key
-	const numDistCount = this.getDistrictCount(key,"reported") // Initializing 
+	let numDistCount = this.getDistrictCount(key,"reported") // Initializing 
 
-        const color = numDistCount==0? '#ffffff': this.colorScale(numDistCount)
+        if (numDistCount==0) numDistCount = 0.1
+        //const color = numDistCount==0? '#ffffff': this.colorScale(numDistCount)
+        const color = this.colorScale(numDistCount)
        
 	return color; // Return Color
       })
