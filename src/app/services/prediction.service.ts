@@ -72,8 +72,8 @@ export class PredictionService {
   // fi:any = 80/2.5*this.tau
   // fd:any = 1;
 
-  fc:any = 0.03
-  fs:any = 0.17*2 // twice residence time
+  fc:any = 0.05
+  fs:any = 0.15*2 // twice residence time
   fi:any = 0.8*2 // twice residence time
   fd:any = 0.025
 
