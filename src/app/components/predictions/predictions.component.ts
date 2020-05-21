@@ -139,6 +139,7 @@ export class PredictionsComponent implements OnInit {
 	  const index_key = n2 + "." + n1
 	  //var numDistCount = this.getDistrictCount(index_key,"reported")
 
+
           // display 2 significant digits
 	  var numDistCount =
                 Number(
@@ -235,6 +236,7 @@ export class PredictionsComponent implements OnInit {
         //const color = numDistCount==0? '#ffffff': this.colorScale(numDistCount)
         const color = this.colorScale(numDistCount)
        
+
 	return color; // Return Color
       })
   }
@@ -458,6 +460,16 @@ export class PredictionsComponent implements OnInit {
     
   }
 
+  getDistrictCountDebug(key) {
+      const index = this.model.indexDistrictNameKey(key)
+      const t0 = this.getBaseDate()
+      let clist = this.model.districtStatLimit("reported", index, t0)
+
+      return index? clist.min : 0;
+                                             
+  }
+
+
   getStateCount(key) {
     const index = this.model.indexStateName(key)
 
@@ -532,6 +544,12 @@ export class PredictionsComponent implements OnInit {
       // this.dtCount =this.getDistrictCount(this.Thead.dname + "."+
       //   	                            this.Thead.sname) 
       // this.stCount =this.getStateCount(this.Thead.sname)
+      // for debug purposes print yesterday's count
+      var curCount 
+	curCount = this.getDistrictCountDebug(
+	    this.Thead.dname + "."+ this.Thead.sname
+	    )
+      console.log('cc = ' + curCount)
     }
     //this.cnCount = this.getCountryCount()
     this.cnCount = this.getCountryTauSum()
@@ -540,6 +558,8 @@ export class PredictionsComponent implements OnInit {
     //                                        this.stMortality,
     //                                        this.cnMortality,
     //     	                           this.DataTBL) 
+
+      
 
     let retString = '--'
     //console.log('retstring ', this.Sdate.valueOf(), this.getBaseDate().valueOf())
