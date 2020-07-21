@@ -29,6 +29,8 @@ export class PredictionService {
     urls.push("https://api.covid19india.org/raw_data7.json");
     urls.push("https://api.covid19india.org/raw_data8.json");
     urls.push("https://api.covid19india.org/raw_data9.json");
+    urls.push("https://api.covid19india.org/raw_data10.json");
+    urls.push("https://api.covid19india.org/raw_data11.json");
     
     
     for (let i=0; i<urls.length; i++)
